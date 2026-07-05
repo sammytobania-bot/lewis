@@ -6041,6 +6041,18 @@ function init() {
       }, 500);
     }
   });
+  document.getElementById("searchInput").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && e.target.value.trim().length >= 2) {
+      e.preventDefault();
+      var panel = document.getElementById('prospectMatchPanel');
+      if (panel && panel.style.display === 'block') {
+        // Paneel staat al open: meteen opnieuw zoeken op de huidige tekst.
+        if (typeof runProspectSearch === 'function') runProspectSearch();
+      } else if (typeof openProspectMatcher === 'function') {
+        openProspectMatcher();
+      }
+    }
+  });
   document.getElementById("caseSearchInput").addEventListener("input", function(e) {
     state.caseSearch = e.target.value;
     render();
@@ -6158,35 +6170,39 @@ window.closeProspectMatcher = function() {
 // Sectorwaarden komen exact overeen met de 'industrie'-velden in REFS.
 var PROSPECT_SECTOR_DB = [
   // Manufacturing / industrieel
-  { keys: ['atlas copco','bekaert','umicore','agfa','picanol','soudal','deceuninck','recticel','etex','ontex','melexis','barco','materialise','punch','van hool','daf','stork','vdl'], sector: 'Manufacturing' },
+  { keys: ['atlas copco','bekaert','umicore','agfa','picanol','soudal','deceuninck','recticel','etex','ontex','melexis','barco','materialise','punch','van hool','daf','stork','vdl','aliaxis','duracell','bosal','reynaers','aluminium duffel','vesuvius','sioen','beaulieu','ivc','unilin','spadel','niko','niko group','sicame','vigan','xylos','magotteaux','carglass','agc glass','saint-gobain','ndc','koramic','wienerberger','deceuninck','trumpf'], sector: 'Manufacturing' },
   // Chemicals
-  { keys: ['basf','ineos','solvay','borealis','covestro','lanxess','evonik','kaneka','oleon','proviron','ecover','tessenderlo','yara'], sector: 'Chemicals' },
+  { keys: ['basf','ineos','solvay','borealis','covestro','lanxess','evonik','kaneka','oleon','proviron','ecover','tessenderlo','yara','kemira','arkema','dow','exxonmobil chemical','indaver','prayon','aurubis','nyrstar','vynova','domo chemicals','oleon','christeyns','allnex','recticel','sabic'], sector: 'Chemicals' },
   // Life Sciences / pharma
-  { keys: ['ucb','janssen','galapagos','argenx','biocartis','pfizer','gsk','astrazeneca','novartis','roche','takeda','johnson','mithra','oncodesign'], sector: 'Life Sciences' },
+  { keys: ['ucb','janssen','galapagos','argenx','biocartis','pfizer','gsk','astrazeneca','novartis','roche','takeda','johnson','mithra','oncodesign','sanofi','baxter','fagron','eurofins','iba','ion beam','biotech','celyad','nyxoah','sequana','univercells','mycartis','ablynx','tigenix'], sector: 'Life Sciences' },
   // Healthcare
-  { keys: ['az ','uz ','ziekenhuis','zorgbedrijf','christelijke mutualiteit','healthcare','curana','armonea'], sector: 'Healthcare' },
+  { keys: ['az ','uz ','ziekenhuis','zorgbedrijf','christelijke mutualiteit','healthcare','curana','armonea','jessa','imelda','sint-','emmaus','gza','zna','chirec','vivalia','solidaris','partena ziekenfonds','mloz','helan','orpea','senior living','wzc','woonzorg','domus medica'], sector: 'Healthcare' },
   // Retail
-  { keys: ['colruyt','delhaize','carrefour','ahold','albert heijn','jumbo','action','hema','bol.com','coolblue','decathlon','ikea','mediamarkt','krefel','veritas','jbc','zeeman','torfs','brico'], sector: 'Retail' },
+  { keys: ['colruyt','delhaize','carrefour','ahold','albert heijn','jumbo','action','hema','bol.com','coolblue','decathlon','ikea','mediamarkt','krefel','veritas','jbc','zeeman','torfs','brico','plopsa','plopsaland','bobbejaanland','pairi daiza','walibi','bellewaerde','efteling','e5','a.s.adventure','fun','dreamland','dreambaby','di ','ici paris xl','planet parfum','kruidvat','standaard boekhandel','club','vanden borre','exellent','hubo','gamma','brico plan-it','makro','okay','spar','albert heijn','delvita','o\'cool','bpost'], sector: 'Retail' },
   // Financial Services
-  { keys: ['kbc','belfius','ing','bnp','argenta','crelan','axa','ageas','baloise','allianz','euroclear','deutsche bank','rabobank','abn amro','beobank'], sector: 'Financial Services' },
+  { keys: ['kbc','belfius','ing','bnp','argenta','crelan','axa','ageas','baloise','allianz','euroclear','deutsche bank','rabobank','abn amro','beobank','keytrade','bank van breda','vdk','triodos','nagelmackers','delen','degroof petercam','ethias','p&v','fidea','yuh','aion','nn','vivium','federale verzekering','dvv','corona direct','bnp paribas fortis'], sector: 'Financial Services' },
   // Transportation / logistiek
-  { keys: ['dhl','katoen natie','sea-invest','port of','haven ','deugro','h.essers','essers','ninatrans','jost','dachser','kuehne','ceva','psa antwerp','de lijn','nmbs','sncb','tec ','brussels airlines','tui','lineas'], sector: 'Transportation' },
+  { keys: ['dhl','katoen natie','sea-invest','port of','haven ','deugro','h.essers','essers','ninatrans','jost','dachser','kuehne','ceva','psa antwerp','de lijn','nmbs','sncb','tec ','brussels airlines','tui','lineas','dp world','fedex','ups','gls','dpd','postnl','bpost','tabaknatie','group gheys','weerts','mainfreight','dsv','geodis','ziegler','remitrans','snel','van moer','manuport','euroports','luchthaven','brussels airport','liege airport'], sector: 'Transportation' },
   // Energy & Utilities
-  { keys: ['engie','fluvius','elia','luminus','eneco','total','totalenergies','q8','kuwait petroleum','shell','eni','fluxys','vpk','aquafin','pidpa','de watergroep',' orsted','ørsted','vattenfall'], sector: 'Energy & Utilities' },
+  { keys: ['engie','fluvius','elia','luminus','eneco','total','totalenergies','q8','kuwait petroleum','shell','eni','fluxys','vpk','aquafin','pidpa','de watergroep',' orsted','ørsted','vattenfall','ebem','octa+','mega','bolt','wattson','farys','water-link','vivaqua','ores','resa','sibelga','enervalis','virya energy','parkwind','elicio'], sector: 'Energy & Utilities' },
   // Construction / bouw
-  { keys: ['besix','cfe','willemen','democo','van roey','strabag','bam','heijmans','vinci','eiffage','jan de nul','deme','artes','cordeel','stadsbader'], sector: 'Construction' },
+  { keys: ['besix','cfe','willemen','democo','van roey','strabag','bam','heijmans','vinci','eiffage','jan de nul','deme','artes','cordeel','stadsbader','denys','franki','houben','vanhout','kumpen','ibens','democo','mbg','aswebo','aclagro','antwerpse bouwwerken','cei-de meyer','van laere','tuc rail','besix infra','matexi','durabrik','bpi','ion'], sector: 'Construction' },
   // Food & Beverage
-  { keys: ['ab inbev','anheuser','duvel','alken','lotus bakeries','vandemoortele','puratos','ter beke','greenyard','pinguin','callebaut','barry callebaut','friesland','campina','danone','nestle','nestlé','mondelez','unilever','vion','milcobel','inex','aveve','the smiling cook','ardo'], sector: 'Food & Beverage' },
+  { keys: ['ab inbev','anheuser','duvel','alken','lotus bakeries','vandemoortele','puratos','ter beke','greenyard','pinguin','callebaut','barry callebaut','friesland','campina','danone','nestle','nestlé','mondelez','unilever','vion','milcobel','inex','aveve','the smiling cook','ardo','agristo','clarebout','mydibel','lutosa','ecofrost','vergeer','imperial meat','westvlees','dewulf','ijsboerke','gunz','spadel','chaudfontaine','jupiler','stella','maes','cara','materne','mcbride','vivien paille','pasfrost','crop\'s','olympia','delifrance'], sector: 'Food & Beverage' },
   // Automotive
-  { keys: ['volvo','audi','bmw','mercedes','toyota','d\'ieteren','dieteren','van hool','punch powertrain','tenneco','dana','bosch','continental','valeo','faurecia'], sector: 'Automotive' },
+  { keys: ['volvo','audi','bmw','mercedes','toyota','d\'ieteren','dieteren','van hool','punch powertrain','tenneco','dana','bosch','continental','valeo','faurecia','skoda','volkswagen','stellantis','ford','honda','nissan','tvh','picanol','van dievel','moury','alcopa','cardoen','kia','hyundai'], sector: 'Automotive' },
   // Technology / software / IT
-  { keys: ['proximus','telenet','orange','septentrio','materialise','showpad','collibra','odoo','teamleader','deliverect','unifiedpost','ontoforce','sd worx','isabel','cegeka','realdolmen','inetum','tobania','ordina'], sector: 'Technology' },
+  { keys: ['proximus','telenet','orange','septentrio','materialise','showpad','collibra','odoo','teamleader','deliverect','unifiedpost','ontoforce','sd worx','isabel','cegeka','realdolmen','inetum','tobania','ordina','flexso','delaware','trasys','nrb','smals','uber','microsoft','sap','oracle','salesforce','ibm','accenture technology','xplore','aca group','acp','febelfin','guardsquare','sentiance','in the pocket','robovision','oqton','citymesh','combell','intelligent systems','codit','crossroad','the reference','emakina','craftzing','panenco'], sector: 'Technology' },
   // Professional Services / consultancy
-  { keys: ['deloitte','pwc','kpmg','ey','ernst','accenture','mckinsey','bcg','capgemini','sd worx','securex','acerta','partena','liantis','sopra','vandelanotte','bdo','baker tilly'], sector: 'Professional Services' },
+  { keys: ['deloitte','pwc','kpmg','ey','ernst','accenture','mckinsey','bcg','capgemini','sd worx','securex','acerta','partena','liantis','sopra','vandelanotte','bdo','baker tilly','moore','grant thornton','mazars','roland berger','oliver wyman','kearney','möbius','mobius','protime','attentia','group s','ucm','xerius','randstad','adecco','manpower','tempo-team','synergie','start people','robert half','rgf','rgf staffing','usg','house of hr','accent','konvert','vivaldis','asap','daoust'], sector: 'Professional Services' },
   // Aerospace & Defense
-  { keys: ['sabca','asco','sonaca','airbus','thales','safran','fn herstal','john cockerill'], sector: 'Aerospace & Defense' },
+  { keys: ['sabca','asco','sonaca','airbus','thales','safran','fn herstal','john cockerill','sabena','aerospace','aviation','deftech','cmi defence','esterline','septentrio'], sector: 'Aerospace & Defense' },
   // Telecommunications
-  { keys: ['proximus','telenet','orange','base','scarlet','voo','nokia','ericsson'], sector: 'Telecommunications' },
+  { keys: ['proximus','telenet','orange','base','scarlet','voo','nokia','ericsson','citymesh','digi','edpnet','destiny','unifi'], sector: 'Telecommunications' },
+  // Agriculture
+  { keys: ['boerenbond','avia','arvesta','cnh','case ih','new holland','dewulf','joskin','packo','agrifirf','agrifirm','sanac','aveve landbouw','walagri','soufflet','limagrain','clovis matton'], sector: 'Agriculture' },
+  // Public Sector / overheid
+  { keys: ['stad ','gemeente','ocmw','vlaamse overheid','federale overheid','fod ','vdab','forem','actiris','politie','brandweer','provincie','vrt','rtbf','de watergroep','ugent','kuleuven','vub','uantwerpen','uhasselt','hogeschool','universiteit','onderwijs','rva','riziv','famifed','smals','digitaal vlaanderen','agentschap','kind en gezin','opgroeien'], sector: 'Public Sector' },
 ];
 
 window.lookupProspectLocally = function(query) {
@@ -6194,11 +6210,21 @@ window.lookupProspectLocally = function(query) {
   if (q.length < 2) return null;
 
   // Stap A: exacte bedrijfsnamen uit de database.
+  // Korte/dubbelzinnige keys (bv. "ing", "nn", "q8") matchen we alleen als
+  // heel woord, zodat "ing" niet per ongeluk in "staffing" of "consulting"
+  // aanslaat. Langere, onderscheidende namen matchen ook als deel van de tekst.
+  function matchesKey(text, key) {
+    if (text === key) return true;
+    if (key.length <= 4) {
+      var re = new RegExp('(^|[^a-z0-9])' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z0-9]|$)');
+      return re.test(text);
+    }
+    return text.indexOf(key) !== -1;
+  }
   for (var i = 0; i < PROSPECT_SECTOR_DB.length; i++) {
     var entry = PROSPECT_SECTOR_DB[i];
     for (var k = 0; k < entry.keys.length; k++) {
-      var key = entry.keys[k];
-      if (q === key || q.indexOf(key) !== -1) {
+      if (matchesKey(q, entry.keys[k])) {
         return { sector: entry.sector, land: null };
       }
     }
@@ -6276,17 +6302,25 @@ window.runProspectSearch = function() {
   // De AI kent de sector van bekende bedrijven (bv. Plopsa = pretpark) en
   // kiest zelf de best passende referenties. Werkt alleen mét internet/API.
   var offline = (typeof navigator !== 'undefined' && navigator.onLine === false);
-  var aiAttempt = offline ? Promise.resolve(null) : tryOnlineAiMatch(
-    'Prospect: het bedrijf "' + query + '". Bepaal zelf de sector/activiteit van dit bedrijf en stel de meest gelijkaardige klantreferenties voor.'
-  );
+  var prompt =
+    'Een verkoper heeft de prospect "' + query + '" aan de lijn. ' +
+    'Bepaal zelf tot welke sector/branche dit bedrijf hoort (gebruik je algemene kennis over dit bedrijf; ' +
+    'is het onbekend, leid de sector dan af uit de naam). ' +
+    'Kies vervolgens de klantreferenties die qua sector het best aansluiten. ' +
+    'Forceer geen match op een specifiek bedrijf, maar geef wél altijd de referenties uit de meest verwante sector — ' +
+    'zet geenGoedeMatch alleen op true als er echt geen enkele sector in de buurt komt.';
+  var aiAttempt = offline ? Promise.resolve(null) : tryOnlineAiMatch(prompt);
 
   aiAttempt.then(function(result) {
-    if (result && Array.isArray(result.matches) && result.matches.length > 0) {
+    if (result === null) {
+      // Netwerk/API mislukt of offline: laat gebruiker zelf de sector kiezen.
+      showProspectMatches(query, null, null);
+    } else if (Array.isArray(result.matches) && result.matches.length > 0) {
       renderProspectAiMatches(query, result.matches);
     } else {
-      // Geen AI-resultaat (offline of geen goede match): laat de gebruiker
-      // zelf de sector kiezen in plaats van iets te verzinnen.
-      showProspectMatches(query, null, null);
+      // AI antwoordde wél, maar vond geen sector-match. Toon de suggestie
+      // en laat de gebruiker alsnog handmatig een sector kiezen.
+      showProspectMatches(query, null, null, result.suggestie || null);
     }
   }).catch(function() {
     showProspectMatches(query, null, null);
@@ -6315,7 +6349,7 @@ function renderProspectAiMatches(query, matches) {
   resultEl.innerHTML = html;
 }
 
-function showProspectMatches(query, sector, land) {
+function showProspectMatches(query, sector, land, aiSuggestie) {
   var resultEl = document.getElementById('prospectMatchResult');
   if (!resultEl) return;
 
@@ -6364,6 +6398,9 @@ function showProspectMatches(query, sector, land) {
     var qEsc = esc(query).replace(/'/g, "\\'");
     var picker = '<div class="prospect-result">';
     picker += '<div style="font-size:13px;color:var(--c-slate-600);margin-bottom:4px"><strong>"' + esc(query) + '"</strong> niet automatisch herkend.</div>';
+    if (aiSuggestie) {
+      picker += '<div style="font-size:12px;color:var(--c-slate-500);margin-bottom:8px;font-style:italic">💡 ' + esc(aiSuggestie) + '</div>';
+    }
     picker += '<div style="font-size:12px;color:var(--c-slate-500);margin-bottom:10px">Kies de sector van deze prospect en Lewis toont de bijpassende referenties:</div>';
     picker += '<div>';
     sectors.forEach(function(sec) {

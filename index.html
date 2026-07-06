@@ -3686,7 +3686,7 @@ function tryOnlineAiMatch(query) {
     headers: { "Content-Type": "application/json" },
     signal: controller.signal,
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-5",
       max_tokens: 1000,
       system: AI_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userMessage }]
@@ -3747,7 +3747,7 @@ function tryConversationAnalysis(notes) {
     headers: { "Content-Type": "application/json" },
     signal: controller.signal,
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-5",
       max_tokens: 1500,
       system: CONVERSATION_SYSTEM_PROMPT,
       messages: [{ role: "user", content: userMessage }]
@@ -4909,7 +4909,7 @@ function tryEnrichCallBriefOnline(row, base) {
     headers: { "Content-Type": "application/json" },
     signal: controller.signal,
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-5",
       max_tokens: 400,
       system: CALL_BRIEF_SYSTEM_PROMPT,
       messages: [{ role: "user", content: JSON.stringify(context) }],

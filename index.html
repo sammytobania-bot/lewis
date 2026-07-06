@@ -308,6 +308,14 @@
   .add-item-btn:hover { background: var(--c-primary-darker); }
   .prospect-match-btn { display: flex; align-items: center; gap: 6px; padding: 9px 16px; background: var(--c-navy); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
   .prospect-match-btn:hover { background: #0a3550; }
+  .lewis-fab { position: fixed; right: 22px; bottom: 22px; z-index: 900; display: flex; align-items: center; gap: 8px; padding: 14px 22px; background: var(--c-navy); color: #fff; border: none; border-radius: 999px; font-size: 15px; font-weight: 800; font-family: inherit; cursor: pointer; box-shadow: 0 6px 20px rgba(10,53,80,.35); transition: transform .12s ease, background .15s ease; }
+  .lewis-fab:hover { background: #0a3550; transform: translateY(-2px); }
+  .lewis-ask-overlay { position: fixed; inset: 0; z-index: 950; background: rgba(15,30,45,.45); display: flex; align-items: flex-end; justify-content: flex-end; padding: 22px; }
+  .lewis-ask-panel { background: #fff; width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.3); padding: 22px 24px; }
+  .lewis-ask-tabrow { display: flex; gap: 6px; margin: 4px 0 16px; background: var(--c-slate-100); padding: 4px; border-radius: 10px; }
+  .lewis-ask-tab { flex: 1; padding: 9px 12px; border: none; background: none; border-radius: 8px; font-size: 13px; font-weight: 700; font-family: inherit; color: var(--c-slate-500); cursor: pointer; }
+  .lewis-ask-tab.active { background: #fff; color: var(--c-navy); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  @media (max-width: 640px) { .lewis-ask-overlay { padding: 0; align-items: stretch; justify-content: stretch; } .lewis-ask-panel { max-width: 100%; max-height: 100vh; border-radius: 0; } .lewis-fab { right: 16px; bottom: 16px; padding: 12px 18px; font-size: 14px; } }
   .prospect-panel { background: var(--c-primary-50); border: 1px solid var(--c-primary-200); border-radius: var(--radius-card); padding: 16px 18px; margin-bottom: 16px; }
   .prospect-panel-title { font-size: 14px; font-weight: 800; color: var(--c-navy); margin-bottom: 10px; }
   .prospect-close-btn { padding: 9px 12px; background: none; border: 1px solid var(--c-slate-200); border-radius: 8px; font-size: 13px; font-family: inherit; cursor: pointer; color: var(--c-slate-500); }
@@ -2950,7 +2958,7 @@ const FLEXSO_LOGO_DATA_URI = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKkA
 // proxy-server (bv. een Cloudflare Worker) die jullie eigen Anthropic
 // API-key veilig server-side toevoegt. Zie flexso-api-proxy-worker.js
 // voor een kant-en-klaar voorbeeld.
-const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+const ANTHROPIC_API_URL = "/api/match";
 
 const ICONS = {
   search: '<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
@@ -3007,6 +3015,19 @@ const state = {
   aiError: null,
   aiMode: null,          // "online" (Claude API) of "offline" (lokale matching), enkel relevant zodra aiResult gezet is
   aiProductMatches: [],  // relevante producten bij de huidige zoekopdracht
+
+  // Gespreksanalyse ("Vraag het aan Lewis")
+  askOpen: false,        // is het zwevende paneel open
+  askMode: "notities",   // "notities" of "vraag"
+  convNotes: "",
+  convLoading: false,
+  convResult: null,      // { uitdagingen:[], producten:[], referenties:[], vervolgvragen:[] } of null
+  convError: null,
+  // Vrije vraag
+  askQuestion: "",
+  askQLoading: false,
+  askQResult: null,      // { matches:[...], geenGoedeMatch, suggestie } of null
+  askQError: null,
 
   // Bellijst (campagnelijst-upload, enkel deze sessie bewaard)
   callRows: [],          // [{ _id, raw:{...alle kolommen...}, bedrijf, contact, functie, telefoon, email, campagne, status:"ok"|"competitor"|"irrelevant", reden, manualOverride, gebeld }]
@@ -3456,7 +3477,11 @@ const OFFLINE_SECTOR_KEYWORDS = [
   ["technologiebedrijf", "tech"], ["softwarebedrijf", "tech"], ["semiconductor", "tech"], ["technologie", "tech"],
   ["consultancybedrijf", "diensten"], ["dienstverlener", "diensten"], ["adviesbureau", "diensten"], ["zakelijke dienstverlening", "diensten"],
 ];
-const OFFLINE_SECTOR_WORDS = [["bank", "financieel"]]; // korte, dubbelzinnige termen: enkel exacte woordmatch
+const OFFLINE_SECTOR_WORDS = [
+  ["bank", "financieel"], ["bouw", "industrie"], ["zorg", "zorg"], ["retail", "retail"],
+  ["energie", "energie"], ["chemie", "chemie"], ["transport", "transport"], ["voeding", "voeding"],
+  ["logistiek", "transport"], ["farma", "zorg"], ["pharma", "zorg"], ["overheid", "publiek"],
+]; // korte, dubbelzinnige termen: enkel exacte woordmatch
 
 const OFFLINE_ROLE_NEED_PHRASES = [
   ["financieel directeur", "finance"], ["finance director", "finance"], ["controller", "finance"],
@@ -3682,6 +3707,67 @@ function tryOnlineAiMatch(query) {
   .finally(function() { clearTimeout(timeoutId); });
 }
 
+// ─── GESPREKSANALYSE ───────────────────────────────────────────────────────
+// Neemt ruwe notities (bv. geplakt uit Copilot of eigen aantekeningen) en
+// geeft een gestructureerde briefing terug: gedetecteerde uitdagingen,
+// aanbevolen producten, relevante referenties en slimme vervolgvragen.
+// Gebruikt uitsluitend bestaande producten/referenties uit de data.
+function buildProductsContextForAI() {
+  return PRODUCTS.map(function(p) {
+    return { naam: p.naam, lob: p.lob, sector: p.sector, beschrijving: p.beschrijving, signalen: p.signalen, idealVoor: p.idealVoor };
+  });
+}
+
+const CONVERSATION_SYSTEM_PROMPT =
+  "Je bent een interne sales-assistent voor een SAP-consultingbedrijf. " +
+  "Een verkoper plakt ruwe notities uit een gesprek met een prospect (bijvoorbeeld uit Microsoft Copilot, " +
+  "een teams-gesprek of eigen aantekeningen). Analyseer die notities en geef een korte, bruikbare briefing " +
+  "zodat de verkoper meteen weet wat er speelt en hoe verder te gaan.\n\n" +
+  "Regels:\n" +
+  "- 'uitdagingen': de concrete pijnpunten/uitdagingen die je uit de notities afleidt. Korte labels (1-4 woorden), max 6.\n" +
+  "- 'producten': kies uitsluitend uit de meegeleverde productenlijst, gebruik exact het 'naam'-veld. Kies enkel producten die echt aansluiten bij de gedetecteerde uitdagingen. Rangschik van meest naar minst relevant, max 4. Geef per product één korte reden (max 1 zin).\n" +
+  "- 'referenties': kies uitsluitend uit de meegeleverde referentielijst, gebruik exact het 'naam'-veld. Kies referenties die qua sector of uitdaging aansluiten. Verzin nooit een bedrijf. Max 4. Als een referentie een 'cases'-veld heeft, kies dan de meest relevante case-url voor caseUrl, anders null.\n" +
+  "- 'vervolgvragen': 3 tot 5 scherpe, concrete vervolgvragen die de verkoper kan stellen om de opportuniteit te kwalificeren (bv. over aantal entiteiten, timing, budget, beslissingsproces).\n" +
+  "- Forceer nooit een vast aantal. Zijn er geen goede producten of referenties, geef dan een lege lijst.\n" +
+  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown-codeblok en zonder tekst ervoor of erna:\n" +
+  "{\"uitdagingen\": [string], \"producten\": [{\"naam\": string, \"reden\": string}], \"referenties\": [{\"naam\": string, \"caseUrl\": string|null}], \"vervolgvragen\": [string]}";
+
+function tryConversationAnalysis(notes) {
+  const refData = buildReferentiesContextForAI();
+  const prodData = buildProductsContextForAI();
+  const userMessage =
+    "Gespreksnotities:\n\"" + notes + "\"\n\n" +
+    "Producten (JSON):\n" + JSON.stringify(prodData) + "\n\n" +
+    "Referenties (JSON):\n" + JSON.stringify(refData);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 15000);
+
+  return fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1500,
+      system: CONVERSATION_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: userMessage }]
+    })
+  })
+  .then(function(response) {
+    if (!response.ok) throw new Error("API-aanvraag mislukt");
+    return response.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).map(function(block) { return block.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed || !Array.isArray(parsed.uitdagingen)) throw new Error("Onverwacht antwoordformaat");
+    return parsed;
+  })
+  .catch(function() { return null; })
+  .finally(function() { clearTimeout(timeoutId); });
+}
+
 window.submitAiQuery = function() {
   const input = document.getElementById("aiQueryInput");
   const query = input ? input.value.trim() : "";
@@ -3725,6 +3811,99 @@ window.clearAiResults = function() {
   state.aiQuery = "";
   state.aiProductMatches = [];
   const input = document.getElementById("aiQueryInput");
+  if (input) { input.value = ""; input.focus(); }
+  render();
+};
+
+// ─── Gespreksanalyse: submit + clear ───────────────────────────────────────
+window.submitConversation = function() {
+  const input = document.getElementById("convInput");
+  const notes = input ? input.value.trim() : "";
+  if (notes.length < 10) return;
+  state.convNotes = notes;
+  state.convLoading = true;
+  state.convError = null;
+  state.convResult = null;
+  render();
+
+  const offline = (typeof navigator !== "undefined" && navigator.onLine === false);
+  const attempt = offline ? Promise.resolve(null) : tryConversationAnalysis(notes);
+
+  attempt.then(function(parsed) {
+    if (parsed) {
+      state.convResult = parsed;
+    } else {
+      state.convError = "De analyse kon niet worden uitgevoerd. Dit werkt alleen online (met werkende AI-verbinding). Probeer het opnieuw of gebruik 'Match op prospect' voor referenties.";
+    }
+    state.convLoading = false;
+    render();
+  });
+};
+
+window.clearConversation = function() {
+  state.convResult = null;
+  state.convError = null;
+  state.convNotes = "";
+  state.convLoading = false;
+  const input = document.getElementById("convInput");
+  if (input) { input.value = ""; input.focus(); }
+  render();
+};
+
+// ─── Zwevend Lewis-paneel: openen/sluiten en modus ─────────────────────────
+window.toggleAskPanel = function() {
+  state.askOpen = !state.askOpen;
+  render();
+  if (state.askOpen) {
+    setTimeout(function() {
+      var ta = document.getElementById(state.askMode === "vraag" ? "askQInput" : "convInput");
+      if (ta) ta.focus();
+    }, 60);
+  }
+};
+
+window.setAskMode = function(mode) {
+  state.askMode = mode;
+  render();
+  setTimeout(function() {
+    var ta = document.getElementById(mode === "vraag" ? "askQInput" : "convInput");
+    if (ta) ta.focus();
+  }, 60);
+};
+
+// ─── Vrije vraag ("Welke referenties heb ik voor een ziekenhuis?") ─────────
+window.submitAskQuestion = function() {
+  const input = document.getElementById("askQInput");
+  const q = input ? input.value.trim() : "";
+  if (q.length < 3) return;
+  state.askQuestion = q;
+  state.askQLoading = true;
+  state.askQError = null;
+  state.askQResult = null;
+  render();
+
+  const offline = (typeof navigator !== "undefined" && navigator.onLine === false);
+  const attempt = offline ? Promise.resolve(null) : tryOnlineAiMatch(q);
+
+  attempt.then(function(parsed) {
+    if (parsed) {
+      state.askQResult = parsed;
+    } else {
+      // Offline fallback: lokale matching-engine (bestaat al in de app).
+      try { state.askQResult = offlineMatchReferenties(q); }
+      catch (e) { state.askQError = "Kon de vraag niet verwerken. Probeer het opnieuw."; }
+    }
+    state.askQLoading = false;
+    render();
+  });
+};
+
+window.clearAskQuestion = function() {
+  state.askQResult = null;
+  state.askQError = null;
+  state.askQuestion = "";
+  state.askQLoading = false;
+  const input = document.getElementById("askQInput");
   if (input) { input.value = ""; input.focus(); }
   render();
 };
@@ -5223,6 +5402,147 @@ function render() {
   } else {
     renderAcademyPanel();
   }
+
+  renderAskOverlay();
+}
+
+function renderAskOverlay() {
+  var fab = document.getElementById("lewisFab");
+  var overlay = document.getElementById("lewisAskOverlay");
+  var panel = document.getElementById("lewisAskPanel");
+  if (!overlay || !panel) return;
+
+  overlay.style.display = state.askOpen ? "flex" : "none";
+  if (fab) fab.style.display = state.askOpen ? "none" : "flex";
+  if (!state.askOpen) return;
+
+  var html = '';
+  // Header
+  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+  html += '<div style="font-size:19px;font-weight:800;color:var(--c-navy)">🤖 Vraag het aan Lewis</div>';
+  html += '<button onclick="toggleAskPanel()" style="background:none;border:none;font-size:20px;color:var(--c-slate-400);cursor:pointer;line-height:1;padding:4px 8px">✕</button>';
+  html += '</div>';
+
+  // Modus-tabs
+  html += '<div class="lewis-ask-tabrow">';
+  html += '<button class="lewis-ask-tab' + (state.askMode === "notities" ? " active" : "") + '" onclick="setAskMode(\'notities\')">📝 Meetingnotities</button>';
+  html += '<button class="lewis-ask-tab' + (state.askMode === "vraag" ? " active" : "") + '" onclick="setAskMode(\'vraag\')">💬 Stel een vraag</button>';
+  html += '</div>';
+
+  if (state.askMode === "notities") {
+    html += renderAskNotitiesBody();
+  } else {
+    html += renderAskVraagBody();
+  }
+
+  panel.innerHTML = html;
+
+  // Klik op de donkere achtergrond sluit het paneel.
+  overlay.onclick = function(e) { if (e.target === overlay) toggleAskPanel(); };
+}
+
+function renderAskNotitiesBody() {
+  var loading = state.convLoading;
+  var r = state.convResult;
+  var err = state.convError;
+  var html = '';
+  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5">Plak je gespreksnotities — uit Microsoft Copilot, een Teams-transcript of eigen aantekeningen. Lewis detecteert de uitdagingen, stelt producten en referenties voor, en geeft je scherpe vervolgvragen.</div>';
+  html += '<textarea id="convInput" placeholder="Bv. CFO geeft aan dat rapportering nog in Excel gebeurt, maandafsluiting duurt 10 dagen, ERP is SAP en CSRD komt eraan." ' +
+    'style="width:100%;min-height:120px;padding:13px 15px;border:1px solid var(--c-slate-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--c-ink);background:#fff;resize:vertical;box-sizing:border-box;line-height:1.5">' +
+    (state.convNotes ? esc(state.convNotes) : '') + '</textarea>';
+  html += '<div style="display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap">';
+  html += '<button onclick="submitConversation()" ' + (loading ? 'disabled ' : '') +
+    'style="padding:11px 22px;background:var(--c-primary);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;font-family:inherit;cursor:' + (loading ? 'default' : 'pointer') + ';opacity:' + (loading ? '.6' : '1') + '">' +
+    (loading ? 'Bezig met analyseren...' : '🎯 Analyseer gesprek') + '</button>';
+  if (r || err) html += '<button onclick="clearConversation()" style="padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">Nieuwe analyse</button>';
+  html += '</div>';
+
+  if (loading) html += '<div style="margin-top:20px;font-size:14px;color:var(--c-slate-500)">Lewis leest de notities en stelt een briefing samen…</div>';
+  if (err) html += '<div style="margin-top:20px;padding:14px 16px;background:#fff5f5;border:1px solid #fed7d7;border-radius:10px;font-size:13px;color:#c53030;line-height:1.5">' + esc(err) + '</div>';
+
+  if (r) {
+    html += renderAskBlock('🎯 Gedetecteerde uitdagingen', (r.uitdagingen || []).map(function(u) {
+      return '<span style="display:inline-block;background:#fff5f5;border:1px solid #fed7d7;color:#c53030;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;margin:0 6px 8px 0">' + esc(u) + '</span>';
+    }).join(''), (r.uitdagingen || []).length === 0 ? 'Geen duidelijke uitdagingen gedetecteerd.' : '');
+
+    var prodHtml = (r.producten || []).map(function(p) {
+      var prod = PRODUCTS.find(function(x) { return x.naam === p.naam; });
+      var url = prod ? prod.url : null;
+      var inner = '<div style="font-weight:700;color:var(--c-navy);font-size:14px">' + esc(p.naam) + '</div>';
+      if (p.reden) inner += '<div style="font-size:12.5px;color:var(--c-slate-500);margin-top:3px;line-height:1.45">' + esc(p.reden) + '</div>';
+      var card = '<div style="background:#fff;border:1px solid var(--c-slate-200);border-radius:10px;padding:13px 15px;margin-bottom:10px">' + inner + '</div>';
+      if (url) card = '<a href="' + esc(url) + '" target="_blank" rel="noopener" style="text-decoration:none;display:block">' + card + '</a>';
+      return card;
+    }).join('');
+    html += renderAskBlock('💡 Aanbevolen producten', prodHtml, (r.producten || []).length === 0 ? 'Geen specifieke producten gevonden.' : '');
+
+    var refHtml = (r.referenties || []).map(function(ref) { return renderAskRefChip(ref.naam, ref.caseUrl); }).join('');
+    html += renderAskBlock('🏆 Relevante referenties', refHtml, (r.referenties || []).length === 0 ? 'Geen passende referenties gevonden.' : '');
+
+    var vragenHtml = '<ol style="margin:0;padding-left:20px">' + (r.vervolgvragen || []).map(function(v) {
+      return '<li style="font-size:13.5px;color:var(--c-ink);margin-bottom:8px;line-height:1.5">' + esc(v) + '</li>';
+    }).join('') + '</ol>';
+    html += renderAskBlock('❓ Volgende vragen', vragenHtml, (r.vervolgvragen || []).length === 0 ? 'Geen vervolgvragen.' : '');
+  }
+  return html;
+}
+
+function renderAskVraagBody() {
+  var loading = state.askQLoading;
+  var r = state.askQResult;
+  var err = state.askQError;
+  var html = '';
+  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5">Stel een vraag over je referenties. Bv. "Welke referenties heb ik voor een ziekenhuis?" of "Wie in de voedingssector gebruikt SAP?"</div>';
+  html += '<textarea id="askQInput" placeholder="Welke referenties heb ik voor een ziekenhuis?" ' +
+    'style="width:100%;min-height:72px;padding:13px 15px;border:1px solid var(--c-slate-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--c-ink);background:#fff;resize:vertical;box-sizing:border-box;line-height:1.5">' +
+    (state.askQuestion ? esc(state.askQuestion) : '') + '</textarea>';
+  html += '<div style="display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap">';
+  html += '<button onclick="submitAskQuestion()" ' + (loading ? 'disabled ' : '') +
+    'style="padding:11px 22px;background:var(--c-primary);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;font-family:inherit;cursor:' + (loading ? 'default' : 'pointer') + ';opacity:' + (loading ? '.6' : '1') + '">' +
+    (loading ? 'Bezig met zoeken...' : '🔍 Vraag Lewis') + '</button>';
+  if (r || err) html += '<button onclick="clearAskQuestion()" style="padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">Nieuwe vraag</button>';
+  html += '</div>';
+
+  if (loading) html += '<div style="margin-top:20px;font-size:14px;color:var(--c-slate-500)">Lewis zoekt in de referentiebibliotheek…</div>';
+  if (err) html += '<div style="margin-top:20px;padding:14px 16px;background:#fff5f5;border:1px solid #fed7d7;border-radius:10px;font-size:13px;color:#c53030;line-height:1.5">' + esc(err) + '</div>';
+
+  if (r) {
+    if (!r.matches || r.matches.length === 0 || r.geenGoedeMatch) {
+      html += '<div style="margin-top:18px;font-size:13.5px;color:var(--c-slate-500);line-height:1.5">' +
+        (r.suggestie ? esc(r.suggestie) : 'Geen sterke match gevonden. Probeer je vraag anders te formuleren of gebruik de filters op het Referenties-tabblad.') + '</div>';
+    } else {
+      var refHtml = r.matches.map(function(m) {
+        var extra = '';
+        if (m.beschrijving) extra += '<div style="font-size:12.5px;color:var(--c-slate-500);margin-top:3px;line-height:1.45">' + esc(m.beschrijving) + '</div>';
+        if (m.redenen && m.redenen.length) extra += '<div style="font-size:12px;color:var(--c-slate-400);margin-top:4px">' + esc(m.redenen.join(' · ')) + '</div>';
+        return renderAskRefChip(m.naam, m.caseUrl, extra);
+      }).join('');
+      html += renderAskBlock('🏆 Referenties', refHtml, '');
+    }
+  }
+  return html;
+}
+
+function renderAskRefChip(naam, caseUrl, extra) {
+  var full = REFS.find(function(x) { return x.naam === naam; });
+  var tags = [];
+  if (full && full.industrie) tags.push(full.industrie);
+  if (full && full.land) tags.push(full.land);
+  var naamEsc = esc(naam).replace(/'/g, "\\'");
+  var line = '<span style="font-weight:700;color:var(--c-navy);font-size:14px">📋 ' + esc(naam) + '</span>';
+  if (tags.length) line += ' <span style="font-size:12px;color:var(--c-slate-400)">· ' + esc(tags.join(', ')) + '</span>';
+  var actions = '<span onclick="toggleAskPanel();switchTab(\'referenties\');setTimeout(function(){scrollToRef(\'' + naamEsc + '\')},150)" style="font-size:12px;font-weight:700;color:var(--c-primary-darker);cursor:pointer;margin-left:10px;white-space:nowrap">Bekijk ▸</span>';
+  if (caseUrl) actions += ' <a href="' + esc(caseUrl) + '" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--c-primary-darker);margin-left:10px;white-space:nowrap">Case ▸</a>';
+  var body = '<div>' + line + (extra || '') + '</div>';
+  return '<div style="background:#fff;border:1px solid var(--c-slate-200);border-radius:10px;padding:12px 15px;margin-bottom:9px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:6px">' + body + '<span style="flex-shrink:0">' + actions + '</span></div>';
+}
+
+function renderAskBlock(titel, innerHtml, emptyMsg) {
+  var body = innerHtml && innerHtml.length ? innerHtml : ('<div style="font-size:13px;color:var(--c-slate-400)">' + esc(emptyMsg || '') + '</div>');
+  return '<div style="margin-top:20px">' +
+    '<div style="font-size:15px;font-weight:800;color:var(--c-navy);margin-bottom:11px">' + titel + '</div>' +
+    '<div>' + body + '</div>' +
+  '</div>';
 }
 
 function renderReferentiesPanel() {
@@ -5943,9 +6263,9 @@ function init() {
     '<div id="panelReferenties">' +
       '<div class="stats" id="statsBlock"></div>' +
       '<div class="toolbar">' +
-        '<div class="search-wrap">' + ICONS.search + '<input type="text" id="searchInput" placeholder="Zoek op naam, industrie of module..."></div>' +
-        '<button class="prospect-match-btn" onclick="openProspectMatcher()" title="Vind referenties die passen bij de prospect in de zoekbalk">🎯 Match op prospect</button>' +
+        '<div class="search-wrap">' + ICONS.search + '<input type="text" id="searchInput" placeholder="Zoek een referentie, of typ een prospect en druk Enter voor een match..."></div>' +
       '</div>' +
+      '<div id="prospectHint" style="font-size:12px;color:var(--c-slate-400);margin:-4px 2px 10px">💡 Tip: typ een bedrijfsnaam en druk <strong>Enter</strong> om referenties te vinden die bij die prospect passen.</div>' +
       '<div id="prospectMatchPanel" style="display:none"></div>' +
       '<div class="filters-panel" id="filtersPanel"></div>' +
       '<div class="count-row" id="countRow"></div>' +
@@ -6023,7 +6343,9 @@ function init() {
       '<div id="academyContent"></div>' +
     '</div>' +
     '</div>' +
-    '<div id="callBriefOverlay" class="call-brief-overlay" style="display:none"></div>';
+    '<div id="callBriefOverlay" class="call-brief-overlay" style="display:none"></div>' +
+    '<button id="lewisFab" class="lewis-fab" onclick="toggleAskPanel()" title="Vraag het aan Lewis">🤖 Vraag Lewis</button>' +
+    '<div id="lewisAskOverlay" class="lewis-ask-overlay" style="display:none"><div class="lewis-ask-panel" id="lewisAskPanel"></div></div>';
 
   document.getElementById("app").innerHTML = skeleton;
 
@@ -6147,8 +6469,6 @@ window.closePdfViewer = function() {
 window.openProspectMatcher = function() {
   var panel = document.getElementById('prospectMatchPanel');
   if (!panel) return;
-  // Toggle: als het paneel al open staat, sluiten we het.
-  if (panel.style.display === 'block') { closeProspectMatcher(); return; }
   panel.style.display = 'block';
   panel.innerHTML =
     '<div class="prospect-panel">' +
@@ -6301,6 +6621,16 @@ window.runProspectSearch = function() {
   // ── Stap 2: laat de AI de prospect analyseren ────────────────────────
   // De AI kent de sector van bekende bedrijven (bv. Plopsa = pretpark) en
   // kiest zelf de best passende referenties. Werkt alleen mét internet/API.
+  // Sessie-cache: dezelfde naam roept de AI niet twee keer aan (bespaart kosten).
+  window._prospectAiCache = window._prospectAiCache || {};
+  var cacheKey = query.toLowerCase();
+  if (window._prospectAiCache[cacheKey]) {
+    var cached = window._prospectAiCache[cacheKey];
+    if (cached.matches && cached.matches.length > 0) { renderProspectAiMatches(query, cached.matches); }
+    else { showProspectMatches(query, null, null, cached.suggestie || null); }
+    return;
+  }
+
   var offline = (typeof navigator !== 'undefined' && navigator.onLine === false);
   var prompt =
     'Een verkoper heeft de prospect "' + query + '" aan de lijn. ' +
@@ -6316,10 +6646,12 @@ window.runProspectSearch = function() {
       // Netwerk/API mislukt of offline: laat gebruiker zelf de sector kiezen.
       showProspectMatches(query, null, null);
     } else if (Array.isArray(result.matches) && result.matches.length > 0) {
+      window._prospectAiCache[cacheKey] = result;
       renderProspectAiMatches(query, result.matches);
     } else {
       // AI antwoordde wél, maar vond geen sector-match. Toon de suggestie
       // en laat de gebruiker alsnog handmatig een sector kiezen.
+      window._prospectAiCache[cacheKey] = result;
       showProspectMatches(query, null, null, result.suggestie || null);
     }
   }).catch(function() {

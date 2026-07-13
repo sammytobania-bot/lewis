@@ -4687,7 +4687,7 @@ window.copyCallRowForCRM = function(id) {
   if ((row.historiek || []).length > 1) {
     const eerder = row.historiek.slice(1).map(function(h) {
       const ho = outcomeById(h.outcome);
-      return new Date(h.datum).toLocaleDateString("nl-BE") + " (" + (ho ? ho.label : "gebeld") + ")";
+      return new Date(h.datum).toLocaleDateString("nl-BE") + " (" + (ho ? ho.kort : "gebeld") + ")";
     });
     lines.push("Eerdere contacten: " + eerder.join(", "));
   }
@@ -4700,7 +4700,11 @@ window.copyCallRowForCRM = function(id) {
   // interesse-signaal → toon dat; anders de standaardzin.
   const opportuniteitKeywords = ["wil", "interesse", "plant", "overweegt", "bekijkt", "traject", "project", "rfp", "rfi", "evalueerd", "positief"];
   let opportuniteitLine = null;
-  if (cleaned && cleaned.solutions.length > 0) {
+  if (oc && oc.id === "geen_interesse") {
+    // Expliciet afgewezen: nooit een opportuniteit suggereren, ook al bevat de
+    // notitie toevallig een woord als "wil" (bv. "wil er niets mee te maken hebben").
+    opportuniteitLine = "Geen opportuniteit — prospect gaf aan geen interesse te hebben.";
+  } else if (cleaned && cleaned.solutions.length > 0) {
     opportuniteitLine = "Interesse in " + cleaned.solutions.join(", ") + ".";
   } else {
     opportuniteitLine = findBulletWithKeyword_(bullets, opportuniteitKeywords);
@@ -4716,9 +4720,28 @@ window.copyCallRowForCRM = function(id) {
 
   // Volgende stap: enkel een herkenbaar actie-signaal → toon dat; anders
   // de standaard nurtureflow-zin.
+  // Volgende stap: de UITKOMST is leidend. Die heb je bewust aangeklikt, dus
+  // die weegt zwaarder dan een gokje op basis van trefwoorden in de notitie.
+  // Zei de prospect "geen interesse", dan mag er nooit "nurtureflow" staan.
+  const VOLGENDE_STAP_PER_UITKOMST = {
+    niet_opgenomen: "Opnieuw proberen te bereiken.",
+    geen_interesse: "Geen verdere opvolging — niet opnemen in nurtureflow.",
+    terugbellen: row.terugbelDatum
+      ? "Terugbellen op " + new Date(row.terugbelDatum + "T00:00:00").toLocaleDateString("nl-BE") + "."
+      : "Terugbellen (datum nog te bepalen).",
+    nurture: "Opnemen in nurtureflow.",
+    afspraak: "Afspraak inplannen.",
+  };
+
   const actieKeywords = ["opvolgen", "terugbellen", "afspraak", "demo", "voorstel", "contacteren", "bellen", "mailen"];
-  const volgendeStapLine = findBulletWithKeyword_(bullets, actieKeywords);
-  lines.push("Volgende stap: " + (volgendeStapLine || "Opnemen in nurtureflow."));
+  let volgendeStapLine = null;
+  if (oc && VOLGENDE_STAP_PER_UITKOMST[oc.id]) {
+    volgendeStapLine = VOLGENDE_STAP_PER_UITKOMST[oc.id];
+  } else {
+    // Geen uitkomst aangeklikt: dan pas terugvallen op de notitie.
+    volgendeStapLine = findBulletWithKeyword_(bullets, actieKeywords) || "Nog geen uitkomst geregistreerd.";
+  }
+  lines.push("Volgende stap: " + volgendeStapLine);
 
   const text = lines.join("\n");
   copyTextToClipboard_(text, "crmBtn-" + id, "Kopieer voor CRM");

@@ -7542,17 +7542,30 @@ window.addColdCallCompanies = function() {
   render();
 };
 
-function renderScriptPanel() {
-  const el = document.getElementById("callScriptBlock");
+// De werkruimte-keuze staat BOVENAAN het paneel, los van het script-blok.
+// Reden: dit is de eerste beslissing die je maakt ("waarom bel ik?") en ze
+// bepaalt alles wat eronder komt — welke lijst je uploadt, welke velden je ziet.
+// Ze hoorde dus niet halverwege de pagina te staan, onder de filters en de
+// zoekbalk die er al van afhangen.
+function renderWorkspaceTabs() {
+  const el = document.getElementById("callWorkspaceTabs");
   if (!el) return;
 
-  // Drie volledig gescheiden werkruimtes — geen filter, maar een echte
-  // wissel van dataset (upload, contacten, opgeslagen lijsten).
   let html = '<div class="workspace-row">';
   html += '<button class="workspace-btn' + (state.activeWorkspace === "event" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'event\')">📅 Evenementen</button>';
   html += '<button class="workspace-btn' + (state.activeWorkspace === "blindspots" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'blindspots\')">❓ Blind spots</button>';
   html += '<button class="workspace-btn' + (state.activeWorkspace === "coldcall" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'coldcall\')">❄️ Cold calling</button>';
   html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderScriptPanel() {
+  const el = document.getElementById("callScriptBlock");
+  if (!el) return;
+
+  // De werkruimte-knoppen staan nu bovenaan (renderWorkspaceTabs); hier begint
+  // meteen de sub-keuze die BIJ die werkruimte hoort.
+  let html = '';
 
   // Binnen Evenementen kies je nog: uitnodigen of opvolgen. Zelfde contacten,
   // ander script — dus dit is een sub-modus, geen aparte werkruimte.
@@ -7799,6 +7812,7 @@ function renderBellijstPanel() {
   document.getElementById("callUploadTitle").textContent = uploadTitles[state.activeWorkspace];
   document.getElementById("callUploadSub").textContent = uploadSubs[state.activeWorkspace];
 
+  renderWorkspaceTabs();
   renderEventContext();
   renderCallBriefOverlay();
   renderScriptPanel();
@@ -8361,6 +8375,7 @@ function init() {
     '</div>' +
 
     '<div id="panelBellijst" style="display:none">' +
+      '<div id="callWorkspaceTabs"></div>' +
       '<div id="callWorkspaceEventFields" class="event-context-fields">' +
         '<div id="eventStatusBlock"></div>' +
         '<div class="event-shortcut-panel">' +

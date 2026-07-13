@@ -6490,13 +6490,21 @@ function renderBellijstPanel() {
   const okRows = getFilteredCallRows("ok");
   const bestaandeKlanten = okRows.filter(function(r) { return findExistingReferentie(r.bedrijf); });
   const prospects = okRows.filter(function(r) { return !findExistingReferentie(r.bedrijf); });
-  const controleRows = state.callRows.filter(function(r) { return r.status !== "ok"; });
-  const controleFiltered = getFilteredCallRows("competitor").concat(getFilteredCallRows("irrelevant"), getFilteredCallRows("lewis"));
+  // De rijen krijgen status "flexso" (interne medewerkers en SAP zelf). Eerder
+  // werd hier op "lewis" gezocht — een status die nergens gezet wordt, waardoor
+  // de teller wél telde maar de lijst leeg bleef.
+  const CONTROLE_STATUSSEN = ["competitor", "irrelevant", "flexso"];
+  // Teller en lijst komen bewust uit dezelfde (gefilterde) bron, net als bij de
+  // andere twee tabs. Zo kan het niet meer gebeuren dat de tab "(2)" toont
+  // terwijl er niets in de lijst staat.
+  const controleFiltered = CONTROLE_STATUSSEN.reduce(function(acc, s) {
+    return acc.concat(getFilteredCallRows(s));
+  }, []);
 
   document.getElementById("callViewTabs").innerHTML =
     '<button class="call-view-tab' + (state.callView === "bestaande" ? " active" : "") + '" onclick="toggleCallView(\'bestaande\')">' + ICONS.star + ' Bestaande klanten (' + bestaandeKlanten.length + ')</button>' +
     '<button class="call-view-tab' + (state.callView === "prospects" ? " active" : "") + '" onclick="toggleCallView(\'prospects\')">Prospects (' + prospects.length + ')</button>' +
-    '<button class="call-view-tab' + (state.callView === "controle" ? " active" : "") + '" onclick="toggleCallView(\'controle\')">Ter controle (' + controleRows.length + ')</button>';
+    '<button class="call-view-tab' + (state.callView === "controle" ? " active" : "") + '" onclick="toggleCallView(\'controle\')">Ter controle (' + controleFiltered.length + ')</button>';
 
   let listHtml = "";
   if (state.callView === "bestaande") {

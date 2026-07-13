@@ -320,6 +320,20 @@
   .cold-bulk-btn:disabled { opacity: .55; cursor: default; }
   .cold-bulk-status { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
 
+  /* Cold calling: "In 30 seconden" — het bedrijf in één oogopslag, vóór je belt */
+  .cold-snapshot { margin: 10px 0 12px; background: #fff; border: 1px solid var(--c-navy); border-radius: var(--radius-btn); padding: 10px 13px; }
+  .cold-snapshot-titel { font-size: 11px; font-weight: 800; color: var(--c-navy); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 7px; }
+  .cold-snapshot-lijst { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+  .cold-snapshot-lijst li { background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--c-ink); }
+
+  /* Bewijs: max 2 referenties, elk met steekwoorden i.p.v. lopende tekst */
+  .cold-refs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+  .cold-ref { flex: 1 1 180px; background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); padding: 8px 11px; }
+  .cold-ref-naam { font-size: 12.5px; font-weight: 800; color: var(--c-navy); margin-bottom: 4px; }
+  .cold-ref-punten { margin: 0; padding-left: 15px; }
+  .cold-ref-punten li { font-size: 12px; color: var(--c-slate-500); line-height: 1.5; }
+  .cold-ref-reden { font-size: 12px; color: var(--c-slate-500); line-height: 1.5; }
+
   /* Werkruimtes: Evenementen / Blind spots / Cold calling — volledig gescheiden */
   .workspace-row { display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--c-slate-200); padding-bottom: 12px; }
   .workspace-btn { padding: 9px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
@@ -6516,6 +6530,16 @@ function callRowHtml(r, showRestore) {
           html += '<span class="cold-cached">Eerder geanalyseerd — ' + esc(new Date(cold.opgeslagenOp).toLocaleDateString("nl-BE")) + '</span>';
         }
 
+        // "In 30 seconden": wie is dit bedrijf? Staat bovenaan, want dit is wat
+        // je moet weten vóór je belt — niet wat je moet zéggen.
+        if ((cold.snapshot || []).length) {
+          html += '<div class="cold-snapshot">' +
+            '<div class="cold-snapshot-titel">⏱️ In 30 seconden</div>' +
+            '<ul class="cold-snapshot-lijst">' +
+            cold.snapshot.map(function(s) { return '<li>' + esc(s) + '</li>'; }).join('') +
+            '</ul></div>';
+        }
+
         if ((cold.pijnpunten || []).length) {
           html += '<div class="script-label">Waarschijnlijke pijnpunten</div><ul class="cold-lijst">' +
             cold.pijnpunten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
@@ -6524,8 +6548,18 @@ function callRowHtml(r, showRestore) {
           html += '<div class="script-label">Aanbevolen product</div><p class="script-line"><strong>' + esc(cold.aanbevolenProduct) + '</strong></p>';
         }
         if ((cold.gebruikteReferenties || []).length) {
-          html += '<div class="script-label">Te noemen als bewijs</div><ul class="cold-lijst">' +
-            cold.gebruikteReferenties.map(function(g) { return '<li><strong>' + esc(g.naam) + '</strong> — ' + esc(g.reden) + '</li>'; }).join('') + '</ul>';
+          html += '<div class="script-label">Te noemen als bewijs</div><div class="cold-refs">' +
+            cold.gebruikteReferenties.map(function(g) {
+              let ref = '<div class="cold-ref"><div class="cold-ref-naam">' + esc(g.naam) + '</div>';
+              if ((g.punten || []).length) {
+                ref += '<ul class="cold-ref-punten">' +
+                  g.punten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
+              } else if (g.reden) {
+                // Analyse van vóór deze wijziging: nog lopende tekst.
+                ref += '<div class="cold-ref-reden">' + esc(g.reden) + '</div>';
+              }
+              return ref + '</div>';
+            }).join('') + '</div>';
         }
         if (cold.opening) {
           html += '<div class="script-label">Opening</div><p class="script-line">' + esc(cold.opening) + '</p>';
@@ -6744,18 +6778,42 @@ function findBlindSpots(row) {
 }
 
 // ─── WAT WE AL WETEN ───────────────────────────────────────────────────────
-// De keerzijde van findBlindSpots: alle kolommen waar WEL iets ingevuld staat.
-// Die tonen we tijdens het gesprek, want die info komt uit een bestand en kan
-// perfect verouderd of gewoon fout zijn. Zie je dat live, dan kan je het meteen
-// corrigeren i.p.v. een foute waarde stilzwijgend mee te slepen naar het CRM.
-const KNOWN_SKIP_KOLOMMEN = ["bedrijf", "company", "naam", "contact", "contactpersoon"];
+// De keerzijde van findBlindSpots: de kolommen waar WEL iets ingevuld staat.
+// Maar niet ALLE kolommen: firmografie (sector, omzet, aantal medewerkers…) is
+// hier ruis. Dat ga je niet uitvragen aan de telefoon, en het verdrinkt waar het
+// hier wél om draait: het IT-LANDSCHAP rond de gaten. Staat er een "?" onder CRM,
+// dan wil je zien wat er over hun ERP en HR-systeem bekend is — want die info komt
+// uit een bestand en is perfect vatbaar voor "dat klopt al twee jaar niet meer".
+//
+// Bewust een UITSLUITlijst op firmografie, geen INSLUITlijst op systemen: elke
+// Excel noemt systeemkolommen weer anders ("ERP", "Huidig ERP", "Payroll", "WFM"),
+// en een insluitlijst zou zulke kolommen stilzwijgend verbergen. Firmografie is
+// daarentegen een korte, voorspelbare set — alles wat daar niet in zit, is landschap.
+const KNOWN_SKIP_KOLOMMEN = [
+  // Identificatie — staat al bovenaan de kaart.
+  "bedrijf", "bedrijven", "company", "naam", "klant", "account",
+  "contact", "contactpersoon", "functie", "titel", "email", "e-mail", "telefoon", "gsm", "tel",
+  // Firmografie — achtergrond, geen gespreksstof.
+  "sector", "industrie", "industry", "branche", "segment",
+  "omzet", "omzet in €", "revenue", "turnover",
+  "aantal medewerkers", "medewerkers", "werknemers", "employees", "fte", "grootte", "size",
+  "land", "country", "regio", "region", "provincie", "stad", "gemeente", "adres", "postcode",
+  "website", "url", "linkedin", "btw", "vat", "kbo", "ondernemingsnummer",
+  // Interne administratie — niets met de prospect te maken.
+  "accountmanager", "account manager", "am", "eigenaar", "owner", "campagne", "bron", "source", "status",
+];
+
+function isKnownSkipKolom_(kolom) {
+  const k = String(kolom || "").trim().toLowerCase();
+  return KNOWN_SKIP_KOLOMMEN.indexOf(k) !== -1;
+}
 
 function findKnownFields(row) {
   const raw = row.raw || {};
   const gecorrigeerd = row.knownCorrections || {};
   const velden = [];
   Object.keys(raw).forEach(function(kolom) {
-    if (KNOWN_SKIP_KOLOMMEN.indexOf(kolom.trim().toLowerCase()) !== -1) return;
+    if (isKnownSkipKolom_(kolom)) return;
     const ruw = String(raw[kolom] == null ? "" : raw[kolom]).trim();
     // Lege cellen en blind spots ("?", "onbekend") horen hier niet: dat zijn
     // net de dingen die we NIET weten.
@@ -6777,7 +6835,7 @@ function renderKnownFields(r) {
   if (velden.length === 0) return '';
 
   let html = '<div class="known-block">';
-  html += '<div class="known-label">📋 Wat we al weten (' + velden.length + ') — klopt dit nog?</div>';
+  html += '<div class="known-label">📋 Huidig landschap (' + velden.length + ') — klopt dit nog?</div>';
   html += velden.map(function(v) {
     const veldId = "knownInput-" + r._id + "-" + v.kolom.replace(/[^a-z0-9]/gi, "_");
     const kolomArg = "'" + esc(v.kolom).replace(/'/g, "\\'") + "'";
@@ -6840,10 +6898,10 @@ window.copyBlindSpotsForCRM = function(id) {
   lines.push("Datum contact: " + new Date().toLocaleDateString("nl-BE"));
   lines.push("");
 
-  // 1. Bevestigd/gecorrigeerd: wat al in het bestand stond.
+  // 1. Bevestigd/gecorrigeerd: het landschap zoals het in het bestand stond.
   const bekend = findKnownFields(row);
   if (bekend.length > 0) {
-    lines.push("BESTAANDE GEGEVENS");
+    lines.push("HUIDIG LANDSCHAP (bestaande gegevens)");
     bekend.forEach(function(v) {
       lines.push("- " + v.kolom + ": " + v.waarde +
         (v.gecorrigeerd ? "  [GECORRIGEERD — stond in bestand als: " + v.origineel + "]" : ""));
@@ -6901,7 +6959,14 @@ function saveColdAnalyse_(bedrijf, topic, data) {
 }
 
 function getColdAnalyse_(bedrijf, topic) {
-  return getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
+  const a = getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
+  if (!a || a.fout) return a;
+  // Analyses van vóór het "In 30 seconden"-blok missen de snapshot. Die zouden
+  // anders eeuwig in hun oude, veel te lange vorm blijven hangen — de cache is
+  // net bedoeld om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
+  // Zonder snapshot: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
+  if (!Array.isArray(a.snapshot) || a.snapshot.length === 0) return null;
+  return a;
 }
 
 const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consultingbedrijf (Flexso). " +
@@ -6910,24 +6975,60 @@ const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consulting
   "Je krijgt drie soorten context mee: (1) onze eigen referenties en klantencases uit vergelijkbare " +
   "sectoren, (2) ons productportfolio, en (3) de resultaten van een websearch naar dit specifieke bedrijf. " +
   "Gebruik ze alle drie. Dit moet SCHERP en CONCREET zijn — geen generieke SAP-marketingtaal.\n\n" +
+  "ALLERBELANGRIJKSTE REGEL — LENGTE:\n" +
+  "Dit wordt gelezen terwijl de telefoon overgaat. Een verkoper scant dit in 30 seconden, hij leest geen rapport. " +
+  "Lange, volgeschreven bullets zijn ONBRUIKBAAR, ook al staat er correcte informatie in. " +
+  "Schrap alles wat niet nodig is om het gesprek te openen. Kort is beter dan volledig.\n\n" +
   "Regels:\n" +
-  "- pijnpunten: 2 tot 4 problemen die dit SPECIFIEKE bedrijf waarschijnlijk heeft. Baseer dit op wat de " +
-  "websearch teruggeeft over het bedrijf (sector, grootte, recent nieuws, groei, overnames, beursgang, " +
-  "regelgeving die hen raakt) — niet op generieke sectorkennis alleen. Vind je niets specifieks, zeg dat "+
-  "eerlijk en val terug op wat typisch is voor de sector.\n" +
-  "- gebruikteReferenties: welke van de meegeleverde referenties/cases het meest relevant zijn als bewijs, " +
-  "en waarom — dit is wat de verkoper kan noemen (\"we deden dit ook bij...\").\n" +
+  "- snapshot: het bedrijf in één oogopslag. Precies 4 tot 6 telegramstijl-punten van MAXIMAAL 6 WOORDEN elk. " +
+  "Geen zinnen, geen werkwoorden, geen uitleg. Denk: \"27 productiesites wereldwijd\", \"Wereldleider in mout\", " +
+  "\"6% personeelsafbouw\", \"ESG-doel: -30,3% CO2 tegen 2030\". Dit is wat iemand moet weten om te snappen " +
+  "waarover dit bedrijf gaat, vóór hij belt.\n" +
+  "- pijnpunten: MAXIMAAL 4, en elk pijnpunt is ÉÉN KORTE ZIN van hooguit 12 woorden. Geen toelichting, geen " +
+  "bronvermelding, geen cijfers-met-uitleg erachter — die context staat al in de snapshot. " +
+  "Goed: \"Complexe financiele consolidatie over 27 sites wereldwijd.\" " +
+  "Fout: een bullet van drie regels met cijfers, bronnen en een redenering.\n" +
+  "- gebruikteReferenties: MAXIMAAL 2 referenties. Per referentie geef je 2 tot 3 steekwoorden (elk max 5 woorden), " +
+  "geen lopende tekst. Denk: [\"Food & Beverage\", \"SAC dashboards\", \"Real-time marges\"]. " +
+  "De verkoper moet in een oogopslag zien waarom hij dit mag noemen.\n" +
   "- aanbevolenProduct: welk concreet product/oplossing uit ons portfolio het beste past, met de naam exact " +
   "zoals in de meegeleverde productenlijst.\n" +
-  "- opening: één scherpe zin die vertrekt vanuit een pijnpunt van DIT bedrijf, niet vanuit het product. " +
-  "Mag gerust een concreet feit uit de websearch noemen (bv. een recente overname of expansie) als dat een " +
-  "haakje geeft.\n" +
-  "- vragen: 3 open vragen die het pijnpunt boven water halen, specifiek voor dit bedrijf.\n" +
-  "- bronvermelding: als je iets uit de websearch haalt, noem kort de bron (bv. \"volgens hun jaarverslag 2025\").\n" +
+  "- opening: MAXIMAAL 2 zinnen, samen hooguit 45 woorden. Vertrekt vanuit een pijnpunt van DIT bedrijf, " +
+  "niet vanuit het product. Mag één concreet feit uit de websearch noemen als haakje.\n" +
+  "- vragen: PRECIES 3 open vragen, elk één zin van hooguit 20 woorden. Niet meer dan 3. Kies de drie sterkste " +
+  "en laat de rest vallen.\n" +
+  "- bronnen: kort, enkel de bron zelf (bv. \"jaarverslag 2025\", \"persbericht jan 2026\"). Geen zinnen.\n" +
   "- Verzin NOOIT feiten. Vond de websearch niets bruikbaars, zeg dat expliciet in plaats van te gokken.\n" +
   "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
-  "{\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"reden\": string}], " +
+  "{\"snapshot\": [string], \"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]}], " +
   "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]}";
+
+// De prompt vráágt om max 4 pijnpunten en precies 3 vragen, maar een model houdt
+// zich daar niet altijd aan. Dat mag de kaart niet opnieuw laten dichtslibben —
+// dus knippen we hier hard af. De prompt stuurt, de code garandeert.
+function normaliseerColdAnalyse_(a) {
+  a = a || {};
+  const lijst = function(x) { return Array.isArray(x) ? x.filter(Boolean) : []; };
+
+  return {
+    snapshot: lijst(a.snapshot).slice(0, 6),
+    pijnpunten: lijst(a.pijnpunten).slice(0, 4),
+    gebruikteReferenties: lijst(a.gebruikteReferenties).slice(0, 2).map(function(g) {
+      // Oudere, al opgeslagen analyses hebben nog "reden" (lopende tekst) i.p.v.
+      // "punten" (steekwoorden). Die mogen niet stukgaan: val terug op reden.
+      const punten = lijst(g.punten).slice(0, 3);
+      return {
+        naam: g.naam || "",
+        punten: punten,
+        reden: punten.length === 0 ? (g.reden || "") : "",
+      };
+    }),
+    aanbevolenProduct: a.aanbevolenProduct || null,
+    opening: a.opening || "",
+    vragen: lijst(a.vragen).slice(0, 3),
+    bronnen: lijst(a.bronnen),
+  };
+}
 
 window.analyseColdCall = function(id, forceer) {
   state.coldLoadingId = id;
@@ -7026,8 +7127,8 @@ function analyseColdCallCore_(id, forceer) {
       if (!m) { const err = new Error("parse"); err.code = "parse"; throw err; }
       parsed = JSON.parse(m[0]);
     }
-    state.coldScripts[id] = parsed;
-    saveColdAnalyse_(row.bedrijf, topic, parsed);
+    state.coldScripts[id] = normaliseerColdAnalyse_(parsed);
+    saveColdAnalyse_(row.bedrijf, topic, state.coldScripts[id]);
   })
   .catch(function(e) {
     state.coldScripts[id] = { fout: coldFoutTekst_(e) };

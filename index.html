@@ -300,6 +300,26 @@
   .blind-done-item { font-size: 12px; color: var(--c-slate-600); margin-bottom: 3px; }
   .blind-undo { font-size: 11px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; margin-left: 4px; }
   .blind-ok { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: #16a34a; }
+  /* Wat we al weten: bestaande (mogelijk verouderde) data, ter plekke corrigeerbaar */
+  .known-block { margin-top: 10px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); padding: 10px 12px; }
+  .known-label { font-size: 11.5px; font-weight: 800; color: var(--c-slate-500); margin-bottom: 8px; }
+  .known-row { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; flex-wrap: wrap; }
+  .known-tag { flex: 0 0 auto; min-width: 90px; font-size: 11.5px; font-weight: 700; color: var(--c-navy); }
+  .known-input { flex: 1 1 140px; padding: 5px 9px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 12.5px; font-family: inherit; background: #fff; }
+  .known-input:focus { outline: none; border-color: var(--c-navy); }
+  .known-input.aangepast { border-color: var(--c-navy); background: #fff; font-weight: 600; }
+  .known-was { font-size: 10.5px; color: var(--c-slate-400); font-style: italic; }
+  .known-undo { font-size: 10.5px; font-weight: 700; color: var(--c-slate-500); cursor: pointer; text-decoration: underline; }
+  .known-undo:hover { color: var(--c-navy); }
+  .blind-crm-btn { margin-top: 10px; padding: 7px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .blind-crm-btn:hover { border-color: var(--c-navy); }
+
+  /* Cold calling: alles-in-één analyseknop */
+  .cold-bulk-btn { margin-top: 8px; margin-left: 8px; padding: 8px 14px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .cold-bulk-btn:hover:not(:disabled) { opacity: .88; }
+  .cold-bulk-btn:disabled { opacity: .55; cursor: default; }
+  .cold-bulk-status { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
+
   /* Werkruimtes: Evenementen / Blind spots / Cold calling — volledig gescheiden */
   .workspace-row { display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--c-slate-200); padding-bottom: 12px; }
   .workspace-btn { padding: 9px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
@@ -3187,6 +3207,12 @@ const state = {
   scriptOpen: false,       // het algemene script bovenaan open/dicht
   coldScripts: {},         // per rij-id: AI-analyse voor cold calling
   coldLoadingId: null,     // welk bedrijf wordt nu geanalyseerd
+  // Bulk-analyse ("analyseer alles in één keer"): voortgang van de reeks.
+  coldBulkBezig: false,
+  coldBulkTotaal: 0,
+  coldBulkKlaar: 0,
+  coldBulkHuidig: null,    // naam van het bedrijf dat nu aan de beurt is
+  coldBulkStatus: null,    // afsluitende samenvatting na afloop
   eventError: null,
 
   // Call Briefs (per deelnemer, gecached binnen de sessie)
@@ -6439,7 +6465,7 @@ function callRowHtml(r, showRestore) {
       if (gaten.length > 0) {
         html += '<div class="blind-spots">';
         if (openGaten.length > 0) {
-          html += '<div class="blind-label">❓ Uit te vragen (' + openGaten.length + ')</div>';
+          html += '<div class="blind-label">❓ Informeren (' + openGaten.length + ')</div>';
           html += openGaten.map(function(k) {
             const veldId = "blindInput-" + r._id + "-" + k.replace(/[^a-z0-9]/gi, "_");
             return '<div class="blind-row">' +
@@ -6462,6 +6488,11 @@ function callRowHtml(r, showRestore) {
       } else {
         html += '<div class="blind-ok">✓ Geen ontbrekende velden</div>';
       }
+
+      // Wat we al weten: de kolommen waar WEL een waarde in staat. Die info kan
+      // verouderd of fout zijn, dus elk veld is ter plekke corrigeerbaar.
+      html += renderKnownFields(r);
+      html += '<button class="blind-crm-btn" id="blindCrmBtn-' + r._id + '" onclick="copyBlindSpotsForCRM(' + r._id + ')">' + ICONS.copy + ' Kopieer naar CRM</button>';
     }
 
     if (state.activeWorkspace === "coldcall") {
@@ -6565,7 +6596,11 @@ window.setEventSubMode = function(mode) {
 };
 
 window.setColdTopic = function(topic) {
+  if (state.coldBulkBezig) return; // niet van topic wisselen midden in een bulk-analyse
   state.coldTopic = topic;
+  // De vorige samenvatting sloeg op het vórige topic — die hier laten staan
+  // zou misleidend zijn ("alles geanalyseerd" terwijl dat voor dít topic niet zo is).
+  state.coldBulkStatus = null;
   render();
 };
 
@@ -6708,6 +6743,138 @@ function findBlindSpots(row) {
   return gaten;
 }
 
+// ─── WAT WE AL WETEN ───────────────────────────────────────────────────────
+// De keerzijde van findBlindSpots: alle kolommen waar WEL iets ingevuld staat.
+// Die tonen we tijdens het gesprek, want die info komt uit een bestand en kan
+// perfect verouderd of gewoon fout zijn. Zie je dat live, dan kan je het meteen
+// corrigeren i.p.v. een foute waarde stilzwijgend mee te slepen naar het CRM.
+const KNOWN_SKIP_KOLOMMEN = ["bedrijf", "company", "naam", "contact", "contactpersoon"];
+
+function findKnownFields(row) {
+  const raw = row.raw || {};
+  const gecorrigeerd = row.knownCorrections || {};
+  const velden = [];
+  Object.keys(raw).forEach(function(kolom) {
+    if (KNOWN_SKIP_KOLOMMEN.indexOf(kolom.trim().toLowerCase()) !== -1) return;
+    const ruw = String(raw[kolom] == null ? "" : raw[kolom]).trim();
+    // Lege cellen en blind spots ("?", "onbekend") horen hier niet: dat zijn
+    // net de dingen die we NIET weten.
+    if (!ruw) return;
+    if (ruw === "?" || ruw === "??" || ruw.toLowerCase() === "onbekend") return;
+    const heeftCorrectie = Object.prototype.hasOwnProperty.call(gecorrigeerd, kolom);
+    velden.push({
+      kolom: kolom,
+      waarde: heeftCorrectie ? gecorrigeerd[kolom] : ruw,
+      origineel: ruw,
+      gecorrigeerd: heeftCorrectie,
+    });
+  });
+  return velden;
+}
+
+function renderKnownFields(r) {
+  const velden = findKnownFields(r);
+  if (velden.length === 0) return '';
+
+  let html = '<div class="known-block">';
+  html += '<div class="known-label">📋 Wat we al weten (' + velden.length + ') — klopt dit nog?</div>';
+  html += velden.map(function(v) {
+    const veldId = "knownInput-" + r._id + "-" + v.kolom.replace(/[^a-z0-9]/gi, "_");
+    const kolomArg = "'" + esc(v.kolom).replace(/'/g, "\\'") + "'";
+    return '<div class="known-row">' +
+      '<span class="known-tag">' + esc(v.kolom) + '</span>' +
+      '<input type="text" id="' + veldId + '" class="known-input' + (v.gecorrigeerd ? ' aangepast' : '') + '" ' +
+        'value="' + esc(v.waarde) + '" ' +
+        'onkeydown="if(event.key===\'Enter\'){saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)}" ' +
+        'onblur="saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)">' +
+      (v.gecorrigeerd
+        ? '<span class="known-was" title="Oorspronkelijke waarde uit het bestand">was: ' + esc(v.origineel) + '</span>' +
+          '<span class="known-undo" onclick="undoKnownCorrection(' + r._id + ',' + kolomArg + ')">herstel</span>'
+        : '') +
+      '</div>';
+  }).join('');
+  html += '</div>';
+  return html;
+}
+
+// Een gecorrigeerde waarde overschrijft NOOIT de ruwe brondata: we houden de
+// correctie apart bij. Zo blijft zichtbaar wat er oorspronkelijk in het bestand
+// stond, en kan je altijd terug.
+window.saveKnownCorrection = function(id, kolom, waarde) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+  waarde = (waarde == null ? "" : String(waarde)).trim();
+  const origineel = String((row.raw || {})[kolom] == null ? "" : (row.raw || {})[kolom]).trim();
+
+  row.knownCorrections = row.knownCorrections || {};
+  if (!waarde || waarde === origineel) {
+    // Terug naar de oorspronkelijke waarde: correctie weer weghalen.
+    if (!Object.prototype.hasOwnProperty.call(row.knownCorrections, kolom)) return;
+    delete row.knownCorrections[kolom];
+  } else {
+    if (row.knownCorrections[kolom] === waarde) return; // niets veranderd
+    row.knownCorrections[kolom] = waarde;
+  }
+  autosaveCallState_();
+  render();
+};
+
+window.undoKnownCorrection = function(id, kolom) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row || !row.knownCorrections) return;
+  delete row.knownCorrections[kolom];
+  autosaveCallState_();
+  render();
+};
+
+// Blind spots naar CRM: dit is een ándere export dan die van de evenementen.
+// Hier gaat het niet om de uitkomst van een gesprek, maar om de DATA: wat we
+// dachten te weten, wat daarvan gecorrigeerd is, en wat we net hebben opgehaald.
+window.copyBlindSpotsForCRM = function(id) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+
+  const lines = [];
+  lines.push("Bedrijf: " + (row.bedrijf || "-"));
+  if (row.contact) lines.push("Contact: " + row.contact + (row.functie ? " – " + row.functie : ""));
+  lines.push("Datum contact: " + new Date().toLocaleDateString("nl-BE"));
+  lines.push("");
+
+  // 1. Bevestigd/gecorrigeerd: wat al in het bestand stond.
+  const bekend = findKnownFields(row);
+  if (bekend.length > 0) {
+    lines.push("BESTAANDE GEGEVENS");
+    bekend.forEach(function(v) {
+      lines.push("- " + v.kolom + ": " + v.waarde +
+        (v.gecorrigeerd ? "  [GECORRIGEERD — stond in bestand als: " + v.origineel + "]" : ""));
+    });
+    lines.push("");
+  }
+
+  // 2. Nieuw opgehaald tijdens het gesprek.
+  const beantwoord = row.blindAnswers || {};
+  const ingevuld = Object.keys(beantwoord);
+  if (ingevuld.length > 0) {
+    lines.push("NIEUW INGEVULD");
+    ingevuld.forEach(function(k) { lines.push("- " + k + ": " + beantwoord[k]); });
+    lines.push("");
+  }
+
+  // 3. Wat nog steeds ontbreekt — expliciet vermelden, zodat het CRM weet dat
+  //    dit nog openstaat en niet per ongeluk als "leeg = niet van toepassing"
+  //    wordt gelezen.
+  const nogOpen = findBlindSpots(row).filter(function(k) { return !beantwoord[k]; });
+  if (nogOpen.length > 0) {
+    lines.push("NOG ONBEKEND: " + nogOpen.join(", "));
+    lines.push("");
+  }
+
+  const notitie = [row.notities, row.liveNotes].filter(Boolean).join(". ").trim();
+  if (notitie) lines.push("Notities: " + notitie);
+
+  copyTextToClipboard_(lines.join("\n").trim(), "blindCrmBtn-" + id, "Kopieer naar CRM");
+};
+
 // ─── COLD CALLING: AI-analyse per bedrijf ──────────────────────────────────
 // ─── COLD CALLING: ANALYSE BLIJVEND ONTHOUDEN PER BEDRIJF ──────────────────
 // Klikte je vorige week al "Analyseer bedrijf" bij Carrefour, dan hoeft dat nu
@@ -6763,8 +6930,20 @@ const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consulting
   "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]}";
 
 window.analyseColdCall = function(id, forceer) {
+  state.coldLoadingId = id;
+  render();
+  return analyseColdCallCore_(id, forceer).finally(function() {
+    state.coldLoadingId = null;
+    render();
+  });
+};
+
+// De eigenlijke analyse van één bedrijf. Geeft een promise terug en raakt
+// coldLoadingId niet aan — zo kan zowel de losse knop als de bulk-knop hem
+// gebruiken, elk met hun eigen manier om "bezig" te tonen.
+function analyseColdCallCore_(id, forceer) {
   const row = state.callRows.find(function(r) { return r._id === id; });
-  if (!row) return;
+  if (!row) return Promise.resolve();
   const topic = state.coldTopic;
 
   // Al eerder geanalyseerd voor dit bedrijf + topic? Dan meteen tonen, geen
@@ -6774,13 +6953,9 @@ window.analyseColdCall = function(id, forceer) {
     const bestaand = getColdAnalyse_(row.bedrijf, topic);
     if (bestaand) {
       state.coldScripts[id] = bestaand;
-      render();
-      return;
+      return Promise.resolve();
     }
   }
-
-  state.coldLoadingId = id;
-  render();
 
   // Relevante referenties/cases: eerst een exacte match op het bedrijf zelf
   // (bestaande klant?), anders de sterkste voorbeelden uit dezelfde sector.
@@ -6806,12 +6981,15 @@ window.analyseColdCall = function(id, forceer) {
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(function() { controller.abort(); }, 30000);
+  // Websearch + analyse duurt vlot 20-40 sec. De oude limiet van 30 sec brak
+  // die aanroep vaak middenin af — wat er dan uitzag als een netwerkfout,
+  // terwijl het gewoon een te strakke timeout was.
+  const timeoutId = setTimeout(function() { controller.abort(); }, 90000);
 
   // BELANGRIJK: dit gebruikt de web_search tool, dus dit gaat rechtstreeks
   // naar de Anthropic API (via onze eigen proxy) met tools erbij — dat is
   // iets anders dan de gewone tekst-only aanroepen elders in de app.
-  fetch(ANTHROPIC_API_URL, {
+  return fetch(ANTHROPIC_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     signal: controller.signal,
@@ -6823,22 +7001,132 @@ window.analyseColdCall = function(id, forceer) {
       messages: [{ role: "user", content: "Bereid de cold call voor dit bedrijf voor. Zoek eerst kort online naar het bedrijf zelf voor actuele context, en gebruik dan onderstaande interne data.\n\n" + JSON.stringify(context) }]
     })
   })
-  .then(function(r) { if (!r.ok) throw new Error("mislukt"); return r.json(); })
+  .then(function(r) {
+    if (!r.ok) {
+      // De status zegt WAT er misging. Dat is bruikbare info — "probeer
+      // opnieuw" is dat niet, zeker niet bij een 429 of een serverfout.
+      const err = new Error("http");
+      err.status = r.status;
+      throw err;
+    }
+    return r.json();
+  })
   .then(function(data) {
     // Bij tool-gebruik bestaat de response uit meerdere blokken (tool calls,
     // tool results, tekst). We pakken enkel de tekstblokken voor de JSON.
     const text = (data.content || []).filter(function(b) { return b.type === "text"; }).map(function(b) { return b.text || ""; }).join("");
     const clean = text.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(clean);
+    // Het model zet er soms toch een zin voor of na. Pak dan het JSON-object
+    // eruit i.p.v. de hele analyse weg te gooien op een parse-fout.
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (e) {
+      const m = clean.match(/\{[\s\S]*\}/);
+      if (!m) { const err = new Error("parse"); err.code = "parse"; throw err; }
+      parsed = JSON.parse(m[0]);
+    }
     state.coldScripts[id] = parsed;
     saveColdAnalyse_(row.bedrijf, topic, parsed);
   })
-  .catch(function() {
-    state.coldScripts[id] = { fout: "Analyse mislukt. Probeer opnieuw (vereist internetverbinding)." };
+  .catch(function(e) {
+    state.coldScripts[id] = { fout: coldFoutTekst_(e) };
   })
   .finally(function() {
     clearTimeout(timeoutId);
-    state.coldLoadingId = null;
+  });
+}
+
+// Vertaalt een technische fout naar iets waar je écht iets aan hebt. "Probeer
+// opnieuw" hielp niet: bij een 429 moet je wachten, bij een 401 klopt de sleutel
+// niet, en bij een afgebroken aanroep is opnieuw proberen wél zinvol.
+function coldFoutTekst_(e) {
+  if (e && e.name === "AbortError") {
+    return "Analyse duurde te lang (>90 sec) en is afgebroken. Probeer opnieuw — vaak lukt het de tweede keer wel.";
+  }
+  if (e && e.code === "parse") {
+    return "Antwoord van de AI was onleesbaar. Probeer opnieuw te analyseren.";
+  }
+  if (e && e.status) {
+    if (e.status === 401 || e.status === 403) return "Geen toegang tot de AI-dienst (" + e.status + "). De API-sleutel op de server ontbreekt of is ongeldig.";
+    if (e.status === 404) return "De AI-endpoint (/api/match) werd niet gevonden. Draait de app via de server, of open je het bestand rechtstreeks?";
+    if (e.status === 429) return "Te veel aanvragen tegelijk (429). Wacht even en probeer opnieuw — analyseer eventueel minder bedrijven in één keer.";
+    if (e.status >= 500) return "De AI-dienst gaf een serverfout (" + e.status + "). Probeer het over enkele minuten opnieuw.";
+    return "Analyse mislukt (foutcode " + e.status + ").";
+  }
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    return "Geen internetverbinding. Verbind opnieuw en probeer het nog eens.";
+  }
+  return "De AI-dienst is niet bereikbaar. Draait de app via de server (niet als los bestand), en staat er een geldige API-sleutel ingesteld?";
+}
+
+// ─── COLD CALLING: ALLE BEDRIJVEN IN ÉÉN KEER ANALYSEREN ───────────────────
+// Eén voor één klikken is onwerkbaar bij een lijst van 20 bedrijven. Dit doet ze
+// achter elkaar, met een kleine pauze ertussen: parallel afvuren geeft
+// gegarandeerd 429's, want elke analyse doet zelf ook nog websearches.
+// Welke bedrijven moeten er nog geanalyseerd worden voor het HUIDIGE topic?
+// Eén bron van waarheid: zowel het getal op de knop als de bulk-analyse zelf
+// gebruiken dit, zodat die twee niet uiteen kunnen lopen.
+function coldTeAnalyseren_(forceer) {
+  const topic = state.coldTopic;
+  return state.callRows.filter(function(r) {
+    if (r.status !== "ok") return false;
+    if (forceer) return true;
+    // Zonder "forceer" slaan we alles over wat al een geldige analyse heeft.
+    // Eerdere FOUTEN pakken we wél opnieuw op — dat is juist het punt.
+    const bestaand = state.coldScripts[r._id] || getColdAnalyse_(r.bedrijf, topic);
+    return !bestaand || bestaand.fout;
+  });
+}
+
+window.analyseAllColdCalls = function(forceer) {
+  if (state.coldBulkBezig) return;
+
+  const topic = state.coldTopic;
+  const teDoen = coldTeAnalyseren_(forceer);
+
+  if (teDoen.length === 0) {
+    state.coldBulkStatus = "Alle bedrijven zijn al geanalyseerd voor " + topic + ".";
+    render();
+    return;
+  }
+
+  state.coldBulkBezig = true;
+  state.coldBulkTotaal = teDoen.length;
+  state.coldBulkKlaar = 0;
+  state.coldBulkStatus = null;
+  render();
+
+  // Sequentieel, via een promise-ketting: pas aan het volgende bedrijf beginnen
+  // als het vorige klaar is.
+  let ketting = Promise.resolve();
+  teDoen.forEach(function(r, i) {
+    ketting = ketting.then(function() {
+      state.coldBulkHuidig = r.bedrijf;
+      render();
+      return analyseColdCallCore_(r._id, forceer);
+    }).then(function() {
+      state.coldBulkKlaar++;
+      render();
+      // Korte adempauze tussen twee bedrijven, om rate limits te ontzien.
+      if (i < teDoen.length - 1) {
+        return new Promise(function(res) { setTimeout(res, 1200); });
+      }
+    });
+  });
+
+  ketting.finally(function() {
+    const mislukt = teDoen.filter(function(r) {
+      const a = state.coldScripts[r._id];
+      return a && a.fout;
+    }).length;
+    const gelukt = teDoen.length - mislukt;
+
+    state.coldBulkBezig = false;
+    state.coldBulkHuidig = null;
+    state.coldBulkStatus = mislukt === 0
+      ? "✓ " + gelukt + " bedrijf" + (gelukt === 1 ? "" : "ven") + " geanalyseerd."
+      : "✓ " + gelukt + " gelukt · ⚠ " + mislukt + " mislukt (zie de foutmelding bij die bedrijven).";
     render();
   });
 };
@@ -6877,10 +7165,48 @@ window.undoBlindAnswer = function(id, kolom) {
 // werkruimtes. Dit is de enige werkruimte waar dat kan, want hier volstaat een
 // bedrijfsnaam — er is geen contactpersoon/telefoon per se nodig om te starten.
 function renderColdCallInput() {
-  return '<div class="cold-manual-input">' +
-    '<textarea id="coldManualInput" placeholder="Of typ bedrijfsnamen in, één per regel..." rows="3"></textarea>' +
-    '<button class="cold-manual-btn" onclick="addColdCallCompanies()">+ Toevoegen aan lijst</button>' +
-    '</div>';
+  const totaal = state.callRows.filter(function(r) { return r.status === "ok"; }).length;
+  // Niet het TOTAAL tonen, maar wat er nog effectief te doen valt. Zelfde
+  // helper als de bulk-analyse zelf gebruikt, zodat de knop nooit een ander
+  // aantal belooft dan er daarna behandeld wordt.
+  const teDoen = coldTeAnalyseren_().length;
+
+  let html = '<div class="cold-manual-input">';
+  html += '<textarea id="coldManualInput" placeholder="Of typ bedrijfsnamen in, één per regel..." rows="3"></textarea>';
+  html += '<button class="cold-manual-btn" onclick="addColdCallCompanies()">+ Toevoegen aan lijst</button>';
+
+  // Hoofdknop: alle nog niet geanalyseerde bedrijven in één keer doen, i.p.v.
+  // bij elk bedrijf apart op "Analyseer" te moeten klikken.
+  if (totaal > 0) {
+    let label;
+    if (state.coldBulkBezig) {
+      label = '⏳ Bezig…';
+    } else if (teDoen === 0) {
+      label = '✓ Alles geanalyseerd (' + esc(state.coldTopic) + ')';
+    } else {
+      label = '⚡ Analyseer ' + teDoen + ' resterend' + (teDoen === 1 ? ' bedrijf' : 'e bedrijven') +
+        ' (' + esc(state.coldTopic) + ')';
+    }
+    html += '<button class="cold-bulk-btn" onclick="analyseAllColdCalls()"' +
+      (state.coldBulkBezig || teDoen === 0 ? ' disabled' : '') + '>' + label + '</button>';
+
+    // Is alles al gedaan, dan blijft heranalyseren mogelijk — bv. na nieuw
+    // nieuws over die bedrijven.
+    if (!state.coldBulkBezig && teDoen === 0) {
+      html += '<button class="cold-manual-btn" onclick="analyseAllColdCalls(true)">↻ Alle ' + totaal + ' opnieuw analyseren</button>';
+    }
+  }
+
+  if (state.coldBulkBezig) {
+    html += '<div class="cold-bulk-status">' + state.coldBulkKlaar + ' van ' + state.coldBulkTotaal + ' klaar' +
+      (state.coldBulkHuidig ? ' — bezig met <strong>' + esc(state.coldBulkHuidig) + '</strong>…' : '…') +
+      '</div>';
+  } else if (state.coldBulkStatus) {
+    html += '<div class="cold-bulk-status">' + esc(state.coldBulkStatus) + '</div>';
+  }
+
+  html += '</div>';
+  return html;
 }
 
 window.addColdCallCompanies = function() {

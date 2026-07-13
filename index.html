@@ -484,6 +484,30 @@
   .event-shortcut-btn { align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: var(--radius-btn); border: none; background: var(--c-primary); color: #fff; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .event-shortcut-btn:hover { background: var(--c-primary-dark); }
   .event-shortcut-hint { font-size: 11px; color: var(--c-slate-500); line-height: 1.5; }
+  /* ── Gespreksuitkomst, opvolging, historiek en voortgang ─────────────── */
+  .call-outcome-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .call-outcome-btn { padding: 5px 11px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .call-outcome-btn:hover { border-color: var(--c-slate-400); }
+  .call-callback-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .call-callback-row label { font-size: 11.5px; font-weight: 700; color: var(--c-slate-600); }
+  .call-callback-row input { padding: 5px 9px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 12px; font-family: inherit; color: var(--c-ink); }
+  .call-callback-due { font-size: 11.5px; font-weight: 700; color: #d97706; }
+  .call-history-toggle { margin-top: 8px; background: none; border: none; padding: 3px 0; font-size: 11.5px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; font-family: inherit; }
+  .call-history-list { margin-top: 6px; border-left: 2px solid var(--c-slate-200); padding-left: 11px; display: flex; flex-direction: column; gap: 9px; }
+  .call-history-item { display: flex; gap: 8px; align-items: flex-start; }
+  .call-history-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .call-history-head { font-size: 12px; font-weight: 700; color: var(--c-navy); }
+  .call-history-head span { font-weight: 500; color: var(--c-slate-400); }
+  .call-history-note { font-size: 12px; color: var(--c-slate-600); margin-top: 2px; line-height: 1.45; }
+  .call-progress { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 13px 16px; margin-bottom: 14px; }
+  .call-progress-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 9px; flex-wrap: wrap; }
+  .call-progress-count { font-size: 13.5px; font-weight: 800; color: var(--c-navy); }
+  .call-progress-due { font-size: 12px; font-weight: 700; color: #d97706; }
+  .call-progress-bar { height: 7px; border-radius: 999px; background: var(--c-slate-100); overflow: hidden; display: flex; }
+  .call-progress-seg { height: 100%; }
+  .call-progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 9px; }
+  .call-progress-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--c-slate-600); font-weight: 600; }
+  .call-progress-dot { width: 8px; height: 8px; border-radius: 50%; }
 
   /* ── Call Brief modal ───────────────────────────────────────────────── */
   .call-brief-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; }
@@ -2638,6 +2662,7 @@ function groupByClient(rows) {
   return Array.from(byName.values());
 }
 
+
 const dedupedRaw = ERP.concat(SF, CPI, BDC_REFS, EXTRA_REFS, (typeof EXTRA_REFS_2 !== "undefined" ? EXTRA_REFS_2 : [])).filter(function(r) {
   const key = r.naam + "::" + r.oplossing;
   if (seenKeys.has(key)) return false;
@@ -3048,7 +3073,9 @@ const state = {
 
   // Event-context: opgebouwd door zelf geplakte pagina-tekst offline samen
   // te vatten (zie generateOfflineSummary). Geldt voor de hele opgeladen lijst.
-  eventStructured: null,   // { thema, locatie, doelgroep:[], topics:[], klantencases:[], sprekers:[{naam,bedrijf,onderwerp}] } of null
+  eventStructured: null,   // { titel, datum, locatie, thema, topics:[], doelgroep:[], klantencases:[], sprekers:[{naam,bedrijf,onderwerp}] } of null
+  eventLoading: false,     // AI is de geplakte eventtekst aan het structureren
+  openHistoryId: null,     // welk contact toont zijn belhistoriek
   eventError: null,
 
   // Call Briefs (per deelnemer, gecached binnen de sessie)
@@ -4429,6 +4456,76 @@ window.clearCallList = function() {
   render();
 };
 
+// ─── GESPREKSUITKOMSTEN ────────────────────────────────────────────────────
+// Lewis is GEEN CRM. Dit dient om een belronde af te werken en je opvolgingen
+// niet kwijt te raken. De uitkomst gaat mee in de CRM-export, want daar hoort
+// de definitieve registratie thuis.
+const CALL_OUTCOMES = [
+  { id: "niet_bereikt",   label: "Niet bereikt",   kort: "Niet bereikt",   kleur: "#94a3b8", crm: "Niet bereikt" },
+  { id: "geen_interesse", label: "Geen interesse", kort: "Geen interesse", kleur: "#c53030", crm: "Geen interesse" },
+  { id: "opvolgen",       label: "Opvolgen",       kort: "Opvolgen",       kleur: "#d97706", crm: "Opvolgen — terugbellen" },
+  { id: "afspraak",       label: "Afspraak",       kort: "Afspraak",       kleur: "#059669", crm: "Afspraak gemaakt" },
+];
+
+function outcomeById(id) {
+  return CALL_OUTCOMES.find(function(o) { return o.id === id; }) || null;
+}
+
+// Legt een uitkomst vast en schrijft ze in de historiek van dit contact.
+window.setCallOutcome = function(id, outcomeId) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+
+  // Klik op dezelfde uitkomst = ongedaan maken.
+  if (row.outcome === outcomeId) {
+    row.outcome = null;
+    row.gebeld = false;
+  } else {
+    row.outcome = outcomeId;
+    row.gebeld = true;
+    row.laatstGebeld = new Date().toISOString();
+    row.historiek = row.historiek || [];
+    row.historiek.unshift({
+      datum: new Date().toISOString(),
+      outcome: outcomeId,
+      notitie: row.liveNotes || "",
+    });
+    // Terugbeldatum is enkel zinvol bij opvolgen.
+    if (outcomeId !== "opvolgen") row.terugbelDatum = null;
+  }
+  autosaveCallState_();
+  render();
+};
+
+window.setCallbackDate = function(id, waarde) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+  row.terugbelDatum = waarde || null;
+  autosaveCallState_();
+};
+
+window.toggleCallHistory = function(id) {
+  state.openHistoryId = (state.openHistoryId === id) ? null : id;
+  render();
+};
+
+// Voortgang over de hele lijst: hoeveel afgewerkt, en de verdeling.
+function callProgress() {
+  const rows = state.callRows.filter(function(r) { return r.status !== "dubbel" || r.manualOverride; });
+  const totaal = rows.length;
+  const gedaan = rows.filter(function(r) { return !!r.outcome; }).length;
+  const per = {};
+  CALL_OUTCOMES.forEach(function(o) {
+    per[o.id] = rows.filter(function(r) { return r.outcome === o.id; }).length;
+  });
+  // Opvolgingen die vandaag of eerder terugbeld moeten worden.
+  const vandaag = new Date().toISOString().slice(0, 10);
+  const teBellen = rows.filter(function(r) {
+    return r.outcome === "opvolgen" && r.terugbelDatum && r.terugbelDatum <= vandaag;
+  }).length;
+  return { totaal: totaal, gedaan: gedaan, per: per, teBellen: teBellen };
+}
+
 window.toggleCallGebeld = function(id) {
   const row = state.callRows.find(function(r) { return r._id === id; });
   if (row) row.gebeld = !row.gebeld;
@@ -4516,6 +4613,23 @@ window.copyCallRowForCRM = function(id) {
   lines.push("Datum contact: " + new Date().toLocaleDateString("nl-BE"));
   lines.push("Event: " + (row.campagne || "-"));
   lines.push("Contact: " + (row.contact || "-") + (row.functie ? " – " + row.functie : ""));
+
+  // Uitkomst van het gesprek — dit is wat in het CRM geregistreerd moet worden.
+  const oc = outcomeById(row.outcome);
+  if (oc) {
+    lines.push("Uitkomst: " + oc.crm);
+    if (row.outcome === "opvolgen" && row.terugbelDatum) {
+      lines.push("Terugbellen op: " + new Date(row.terugbelDatum + "T00:00:00").toLocaleDateString("nl-BE"));
+    }
+  }
+  // Eerdere contactmomenten meegeven, zodat het CRM de volledige historiek krijgt.
+  if ((row.historiek || []).length > 1) {
+    const eerder = row.historiek.slice(1).map(function(h) {
+      const ho = outcomeById(h.outcome);
+      return new Date(h.datum).toLocaleDateString("nl-BE") + " (" + (ho ? ho.label : "gebeld") + ")";
+    });
+    lines.push("Eerdere contacten: " + eerder.join(", "));
+  }
 
   if (bullets.length > 0) {
     lines.push("Huidige situatie: " + bullets.join(" "));
@@ -4646,7 +4760,7 @@ function truncateSentence_(s, max) {
 function getEffectiveEventSummary() {
   const ev = state.eventStructured;
   if (!ev) return "";
-  const parts = [ev.thema].concat(ev.topics || [], ev.klantencases || []);
+  const parts = [ev.titel, ev.thema].concat(ev.topics || [], ev.klantencases || []);
   return parts.filter(Boolean).join(". ");
 }
 
@@ -4879,25 +4993,101 @@ function structuredEventAnalysis_(rawText) {
   };
 }
 
+// ─── EVENEMENT-ANALYSE (AI) ────────────────────────────────────────────────
+// De gebruiker plakt de tekst van een evenementpagina (bv. van de Flexso-
+// evenementenpagina). De AI haalt daar de structuur uit. Dit vervangt de oude
+// regex-parser, die alleen vooraf bedachte patronen herkende en daardoor vaak
+// "geen structuur herkend" gaf. De offline parser blijft bestaan als terugval.
+const EVENT_SYSTEM_PROMPT = "Je bent een assistent voor een verkoper van een SAP-consultingbedrijf. " +
+  "De verkoper plakt de tekst van een evenementpagina. Haal daar de feitelijke structuur uit.\n\n" +
+  "Regels:\n" +
+  "- Gebruik UITSLUITEND wat er in de tekst staat. Verzin nooit een datum, locatie, spreker of onderwerp.\n" +
+  "- Staat iets er niet in, gebruik dan null (voor tekstvelden) of een lege lijst.\n" +
+  "- titel: de naam van het evenement zoals die er staat.\n" +
+  "- datum: neem de datum letterlijk over zoals in de tekst (bv. \"12 juni 2026\" of \"12/06/2026\"). Ook tijdstip mag erbij als het er staat.\n" +
+  "- locatie: waar het plaatsvindt (plaats, gebouw of 'online').\n" +
+  "- thema: één korte zin die de kern van het evenement samenvat.\n" +
+  "- topics: de concrete onderwerpen/sessies die behandeld worden.\n" +
+  "- sprekers: naam, bedrijf en onderwerp indien vermeld. Laat velden op null als ze ontbreken.\n" +
+  "- doelgroep: voor wie het evenement bedoeld is, als dat vermeld wordt.\n" +
+  "- klantencases: bedrijven waarvan een klantverhaal wordt gepresenteerd.\n" +
+  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown-codeblok en zonder tekst ervoor of erna:\n" +
+  "{\"titel\": string|null, \"datum\": string|null, \"locatie\": string|null, \"thema\": string|null, " +
+  "\"topics\": [string], \"sprekers\": [{\"naam\": string, \"bedrijf\": string|null, \"onderwerp\": string|null}], " +
+  "\"doelgroep\": [string], \"klantencases\": [string]}";
+
+// Roept de AI aan om de geplakte evenementtekst te structureren.
+// Geeft null terug als het niet lukt (dan valt de app terug op de offline parser).
+function tryOnlineEventAnalysis(raw) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 20000);
+
+  return fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 2000,
+      system: EVENT_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: "Tekst van de evenementpagina:\n\n" + raw }]
+    })
+  })
+  .then(function(response) {
+    if (!response.ok) throw new Error("API-aanvraag mislukt");
+    return response.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).map(function(block) { return block.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed || typeof parsed !== "object") throw new Error("Onverwacht antwoordformaat");
+    // Zorg dat de lijstvelden altijd bestaan, zodat de rest van de app niet breekt.
+    parsed.topics = Array.isArray(parsed.topics) ? parsed.topics : [];
+    parsed.sprekers = Array.isArray(parsed.sprekers) ? parsed.sprekers : [];
+    parsed.doelgroep = Array.isArray(parsed.doelgroep) ? parsed.doelgroep : [];
+    parsed.klantencases = Array.isArray(parsed.klantencases) ? parsed.klantencases : [];
+    return parsed;
+  })
+  .catch(function() { return null; })
+  .finally(function() { clearTimeout(timeoutId); });
+}
+
 window.generateOfflineSummary = function() {
   const input = document.getElementById("rawPageTextInput");
   const raw = input ? input.value.trim() : "";
   if (!raw) return;
   if (raw.length < 100) {
-    state.eventError = "Plak de volledige pagina-tekst (dit lijkt te kort om iets uit te halen).";
+    state.eventError = "Plak de volledige tekst van het evenement (dit lijkt te kort om iets uit te halen).";
     render();
     return;
   }
-  const result = structuredEventAnalysis_(raw);
-  if (!result || (result.topics.length === 0 && result.klantencases.length === 0 && result.sprekers.length === 0)) {
-    state.eventError = "Kon geen duidelijke structuur herkennen in deze tekst. Probeer een ander stuk tekst te plakken.";
-    render();
-    return;
-  }
-  state.eventStructured = result;
+
+  state.eventLoading = true;
   state.eventError = null;
-  state.callBriefs = {};
   render();
+
+  const offline = (typeof navigator !== "undefined" && navigator.onLine === false);
+  const attempt = offline ? Promise.resolve(null) : tryOnlineEventAnalysis(raw);
+
+  attempt.then(function(parsed) {
+    if (parsed && (parsed.titel || parsed.topics.length || parsed.sprekers.length)) {
+      state.eventStructured = parsed;
+      state.eventError = null;
+    } else {
+      // Terugval: de oude lokale parser. Minder goed, maar beter dan niets.
+      const result = structuredEventAnalysis_(raw);
+      if (!result || (result.topics.length === 0 && result.klantencases.length === 0 && result.sprekers.length === 0)) {
+        state.eventError = "Kon geen structuur herkennen in deze tekst. Plak de volledige eventpagina (titel, datum, locatie, programma en sprekers).";
+      } else {
+        state.eventStructured = result;
+        state.eventError = null;
+      }
+    }
+    state.eventLoading = false;
+    state.callBriefs = {};
+    render();
+  });
 };
 
 window.clearEventContext = function() {
@@ -5949,8 +6139,12 @@ function renderCleanNotePreview(preview) {
 }
 
 function callRowHtml(r, showRestore) {
-  let html = '<div class="call-row' + (r.gebeld ? ' gebeld' : '') + '">';
-  html += '<label class="call-checkbox"><input type="checkbox" ' + (r.gebeld ? "checked" : "") + ' onchange="toggleCallGebeld(' + r._id + ')"></label>';
+  const oc = outcomeById(r.outcome);
+  let html = '<div class="call-row' + (r.outcome ? ' gebeld' : '') + '">';
+  // Statusstip in plaats van een vinkje: toont meteen de uitkomst.
+  html += '<div class="call-checkbox" style="display:flex;align-items:flex-start;padding-top:3px">' +
+    '<span title="' + esc(oc ? oc.label : "Nog niet gebeld") + '" style="width:11px;height:11px;border-radius:50%;flex-shrink:0;' +
+    (oc ? 'background:' + oc.kleur : 'background:#fff;border:2px solid var(--c-slate-200)') + '"></span></div>';
   html += '<div class="call-row-main">';
   html += '<div class="call-row-top"><span class="call-bedrijf">' + esc(r.bedrijf || "(geen bedrijfsnaam)") + '</span>';
   if (r.campagne) html += '<span class="call-campagne-tag">' + esc(r.campagne) + '</span>';
@@ -5965,8 +6159,50 @@ function callRowHtml(r, showRestore) {
   if (r.reden) html += '<div class="call-reden">' + esc(r.reden) + '</div>';
   const existingBadge = callStatusBadge(r.bedrijf);
   if (existingBadge) html += existingBadge;
+
   if (!showRestore) {
     html += '<textarea class="call-live-note" id="liveNote-' + r._id + '" placeholder="Eigen notities tijdens het gesprek..." onblur="state.callRows.find(function(x){return x._id===' + r._id + ';}).liveNotes=this.value;autosaveCallState_();">' + esc(r.liveNotes || "") + '</textarea>';
+
+    // Uitkomst van het gesprek.
+    html += '<div class="call-outcome-row">';
+    CALL_OUTCOMES.forEach(function(o) {
+      const actief = r.outcome === o.id;
+      html += '<button class="call-outcome-btn' + (actief ? ' actief' : '') + '" ' +
+        (actief ? 'style="background:' + o.kleur + ';border-color:' + o.kleur + ';color:#fff" ' : '') +
+        'onclick="setCallOutcome(' + r._id + ',\'' + o.id + '\')">' + esc(o.label) + '</button>';
+    });
+    html += '</div>';
+
+    // Terugbeldatum: enkel zinvol bij opvolgen.
+    if (r.outcome === "opvolgen") {
+      const vandaag = new Date().toISOString().slice(0, 10);
+      const teLaat = r.terugbelDatum && r.terugbelDatum <= vandaag;
+      html += '<div class="call-callback-row">' +
+        '<label>Terugbellen op</label>' +
+        '<input type="date" value="' + esc(r.terugbelDatum || "") + '" onchange="setCallbackDate(' + r._id + ', this.value)">' +
+        (teLaat ? '<span class="call-callback-due">⏰ Nu opvolgen</span>' : '') +
+      '</div>';
+    }
+
+    // Historiek van dit contact.
+    if ((r.historiek || []).length > 0) {
+      const open = state.openHistoryId === r._id;
+      html += '<button class="call-history-toggle" onclick="toggleCallHistory(' + r._id + ')">' +
+        '🕘 ' + r.historiek.length + ' contactmoment' + (r.historiek.length === 1 ? '' : 'en') + (open ? ' ▲' : ' ▼') + '</button>';
+      if (open) {
+        html += '<div class="call-history-list">' + r.historiek.map(function(h) {
+          const ho = outcomeById(h.outcome);
+          const d = new Date(h.datum).toLocaleDateString("nl-BE", { day: "2-digit", month: "short", year: "numeric" });
+          const t = new Date(h.datum).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" });
+          return '<div class="call-history-item">' +
+            '<span class="call-history-dot" style="background:' + (ho ? ho.kleur : "#94a3b8") + '"></span>' +
+            '<div><div class="call-history-head">' + esc(ho ? ho.label : "Gebeld") + ' · <span>' + esc(d) + ' ' + esc(t) + '</span></div>' +
+            (h.notitie ? '<div class="call-history-note">' + esc(h.notitie) + '</div>' : '') +
+            '</div></div>';
+        }).join('') + '</div>';
+      }
+    }
+
     if (state.cleanedNotePreview && state.cleanedNotePreview.id === r._id) {
       html += renderCleanNotePreview(state.cleanedNotePreview);
     }
@@ -5994,6 +6230,9 @@ function renderEventContext() {
   document.getElementById("eventClearBtn").style.display = hasContent ? "inline-flex" : "none";
 
   let html = "";
+  if (state.eventLoading) {
+    html += '<div style="font-size:12.5px;color:var(--c-slate-500);padding:10px 2px">Lewis leest het evenement…</div>';
+  }
   if (state.eventError) {
     html += '<div class="event-error">' + esc(state.eventError) + '</div>';
   }
@@ -6001,24 +6240,32 @@ function renderEventContext() {
     html += '<div class="event-summary-card">';
     html += '<div class="event-summary-head">' + ICONS.check + ' Geanalyseerd</div>';
 
-    html += '<div class="event-struct-section"><div class="event-struct-label">Thema</div><div class="event-struct-thema">' + esc(ev.thema) + '</div></div>';
+    if (ev.titel) {
+      html += '<div class="event-struct-section"><div class="event-struct-label">Evenement</div><div class="event-struct-thema">' + esc(ev.titel) + '</div></div>';
+    }
+    if (ev.datum) {
+      html += '<div class="event-struct-section"><div class="event-struct-label">Datum</div><div class="event-struct-locatie">' + ICONS.calendar + esc(ev.datum) + '</div></div>';
+    }
     if (ev.locatie) {
       html += '<div class="event-struct-section"><div class="event-struct-label">Locatie</div><div class="event-struct-locatie">' + ICONS.calendar + esc(ev.locatie) + '</div></div>';
     }
+    if (ev.thema) {
+      html += '<div class="event-struct-section"><div class="event-struct-label">Thema</div><div class="event-struct-thema" style="font-weight:600;font-size:12.5px;color:var(--c-slate-700)">' + esc(ev.thema) + '</div></div>';
+    }
 
-    if (ev.doelgroep.length > 0) {
+    if ((ev.doelgroep || []).length > 0) {
       html += '<div class="event-struct-section"><div class="event-struct-label">Doelgroep</div><div class="event-tags">' +
         ev.doelgroep.map(function(d) { return '<span class="event-tag">' + esc(d) + '</span>'; }).join('') + '</div></div>';
     }
-    if (ev.topics.length > 0) {
-      html += '<div class="event-struct-section"><div class="event-struct-label">Belangrijkste topics</div><ul class="event-summary-list">' +
+    if ((ev.topics || []).length > 0) {
+      html += '<div class="event-struct-section"><div class="event-struct-label">Onderwerpen</div><ul class="event-summary-list">' +
         ev.topics.map(function(t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>';
     }
-    if (ev.klantencases.length > 0) {
+    if ((ev.klantencases || []).length > 0) {
       html += '<div class="event-struct-section"><div class="event-struct-label">Klantencases</div><ul class="event-summary-list">' +
         ev.klantencases.map(function(c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul></div>';
     }
-    if (ev.sprekers.length > 0) {
+    if ((ev.sprekers || []).length > 0) {
       html += '<div class="event-struct-section"><div class="event-struct-label">Sprekers</div><ul class="event-summary-list">' +
         ev.sprekers.map(function(s) { return '<li><strong>' + esc(s.naam) + '</strong>' + (s.bedrijf ? ' (' + esc(s.bedrijf) + ')' : '') + (s.onderwerp ? ' – ' + esc(s.onderwerp) : '') + '</li>'; }).join('') + '</ul></div>';
     }
@@ -6026,7 +6273,7 @@ function renderEventContext() {
   }
   document.getElementById("eventStatusBlock").innerHTML = html;
 
-  document.getElementById("rawPageTextInput").parentElement.style.display = hasContent ? "none" : "flex";
+  document.getElementById("rawPageTextInput").parentElement.style.display = (hasContent || state.eventLoading) ? "none" : "flex";
 }
 
 function renderCallBriefOverlay() {
@@ -6043,9 +6290,12 @@ function renderCallBriefOverlay() {
   html += '<div class="call-brief-body">';
   if (brief.eventStructured) {
     const ev = brief.eventStructured;
-    let eventHtml = '<div class="call-brief-pill">' + esc(ev.thema) + '</div>';
-    if (ev.locatie) eventHtml += '<div class="call-brief-sub" style="margin-top:5px">' + ICONS.calendar + ' ' + esc(ev.locatie) + '</div>';
-    if (ev.topics.length > 0) eventHtml += '<ul class="call-brief-list" style="margin-top:6px">' + ev.topics.slice(0, 3).map(function(t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
+    let eventHtml = '<div class="call-brief-pill">' + esc(ev.titel || ev.thema || "Evenement") + '</div>';
+    const meta = [];
+    if (ev.datum) meta.push(esc(ev.datum));
+    if (ev.locatie) meta.push(esc(ev.locatie));
+    if (meta.length) eventHtml += '<div class="call-brief-sub" style="margin-top:5px">' + ICONS.calendar + ' ' + meta.join(' · ') + '</div>';
+    if ((ev.topics || []).length > 0) eventHtml += '<ul class="call-brief-list" style="margin-top:6px">' + ev.topics.slice(0, 3).map(function(t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>';
     html += briefSection("Event", eventHtml);
   }
   html += briefSection("Aanwezige persoon", '<strong>' + esc(row.contact || "Onbekend") + '</strong>' + (row.functie ? '<div class="call-brief-sub">' + esc(row.functie) + '</div>' : ''));
@@ -6175,8 +6425,41 @@ function renderBellijstPanel() {
       ? '<div class="empty-state">Niets uitgesloten voor deze zoekopdracht.</div>'
       : controleFiltered.map(function(r) { return callRowHtml(r, true); }).join("");
   }
-  document.getElementById("callListBlock").innerHTML = listHtml;
+  document.getElementById("callListBlock").innerHTML = renderCallProgress() + listHtml;
   autosaveCallState_();
+}
+
+// Voortgang van de belronde: hoeveel afgewerkt en hoe het uitpakte.
+function renderCallProgress() {
+  const p = callProgress();
+  if (p.totaal === 0) return "";
+
+  const pct = Math.round((p.gedaan / p.totaal) * 100);
+  let html = '<div class="call-progress">';
+  html += '<div class="call-progress-top">';
+  html += '<span class="call-progress-count">' + p.gedaan + ' van ' + p.totaal + ' afgewerkt (' + pct + '%)</span>';
+  if (p.teBellen > 0) {
+    html += '<span class="call-progress-due">⏰ ' + p.teBellen + ' opvolging' + (p.teBellen === 1 ? '' : 'en') + ' te bellen</span>';
+  }
+  html += '</div>';
+
+  // Balk: elk segment is een uitkomst, de rest blijft grijs (nog te doen).
+  html += '<div class="call-progress-bar">';
+  CALL_OUTCOMES.forEach(function(o) {
+    const n = p.per[o.id];
+    if (n > 0) {
+      html += '<div class="call-progress-seg" style="width:' + ((n / p.totaal) * 100) + '%;background:' + o.kleur + '"></div>';
+    }
+  });
+  html += '</div>';
+
+  html += '<div class="call-progress-legend">';
+  CALL_OUTCOMES.forEach(function(o) {
+    html += '<span class="call-progress-item"><span class="call-progress-dot" style="background:' + o.kleur + '"></span>' + esc(o.kort) + ': ' + p.per[o.id] + '</span>';
+  });
+  html += '<span class="call-progress-item"><span class="call-progress-dot" style="background:var(--c-slate-200)"></span>Nog te doen: ' + (p.totaal - p.gedaan) + '</span>';
+  html += '</div></div>';
+  return html;
 }
 
 function renderCard(r) {
@@ -6457,9 +6740,14 @@ function init() {
       '<div class="event-context-fields">' +
         '<div id="eventStatusBlock"></div>' +
         '<div class="event-shortcut-panel">' +
-          '<textarea id="rawPageTextInput" placeholder="Plak hier de volledige pagina-tekst van het evenement (alles selecteren en kopiëren van de website)..."></textarea>' +
-          '<button class="event-shortcut-btn" id="extractBtn" onclick="generateOfflineSummary()">' + ICONS.bolt + ' Genereer samenvatting</button>' +
-          '<div class="event-shortcut-hint">Pikt de belangrijkste bestaande zinnen uit je tekst — herschrijft ze niet. Bevat de pagina veel jargon, dan blijft dat jargon ook in de samenvatting staan.</div>' +
+          '<div class="event-shortcut-hint" style="font-size:12.5px;color:var(--c-slate-700);margin-bottom:2px">' +
+            '<strong>1.</strong> Open de <a href="https://www.flexso.com/nl/evenementen" target="_blank" rel="noopener" style="color:var(--c-primary-darker);font-weight:700">Flexso-evenementen ↗</a> en kies je evenement. ' +
+            '<strong>2.</strong> Selecteer de pagina-tekst (Ctrl+A, Ctrl+C). ' +
+            '<strong>3.</strong> Plak ze hieronder.' +
+          '</div>' +
+          '<textarea id="rawPageTextInput" placeholder="Plak hier de tekst van de eventpagina — titel, datum, locatie, programma en sprekers..."></textarea>' +
+          '<button class="event-shortcut-btn" id="extractBtn" onclick="generateOfflineSummary()">' + ICONS.bolt + ' Analyseer evenement</button>' +
+          '<div class="event-shortcut-hint">Lewis haalt datum, locatie, onderwerpen en sprekers eruit. Er wordt niets verzonnen: staat iets niet in de tekst, dan blijft het leeg.</div>' +
         '</div>' +
         '<button class="event-clear-btn" id="eventClearBtn" onclick="clearEventContext()" style="display:none">' + ICONS.close + ' Wis</button>' +
       '</div>' +

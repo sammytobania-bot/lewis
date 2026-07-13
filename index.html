@@ -291,9 +291,27 @@
   /* Blind spots */
   .blind-spots { margin-top: 8px; }
   .blind-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #d97706; margin-bottom: 5px; }
-  .blind-tag { display: inline-block; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: var(--radius-pill); padding: 4px 11px; font-size: 11.5px; font-weight: 700; margin: 0 5px 5px 0; }
+  .blind-tag { display: inline-block; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: var(--radius-pill); padding: 4px 11px; font-size: 11.5px; font-weight: 700; flex-shrink: 0; }
+  .blind-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .blind-input { flex: 1; min-width: 0; padding: 5px 9px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 12px; font-family: inherit; color: var(--c-ink); }
+  .blind-save { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-500); font-size: 13px; font-weight: 800; cursor: pointer; }
+  .blind-save:hover { background: #16a34a; border-color: #16a34a; color: #fff; }
+  .blind-done-list { margin-top: 6px; }
+  .blind-done-item { font-size: 12px; color: var(--c-slate-600); margin-bottom: 3px; }
+  .blind-undo { font-size: 11px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; margin-left: 4px; }
   .blind-ok { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: #16a34a; }
-  /* Cold calling */
+  /* Werkruimtes: Evenementen / Blind spots / Cold calling — volledig gescheiden */
+  .workspace-row { display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--c-slate-200); padding-bottom: 12px; }
+  .workspace-btn { padding: 9px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .workspace-btn:hover { border-color: var(--c-slate-400); }
+  .workspace-btn.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
+  .cold-manual-input { margin: 8px 0 14px; }
+  .cold-manual-input textarea { width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 13px; font-family: inherit; resize: vertical; }
+  .cold-manual-btn { margin-top: 8px; padding: 8px 14px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .cold-manual-btn:hover { border-color: var(--c-navy); }
+  .cold-cached { display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 600; color: var(--c-slate-400); }
+  .cold-bronnen { margin-top: 9px; font-size: 11px; color: var(--c-slate-400); font-style: italic; }
+  .cold-refresh { margin-top: 10px; background: none; color: var(--c-slate-500); }
   .cold-btn { margin-top: 8px; padding: 6px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .cold-btn:hover { border-color: var(--c-navy); }
   .cold-loading { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
@@ -492,6 +510,7 @@
   .call-row.gebeld .call-bedrijf { text-decoration: none; }
   .call-campagne-tag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: var(--radius-pill); background: var(--c-primary-100); color: var(--c-primary-darker); }
   .call-am-tag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: var(--radius-pill); background: var(--c-slate-100); color: var(--c-slate-500); }
+  .call-bedrijfsinfo { font-size: 11.5px; color: var(--c-slate-500); margin-top: 2px; }
   .call-notities { font-size: 12px; color: var(--c-slate-700); margin-top: 6px; line-height: 1.5; background: var(--c-slate-50); border-radius: 6px; padding: 7px 10px; }
   .call-contact { font-size: 12.5px; color: var(--c-slate-700); margin-top: 3px; }
   .call-meta { font-size: 12px; color: var(--c-slate-500); margin-top: 2px; }
@@ -3056,6 +3075,23 @@ const ICONS = {
 };
 
 // ─── STATE ──────────────────────────────────────────────────────────────
+// Een lege werkruimte: alles wat bij ÉÉN belreden hoort (Evenementen, Blind
+// spots of Cold calling). Elke werkruimte heeft zijn eigen contacten, upload,
+// eventcontext en opgeslagen lijsten — daarom staan hier ook geen gedeelde
+// dingen in zoals de concurrentenlijst (die geldt overal).
+function emptyCallWorkspace_() {
+  return {
+    callRows: [],
+    callRawHeaders: [],
+    callColumnMap: null,
+    callSearch: "",
+    callView: "bestaande",
+    callDocTitle: null,
+    eventStructured: null,
+    eventError: null,
+  };
+}
+
 const state = {
   activeTab: "referenties", // "referenties", "cases", "bellijst" of "products"
   search: "",
@@ -3102,6 +3138,31 @@ const state = {
   // Historiek (enkel deze sessie; verdwijnt bij herladen)
   askHistory: [],        // [{ id, mode:"notities"|"vraag", input, result, tijd }]
   askHistoryOpen: false, // toont de historiek-lijst i.p.v. het invoerscherm
+
+  // ─── BELLIJST: DRIE VOLLEDIG GESCHEIDEN WERKRUIMTES ───────────────────
+  // Evenementen, Blind spots en Cold calling zijn geen filter op ÉÉN lijst,
+  // maar drie aparte werkstromen met elk hun eigen upload, contacten en
+  // opgeslagen lijsten. Laad je een seminarielijst, dan verschijnt die dus
+  // nooit bij cold calling.
+  //
+  // Technisch: de bestaande code (callRows, callSearch, enz.) blijft ongewijzigd
+  // werken — die velden zijn nu "het venster op de actieve werkruimte".
+  // Bij het wisselen van werkruimte (switchCallWorkspace) slaan we de huidige
+  // velden op in callWorkspaces[actieve_id] en laden we de nieuwe werkruimte
+  // erin terug. Zo hoefde niet elke plek die state.callRows gebruikt herschreven
+  // te worden, maar is de data zelf toch 100% gescheiden.
+  activeWorkspace: "event",
+  callWorkspaces: {
+    event: emptyCallWorkspace_(),
+    blindspots: emptyCallWorkspace_(),
+    coldcall: emptyCallWorkspace_(),
+  },
+  // Binnen "event" nog een sub-modus: uitnodigen of opvolgen. Dit bepaalt
+  // enkel het script, niet de data — dezelfde lijst dient voor beide.
+  eventSubMode: "opvolgen", // "uitnodigen" | "opvolgen"
+  // Cold calling: gekozen topic (bepaalt de AI-insteek) en handmatige invoer.
+  coldTopic: "S/4HANA",     // "S/4HANA" | "SuccessFactors"
+  coldManualInput: "",      // los tekstveld: bedrijfsnamen intypen i.p.v. Excel
 
   // Bellijst (campagnelijst-upload, enkel deze sessie bewaard)
   callRows: [],          // [{ _id, raw:{...alle kolommen...}, bedrijf, contact, functie, telefoon, email, campagne, status:"ok"|"competitor"|"irrelevant", reden, manualOverride, gebeld }]
@@ -4292,7 +4353,10 @@ function parseXlsxWorkbook(arrayBuffer) {
 }
 
 const COLUMN_GUESS = {
-  bedrijf: ["bedrijf", "bedrijfsnaam", "company", "organisatie", "organization", "account", "klant", "company name"],
+  bedrijf: ["bedrijf", "bedrijven", "bedrijfsnaam", "company", "companies", "organisatie", "organization", "account", "klant", "company name"],
+  sector: ["sector", "industrie", "industry", "branche", "sector/industrie"],
+  omzet: ["omzet", "omzet in €", "omzet in eur", "revenue", "turnover", "jaaromzet"],
+  medewerkers: ["aantal medewerkers", "medewerkers", "employees", "fte", "headcount", "personeel"],
   voornaam: ["voornaam", "first name", "firstname"],
   achternaam: ["achternaam", "surname", "last name", "lastname"],
   contact: ["contact", "contactpersoon", "naam", "name", "full name", "voornaam achternaam"],
@@ -4404,6 +4468,9 @@ function processCallRows(rawData, map, docTitle, existingRows) {
         campagne: getMappedValue(raw, map, "campagne") || docTitle || "",
         notities: getMappedValue(raw, map, "notities"),
         accountmanager: getMappedValue(raw, map, "accountmanager"),
+        sector: getMappedValue(raw, map, "sector"),
+        omzet: getMappedValue(raw, map, "omzet"),
+        medewerkers: getMappedValue(raw, map, "medewerkers"),
       });
     }
     const cls = classifyCallRow(raw, map, state.competitorList, state.irrelevantKeywords);
@@ -4418,6 +4485,9 @@ function processCallRows(rawData, map, docTitle, existingRows) {
       campagne: getMappedValue(raw, map, "campagne") || docTitle || "",
       notities: getMappedValue(raw, map, "notities"),
       accountmanager: getMappedValue(raw, map, "accountmanager"),
+      sector: getMappedValue(raw, map, "sector"),
+      omzet: getMappedValue(raw, map, "omzet"),
+      medewerkers: getMappedValue(raw, map, "medewerkers"),
       status: cls.status,
       reden: cls.reden,
       manualOverride: false,
@@ -6288,6 +6358,10 @@ function callRowHtml(r, showRestore) {
   if (r.campagne) html += '<span class="call-campagne-tag">' + esc(r.campagne) + '</span>';
   if (r.accountmanager) html += '<span class="call-am-tag">AM: ' + esc(r.accountmanager) + '</span>';
   html += '</div>';
+  // Sector/omzet/medewerkers: wie bel ik precies, zonder naar de blind spots
+  // te moeten scrollen om dat te ontdekken.
+  const bedrijfsInfo = [r.sector, r.omzet ? "omzet " + r.omzet : null, r.medewerkers ? r.medewerkers + " medewerkers" : null].filter(Boolean);
+  if (bedrijfsInfo.length > 0) html += '<div class="call-bedrijfsinfo">' + bedrijfsInfo.map(esc).join(' · ') + '</div>';
   if (r.contact || r.functie) html += '<div class="call-contact">' + esc(r.contact) + (r.functie ? ' · ' + esc(r.functie) : '') + '</div>';
   const contactBits = [];
   if (r.telefoon) contactBits.push(esc(r.telefoon));
@@ -6357,32 +6431,70 @@ function callRowHtml(r, showRestore) {
     }
 
     // Wat je per contact ziet, hangt af van WAAROM je belt.
-    if (state.callReason === "blind_spots") {
+    if (state.activeWorkspace === "blindspots") {
       const gaten = findBlindSpots(r);
+      const beantwoord = r.blindAnswers || {};
+      const openGaten = gaten.filter(function(k) { return !beantwoord[k]; });
+
       if (gaten.length > 0) {
-        html += '<div class="blind-spots"><div class="blind-label">❓ Uit te vragen (' + gaten.length + ')</div>' +
-          gaten.map(function(k) { return '<span class="blind-tag">' + esc(k) + '</span>'; }).join('') + '</div>';
+        html += '<div class="blind-spots">';
+        if (openGaten.length > 0) {
+          html += '<div class="blind-label">❓ Uit te vragen (' + openGaten.length + ')</div>';
+          html += openGaten.map(function(k) {
+            const veldId = "blindInput-" + r._id + "-" + k.replace(/[^a-z0-9]/gi, "_");
+            return '<div class="blind-row">' +
+              '<span class="blind-tag">' + esc(k) + '</span>' +
+              '<input type="text" id="' + veldId + '" class="blind-input" placeholder="Antwoord..." ' +
+              'onkeydown="if(event.key===\'Enter\'){saveBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\',this.value)}">' +
+              '<button class="blind-save" onclick="saveBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\',document.getElementById(\'' + veldId + '\').value)">✓</button>' +
+              '</div>';
+          }).join('');
+        }
+        // Al beantwoorde kolommen tonen als afgevinkt, met de kans om te corrigeren.
+        const beantwoordeKeys = gaten.filter(function(k) { return beantwoord[k]; });
+        if (beantwoordeKeys.length > 0) {
+          html += '<div class="blind-done-list">' + beantwoordeKeys.map(function(k) {
+            return '<div class="blind-done-item">✓ <strong>' + esc(k) + ':</strong> ' + esc(beantwoord[k]) +
+              ' <span class="blind-undo" onclick="undoBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\')">wijzig</span></div>';
+          }).join('') + '</div>';
+        }
+        html += '</div>';
       } else {
         html += '<div class="blind-ok">✓ Geen ontbrekende velden</div>';
       }
     }
 
-    if (state.callReason === "cold_calling") {
-      const cold = state.coldScripts[r._id];
+    if (state.activeWorkspace === "coldcall") {
       const bezig = state.coldLoadingId === r._id;
+      // In het geheugen zit de analyse los van het topic; bij het wisselen van
+      // topic kijken we dus telkens naar de BLIJVENDE opslag voor dit bedrijf
+      // + het huidige topic, niet naar wat er toevallig in coldScripts hangt.
+      const cold = state.coldScripts[r._id] || getColdAnalyse_(r.bedrijf, state.coldTopic);
+
       if (bezig) {
-        html += '<div class="cold-loading">Lewis analyseert ' + esc(r.bedrijf) + '…</div>';
+        html += '<div class="cold-loading">Lewis zoekt online en analyseert ' + esc(r.bedrijf) + '… (kan 10-20 sec duren)</div>';
       } else if (!cold) {
-        html += '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">🔍 Analyseer bedrijf</button>';
+        html += '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">🔍 Analyseer bedrijf (' + esc(state.coldTopic) + ')</button>';
       } else if (cold.fout) {
         html += '<div class="cold-fout">' + esc(cold.fout) + '</div>' +
           '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">Opnieuw proberen</button>';
       } else {
         html += '<div class="cold-card">';
-        html += '<div class="cold-opl">' + esc(cold.oplossing || "") + '</div>';
+        html += '<div class="cold-opl">' + esc(state.coldTopic) + '</div>';
+        if (cold.opgeslagenOp) {
+          html += '<span class="cold-cached">Eerder geanalyseerd — ' + esc(new Date(cold.opgeslagenOp).toLocaleDateString("nl-BE")) + '</span>';
+        }
+
         if ((cold.pijnpunten || []).length) {
           html += '<div class="script-label">Waarschijnlijke pijnpunten</div><ul class="cold-lijst">' +
             cold.pijnpunten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
+        }
+        if (cold.aanbevolenProduct) {
+          html += '<div class="script-label">Aanbevolen product</div><p class="script-line"><strong>' + esc(cold.aanbevolenProduct) + '</strong></p>';
+        }
+        if ((cold.gebruikteReferenties || []).length) {
+          html += '<div class="script-label">Te noemen als bewijs</div><ul class="cold-lijst">' +
+            cold.gebruikteReferenties.map(function(g) { return '<li><strong>' + esc(g.naam) + '</strong> — ' + esc(g.reden) + '</li>'; }).join('') + '</ul>';
         }
         if (cold.opening) {
           html += '<div class="script-label">Opening</div><p class="script-line">' + esc(cold.opening) + '</p>';
@@ -6391,6 +6503,10 @@ function callRowHtml(r, showRestore) {
           html += '<div class="script-label">Vragen</div><ol class="cold-lijst">' +
             cold.vragen.map(function(v) { return '<li>' + esc(v) + '</li>'; }).join('') + '</ol>';
         }
+        if ((cold.bronnen || []).length) {
+          html += '<div class="cold-bronnen">Bronnen: ' + cold.bronnen.map(esc).join(' · ') + '</div>';
+        }
+        html += '<button class="cold-btn cold-refresh" onclick="analyseColdCall(' + r._id + ', true)">↻ Opnieuw analyseren</button>';
         html += '</div>';
       }
     }
@@ -6404,7 +6520,6 @@ function callRowHtml(r, showRestore) {
     html += '<button class="call-restore-btn" onclick="restoreCallRow(' + r._id + ')">Toch toevoegen</button>';
   } else {
     html += '<div class="call-row-actions-col">';
-    html += '<button class="call-brief-btn" onclick="openCallBrief(' + r._id + ')">' + ICONS.brief + ' Brief</button>';
     html += '<button class="call-crm-btn" id="crmBtn-' + r._id + '" onclick="copyCallRowForCRM(' + r._id + ')">' + ICONS.copy + ' Kopieer voor CRM</button>';
     html += '</div>';
   }
@@ -6416,17 +6531,11 @@ function briefSection(label, contentHtml) {
   return '<div class="call-brief-section"><div class="call-brief-label">' + esc(label) + '</div><div class="call-brief-content">' + contentHtml + '</div></div>';
 }
 
-// ─── BELSCRIPTEN PER BELREDEN ──────────────────────────────────────────────
-// We bellen om drie redenen (evenementen splitsen we in uitnodigen én
-// opvolgen). Het script hoort bij de REDEN, niet bij het contact — vandaar
-// één script bovenaan de lijst in plaats van een knop naast elke rij.
-// Uitzondering: cold calling, want daar analyseert de AI elk bedrijf apart.
-const CALL_REASONS = [
-  { id: "event_uitnodigen", label: "📩 Evenement — uitnodigen" },
-  { id: "event_opvolgen",   label: "📞 Evenement — opvolgen" },
-  { id: "blind_spots",      label: "❓ Blind spots" },
-  { id: "cold_calling",     label: "❄️ Cold calling" },
-];
+// ─── BELSCRIPTEN PER WERKRUIMTE ─────────────────────────────────────────────
+// Drie volledig gescheiden werkruimtes (Evenementen, Blind spots, Cold
+// calling), elk met eigen contacten/upload/opgeslagen lijsten. Het script
+// hoort bij de werkruimte, niet bij het contact — vandaar één script
+// bovenaan de lijst in plaats van een knop naast elke rij.
 
 // Cold calling doen we enkel voor deze twee oplossingen.
 const COLD_CALL_SOLUTIONS = ["SuccessFactors", "S/4HANA"];
@@ -6450,8 +6559,13 @@ function scriptThema_(ev) {
   return "digitalisering";
 }
 
-window.setCallReason = function(id) {
-  state.callReason = id;
+window.setEventSubMode = function(mode) {
+  state.eventSubMode = mode;
+  render();
+};
+
+window.setColdTopic = function(topic) {
+  state.coldTopic = topic;
   render();
 };
 
@@ -6460,15 +6574,16 @@ window.toggleScript = function() {
   render();
 };
 
-// Bouwt het script voor de gekozen belreden. Evenement-scripts passen zich aan
-// het geladen evenement aan; staat er geen, dan gebruiken we neutrale taal.
+// Bouwt het script voor de actieve werkruimte (en, bij Evenementen, de
+// gekozen sub-modus). Evenement-scripts passen zich aan het geladen
+// evenement aan; staat er geen, dan gebruiken we neutrale taal.
 function buildReasonScript() {
   const ev = state.eventStructured;
   const evNaam = ev && ev.titel ? ev.titel : null;
   const thema = scriptThema_(ev);
   const datum = ev && ev.datum ? ev.datum : null;
 
-  if (state.callReason === "event_uitnodigen") {
+  if (state.activeWorkspace === "event" && state.eventSubMode === "uitnodigen") {
     return {
       opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Ik bel u omdat wij binnenkort " +
         (evNaam ? evNaam : "een sessie") + " organiseren" + (datum ? " op " + datum : "") +
@@ -6494,7 +6609,7 @@ function buildReasonScript() {
     };
   }
 
-  if (state.callReason === "event_opvolgen") {
+  if (state.activeWorkspace === "event" && state.eventSubMode === "opvolgen") {
     return {
       opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Ik las dat u aanwezig was op " +
         (evNaam ? evNaam : "ons recente evenement") + " en wij polsen graag naar hoe u het evenement ervaren hebt.",
@@ -6520,7 +6635,7 @@ function buildReasonScript() {
     };
   }
 
-  if (state.callReason === "blind_spots") {
+  if (state.activeWorkspace === "blindspots") {
     return {
       opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Wij werken al samen met jullie, en ik wil ons beeld van jullie IT-landschap graag even actueel houden. Heeft u twee minuten?",
       blokken: [
@@ -6546,18 +6661,23 @@ function buildReasonScript() {
     };
   }
 
-  // Cold calling
+  // Cold calling: het GEKOZEN topic bepaalt de insteek, niet beide tegelijk.
+  const coldOnderwerp = state.coldTopic === "SuccessFactors" ? "HR/SuccessFactors" : "ERP/S/4HANA";
   return {
     opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Wij helpen bedrijven zoals het uwe met SAP — concreet rond " +
-      COLD_CALL_SOLUTIONS.join(" en ") + ". Ik bel u kort om te polsen of dat bij jullie speelt. Heeft u een minuutje?",
+      coldOnderwerp + ". Ik bel u kort om te polsen of dat bij jullie speelt. Heeft u een minuutje?",
     blokken: [
       { label: "Aanpak", lijnen: [
-        "Klik bij het bedrijf op \u201cAnalyseer bedrijf\u201d — Lewis zoekt dan de waarschijnlijke pijnpunten en de passende insteek.",
+        "Klik bij het bedrijf op \u201cAnalyseer bedrijf\u201d — Lewis zoekt dan de waarschijnlijke pijnpunten en de passende insteek, op basis van onze referenties, cases en wat er extern over dit bedrijf te vinden is.",
         "Vertrek altijd vanuit de frustratie van de klant, nooit vanuit het product.",
-        "We bellen enkel rond " + COLD_CALL_SOLUTIONS.join(" en ") + ".",
+        "Deze belronde draait rond " + state.coldTopic + ".",
       ]},
-      { label: "Openingsvragen", lijnen: [
-        "Hoe beheren jullie vandaag [ERP / HR]?",
+      { label: "Openingsvragen", lijnen: state.coldTopic === "SuccessFactors" ? [
+        "Hoe beheren jullie vandaag HR, payroll en personeelsdata?",
+        "Waar loopt het vandaag stroef in dat proces?",
+        "Staat er een migratie of vernieuwing op de planning?",
+      ] : [
+        "Hoe beheren jullie vandaag jullie ERP?",
         "Waar loopt het vandaag stroef in dat proces?",
         "Staat er een migratie of vernieuwing op de planning?",
       ]},
@@ -6589,53 +6709,129 @@ function findBlindSpots(row) {
 }
 
 // ─── COLD CALLING: AI-analyse per bedrijf ──────────────────────────────────
-const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consultingbedrijf. " +
-  "Wij bellen UITSLUITEND rond SuccessFactors (HR) en S/4HANA (ERP). Andere oplossingen mag je niet voorstellen.\n\n" +
-  "Regels:\n" +
-  "- Bepaal welke van de twee (SuccessFactors of S/4HANA) het meest relevant is voor dit bedrijf, gezien hun sector en omvang. Beide mag ook.\n" +
-  "- pijnpunten: 2 tot 4 problemen die bij dit soort bedrijf waarschijnlijk spelen en die wij oplossen. Concreet en herkenbaar, geen jargon.\n" +
-  "- opening: één zin waarmee de verkoper het gesprek opent, vertrekkend vanuit een pijnpunt — nooit vanuit het product.\n" +
-  "- vragen: 3 open vragen die het pijnpunt boven water halen.\n" +
-  "- Verzin geen feiten over dit specifieke bedrijf. Baseer je op wat typisch is voor de sector en de grootte. " +
-  "Ken je het bedrijf niet, redeneer dan vanuit de sector.\n" +
-  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
-  "{\"oplossing\": string, \"pijnpunten\": [string], \"opening\": string, \"vragen\": [string]}";
+// ─── COLD CALLING: ANALYSE BLIJVEND ONTHOUDEN PER BEDRIJF ──────────────────
+// Klikte je vorige week al "Analyseer bedrijf" bij Carrefour, dan hoeft dat nu
+// niet opnieuw (en kost het geen nieuwe AI-aanroep). Sleutel = genormaliseerde
+// bedrijfsnaam + topic, want de analyse voor S/4HANA verschilt van die voor
+// SuccessFactors bij hetzelfde bedrijf.
+const COLD_ANALYSE_KEY = "lewis_coldcall_analyses";
 
-window.analyseColdCall = function(id) {
+function coldAnalyseKey_(bedrijf, topic) {
+  return normBedrijf_(bedrijf) + "::" + topic;
+}
+
+function getColdAnalyses_() {
+  try {
+    const raw = localStorage.getItem(COLD_ANALYSE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveColdAnalyse_(bedrijf, topic, data) {
+  const all = getColdAnalyses_();
+  all[coldAnalyseKey_(bedrijf, topic)] = Object.assign({ opgeslagenOp: new Date().toISOString() }, data);
+  try { localStorage.setItem(COLD_ANALYSE_KEY, JSON.stringify(all)); } catch (e) {}
+}
+
+function getColdAnalyse_(bedrijf, topic) {
+  return getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
+}
+
+const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consultingbedrijf (Flexso). " +
+  "Deze belronde draait uitsluitend rond ÉÉN specifieke SAP-oplossing (zie 'topic' hieronder). " +
+  "Andere oplossingen mag je niet voorstellen, ook al zou dat logisch lijken.\n\n" +
+  "Je krijgt drie soorten context mee: (1) onze eigen referenties en klantencases uit vergelijkbare " +
+  "sectoren, (2) ons productportfolio, en (3) de resultaten van een websearch naar dit specifieke bedrijf. " +
+  "Gebruik ze alle drie. Dit moet SCHERP en CONCREET zijn — geen generieke SAP-marketingtaal.\n\n" +
+  "Regels:\n" +
+  "- pijnpunten: 2 tot 4 problemen die dit SPECIFIEKE bedrijf waarschijnlijk heeft. Baseer dit op wat de " +
+  "websearch teruggeeft over het bedrijf (sector, grootte, recent nieuws, groei, overnames, beursgang, " +
+  "regelgeving die hen raakt) — niet op generieke sectorkennis alleen. Vind je niets specifieks, zeg dat "+
+  "eerlijk en val terug op wat typisch is voor de sector.\n" +
+  "- gebruikteReferenties: welke van de meegeleverde referenties/cases het meest relevant zijn als bewijs, " +
+  "en waarom — dit is wat de verkoper kan noemen (\"we deden dit ook bij...\").\n" +
+  "- aanbevolenProduct: welk concreet product/oplossing uit ons portfolio het beste past, met de naam exact " +
+  "zoals in de meegeleverde productenlijst.\n" +
+  "- opening: één scherpe zin die vertrekt vanuit een pijnpunt van DIT bedrijf, niet vanuit het product. " +
+  "Mag gerust een concreet feit uit de websearch noemen (bv. een recente overname of expansie) als dat een " +
+  "haakje geeft.\n" +
+  "- vragen: 3 open vragen die het pijnpunt boven water halen, specifiek voor dit bedrijf.\n" +
+  "- bronvermelding: als je iets uit de websearch haalt, noem kort de bron (bv. \"volgens hun jaarverslag 2025\").\n" +
+  "- Verzin NOOIT feiten. Vond de websearch niets bruikbaars, zeg dat expliciet in plaats van te gokken.\n" +
+  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
+  "{\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"reden\": string}], " +
+  "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]}";
+
+window.analyseColdCall = function(id, forceer) {
   const row = state.callRows.find(function(r) { return r._id === id; });
   if (!row) return;
+  const topic = state.coldTopic;
+
+  // Al eerder geanalyseerd voor dit bedrijf + topic? Dan meteen tonen, geen
+  // nieuwe (betaalde) AI-aanroep nodig — tenzij de gebruiker expliciet
+  // opnieuw wil analyseren (bv. na nieuw nieuws over het bedrijf).
+  if (!forceer) {
+    const bestaand = getColdAnalyse_(row.bedrijf, topic);
+    if (bestaand) {
+      state.coldScripts[id] = bestaand;
+      render();
+      return;
+    }
+  }
+
   state.coldLoadingId = id;
   render();
+
+  // Relevante referenties/cases: eerst een exacte match op het bedrijf zelf
+  // (bestaande klant?), anders de sterkste voorbeelden uit dezelfde sector.
+  const eigenRef = REFS.find(function(x) { return normBedrijf_(x.naam) === normBedrijf_(row.bedrijf); });
+  const sectorVoorbeelden = eigenRef ? [] : REFS.filter(function(x) {
+    return x.oplossing === topic;
+  }).slice(0, 6).map(function(x) {
+    return { naam: x.naam, industrie: x.industrie, beschrijving: x.beschrijving, verhaal: x.verhaal };
+  });
+  const relevanteCases = (CASES_BY_BEDRIJF[row.bedrijf] || []).slice(0, 3);
 
   const context = {
     bedrijf: row.bedrijf,
     functie: row.functie || null,
-    // Wat we al weten uit onze eigen referentiedata (indien bekend).
-    referentie: (function() {
-      const ref = REFS.find(function(x) { return normBedrijf_(x.naam) === normBedrijf_(row.bedrijf); });
-      return ref ? { industrie: ref.industrie, beschrijving: ref.beschrijving, medewerkers: ref.medewerkers } : null;
-    })(),
+    sector: row.sector || null,
+    topic: topic,
+    eigenReferentie: eigenRef ? { industrie: eigenRef.industrie, beschrijving: eigenRef.beschrijving, verhaal: eigenRef.verhaal } : null,
+    vergelijkbareReferenties: sectorVoorbeelden,
+    cases: relevanteCases.map(function(c) { return { titel: c.titel, url: c.url }; }),
+    producten: buildProductsContextForAI().filter(function(p) {
+      return topic === "SuccessFactors" ? /HR|SuccessFactors|Concur/i.test(p.naam + p.lob) : /S\/4|ERP|Finance|BTP/i.test(p.naam + p.lob);
+    }).slice(0, 8),
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(function() { controller.abort(); }, 20000);
+  const timeoutId = setTimeout(function() { controller.abort(); }, 30000);
 
+  // BELANGRIJK: dit gebruikt de web_search tool, dus dit gaat rechtstreeks
+  // naar de Anthropic API (via onze eigen proxy) met tools erbij — dat is
+  // iets anders dan de gewone tekst-only aanroepen elders in de app.
   fetch(ANTHROPIC_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     signal: controller.signal,
     body: JSON.stringify({
       model: "claude-sonnet-4-5",
-      max_tokens: 1200,
+      max_tokens: 2000,
       system: COLD_SYSTEM_PROMPT,
-      messages: [{ role: "user", content: "Bedrijf:\n" + JSON.stringify(context) }]
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+      messages: [{ role: "user", content: "Bereid de cold call voor dit bedrijf voor. Zoek eerst kort online naar het bedrijf zelf voor actuele context, en gebruik dan onderstaande interne data.\n\n" + JSON.stringify(context) }]
     })
   })
   .then(function(r) { if (!r.ok) throw new Error("mislukt"); return r.json(); })
   .then(function(data) {
-    const text = (data.content || []).map(function(b) { return b.text || ""; }).join("");
-    const parsed = JSON.parse(text.replace(/```json|```/g, "").trim());
+    // Bij tool-gebruik bestaat de response uit meerdere blokken (tool calls,
+    // tool results, tekst). We pakken enkel de tekstblokken voor de JSON.
+    const text = (data.content || []).filter(function(b) { return b.type === "text"; }).map(function(b) { return b.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
     state.coldScripts[id] = parsed;
+    saveColdAnalyse_(row.bedrijf, topic, parsed);
   })
   .catch(function() {
     state.coldScripts[id] = { fout: "Analyse mislukt. Probeer opnieuw (vereist internetverbinding)." };
@@ -6647,16 +6843,109 @@ window.analyseColdCall = function(id) {
   });
 };
 
+// Legt het antwoord op een blind-spot-vraag vast (bv. CRM: Microsoft Dynamics).
+// Komt gestructureerd in de notitie terecht — zo weet je achteraf nog welke
+// kolom het antwoord was, in plaats van een los tekstblok zonder context.
+window.saveBlindAnswer = function(id, kolom, waarde) {
+  waarde = (waarde || "").trim();
+  if (!waarde) return;
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+
+  row.blindAnswers = row.blindAnswers || {};
+  row.blindAnswers[kolom] = waarde;
+
+  // Toevoegen aan de notitie, met de kolomnaam ervoor.
+  const regel = kolom + ": " + waarde + ".";
+  const bestaand = (row.liveNotes || "").trim();
+  row.liveNotes = bestaand ? bestaand + "\n" + regel : regel;
+
+  autosaveCallState_();
+  render();
+};
+
+window.undoBlindAnswer = function(id, kolom) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row || !row.blindAnswers) return;
+  delete row.blindAnswers[kolom];
+  autosaveCallState_();
+  render();
+};
+
+// Cold calling: bedrijven kunnen ook gewoon ingetypt worden (één per regel),
+// naast de mogelijkheid om een Excel/CSV te uploaden zoals bij de andere
+// werkruimtes. Dit is de enige werkruimte waar dat kan, want hier volstaat een
+// bedrijfsnaam — er is geen contactpersoon/telefoon per se nodig om te starten.
+function renderColdCallInput() {
+  return '<div class="cold-manual-input">' +
+    '<textarea id="coldManualInput" placeholder="Of typ bedrijfsnamen in, één per regel..." rows="3"></textarea>' +
+    '<button class="cold-manual-btn" onclick="addColdCallCompanies()">+ Toevoegen aan lijst</button>' +
+    '</div>';
+}
+
+window.addColdCallCompanies = function() {
+  const el = document.getElementById("coldManualInput");
+  if (!el) return;
+  const namen = el.value.split("\n").map(function(n) { return n.trim(); }).filter(Boolean);
+  if (namen.length === 0) return;
+
+  namen.forEach(function(naam) {
+    // Geen duplicaten: bestaat het bedrijf al in de lijst, dan overslaan.
+    const bestaat = state.callRows.some(function(r) { return normBedrijf_(r.bedrijf) === normBedrijf_(naam); });
+    if (bestaat) return;
+    state.callRows.push({
+      _id: callRowIdCounter++,
+      raw: { Bedrijf: naam },
+      bedrijf: naam,
+      contact: "",
+      functie: "",
+      telefoon: "",
+      email: "",
+      campagne: "Cold calling",
+      notities: "",
+      accountmanager: "",
+      status: "ok",
+      reden: null,
+      manualOverride: true,
+      gebeld: false,
+      liveNotes: "",
+    });
+  });
+  el.value = "";
+  autosaveCallState_();
+  render();
+};
+
 function renderScriptPanel() {
   const el = document.getElementById("callScriptBlock");
   if (!el) return;
 
-  // Keuze van de belreden.
-  let html = '<div class="reason-row">';
-  CALL_REASONS.forEach(function(r) {
-    html += '<button class="reason-btn' + (state.callReason === r.id ? ' actief' : '') + '" onclick="setCallReason(\'' + r.id + '\')">' + esc(r.label) + '</button>';
-  });
+  // Drie volledig gescheiden werkruimtes — geen filter, maar een echte
+  // wissel van dataset (upload, contacten, opgeslagen lijsten).
+  let html = '<div class="workspace-row">';
+  html += '<button class="workspace-btn' + (state.activeWorkspace === "event" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'event\')">📅 Evenementen</button>';
+  html += '<button class="workspace-btn' + (state.activeWorkspace === "blindspots" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'blindspots\')">❓ Blind spots</button>';
+  html += '<button class="workspace-btn' + (state.activeWorkspace === "coldcall" ? ' actief' : '') + '" onclick="switchCallWorkspace(\'coldcall\')">❄️ Cold calling</button>';
   html += '</div>';
+
+  // Binnen Evenementen kies je nog: uitnodigen of opvolgen. Zelfde contacten,
+  // ander script — dus dit is een sub-modus, geen aparte werkruimte.
+  if (state.activeWorkspace === "event") {
+    html += '<div class="reason-row">';
+    html += '<button class="reason-btn' + (state.eventSubMode === "uitnodigen" ? ' actief' : '') + '" onclick="setEventSubMode(\'uitnodigen\')">📩 Uitnodigen</button>';
+    html += '<button class="reason-btn' + (state.eventSubMode === "opvolgen" ? ' actief' : '') + '" onclick="setEventSubMode(\'opvolgen\')">📞 Opvolgen</button>';
+    html += '</div>';
+  }
+
+  // Cold calling: keuze van topic (bepaalt de AI-insteek) + eigen invoer.
+  if (state.activeWorkspace === "coldcall") {
+    html += '<div class="reason-row">';
+    COLD_CALL_SOLUTIONS.forEach(function(sol) {
+      html += '<button class="reason-btn' + (state.coldTopic === sol ? ' actief' : '') + '" onclick="setColdTopic(\'' + sol + '\')">' + esc(sol) + '</button>';
+    });
+    html += '</div>';
+    html += renderColdCallInput();
+  }
 
   html += '<button class="script-toggle" onclick="toggleScript()">' +
     (state.scriptOpen ? '▲ Verberg script' : '▼ Toon belscript') + '</button>';
@@ -6664,7 +6953,7 @@ function renderScriptPanel() {
   if (state.scriptOpen) {
     const s = buildReasonScript();
     const ev = state.eventStructured;
-    const isEvent = state.callReason.indexOf("event_") === 0;
+    const isEvent = state.activeWorkspace === "event";
 
     html += '<div class="script-card">';
     if (isEvent && !ev) {
@@ -6828,7 +7117,62 @@ function renderCallBriefOverlay() {
   overlay.innerHTML = html;
 }
 
+// ─── WISSELEN VAN WERKRUIMTE ────────────────────────────────────────────────
+// De bestaande code werkt met state.callRows, state.callSearch, enz. — dat
+// blijft zo. Wat hier gebeurt: bij het wisselen bewaren we die velden in
+// callWorkspaces[huidige_id], en laden we ze terug vanuit de nieuwe werkruimte.
+// Zo is de data van Evenementen, Blind spots en Cold calling altijd volledig
+// gescheiden, zonder dat elke plek in de app die callRows gebruikt moest
+// worden herschreven.
+const WORKSPACE_VELDEN = ["callRows", "callRawHeaders", "callColumnMap", "callSearch", "callView", "callDocTitle", "eventStructured", "eventError"];
+
+function saveActiveWorkspaceFields_() {
+  const ws = state.callWorkspaces[state.activeWorkspace];
+  WORKSPACE_VELDEN.forEach(function(f) { ws[f] = state[f]; });
+}
+
+function loadWorkspaceFields_(id) {
+  const ws = state.callWorkspaces[id];
+  WORKSPACE_VELDEN.forEach(function(f) { state[f] = ws[f]; });
+}
+
+window.switchCallWorkspace = function(id) {
+  if (id === state.activeWorkspace) return;
+  saveActiveWorkspaceFields_();
+  state.activeWorkspace = id;
+  loadWorkspaceFields_(id);
+  // Bij opstarten wordt alleen de eerste (actieve) werkruimte hersteld vanuit
+  // de autosave. Wissel je naar een werkruimte die nog leeg is in het geheugen
+  // (bv. na een herlaad-actie), probeer dan alsnog zijn eigen autosave te laden.
+  if (state.callRows.length === 0) restoreAutosavedCallState_();
+  // Deze schermelementen horen bij de vorige werkruimte en moeten dicht.
+  state.callSettingsOpen = false;
+  state.callSavedListsOpen = false;
+  state.scriptOpen = false;
+  state.openHistoryId = null;
+  render();
+};
+
 function renderBellijstPanel() {
+  // Het Flexso-plakvak hoort alleen bij Evenementen. Bij de andere twee
+  // werkruimtes is er geen "evenement" om te structureren.
+  document.getElementById("callWorkspaceEventFields").style.display = state.activeWorkspace === "event" ? "flex" : "none";
+
+  // Upload-tekst en -knop passen zich aan de werkruimte aan, zodat het altijd
+  // duidelijk is WAT je hier oplaadt.
+  const uploadTitles = {
+    event: "Laad je deelnemerslijst op",
+    blindspots: "Laad je Excel met blind spots op",
+    coldcall: "Laad een lijst met bedrijven op",
+  };
+  const uploadSubs = {
+    event: "Deelnemers van je evenement (CSV of Excel).",
+    blindspots: "De Excel waarin \u201c?\u201d staat voor onbekende velden (bv. onder ERP of CRM).",
+    coldcall: "Een lijst met bedrijfsnamen — of typ ze hieronder rechtstreeks in.",
+  };
+  document.getElementById("callUploadTitle").textContent = uploadTitles[state.activeWorkspace];
+  document.getElementById("callUploadSub").textContent = uploadSubs[state.activeWorkspace];
+
   renderEventContext();
   renderCallBriefOverlay();
   renderScriptPanel();
@@ -7081,8 +7425,11 @@ function renderCard(r) {
 // hier wél met localStorage (dit is geen Claude-artifact maar een
 // standalone HTML-bestand dat lokaal in de browser draait). Alles blijft
 // dus bewaard tussen sessies, op hetzelfde toestel/browserprofiel.
-const BELLIJST_AUTOSAVE_KEY = "lewis_bellijst_autosave";
-const BELLIJST_SAVED_LISTS_KEY = "lewis_bellijst_opgeslagen";
+// Per werkruimte een eigen opslagsleutel. Zonder dit zou de autosave en de
+// opgeslagen-lijsten-opslag van Evenementen, Blind spots en Cold calling door
+// elkaar lopen — precies het probleem dat we hier oplossen.
+function BELLIJST_AUTOSAVE_KEY_() { return "lewis_bellijst_autosave_" + state.activeWorkspace; }
+function BELLIJST_SAVED_LISTS_KEY_() { return "lewis_bellijst_opgeslagen_" + state.activeWorkspace; }
 
 function snapshotCallState_() {
   return {
@@ -7099,13 +7446,13 @@ function snapshotCallState_() {
 function autosaveCallState_() {
   if (!state.callRows || state.callRows.length === 0) return;
   try {
-    localStorage.setItem(BELLIJST_AUTOSAVE_KEY, JSON.stringify(snapshotCallState_()));
+    localStorage.setItem(BELLIJST_AUTOSAVE_KEY_(), JSON.stringify(snapshotCallState_()));
   } catch (e) { /* opslag vol of niet beschikbaar — stil negeren, geen blokkerende fout */ }
 }
 
 function restoreAutosavedCallState_() {
   try {
-    const raw = localStorage.getItem(BELLIJST_AUTOSAVE_KEY);
+    const raw = localStorage.getItem(BELLIJST_AUTOSAVE_KEY_());
     if (!raw) return false;
     const snap = JSON.parse(raw);
     if (!snap || !snap.callRows || snap.callRows.length === 0) return false;
@@ -7224,19 +7571,21 @@ function renderHistItem_(h) {
 
 // Kleine cache: findCrossListHistory draait voor élke rij bij élke render.
 // Zonder cache zou dat betekenen dat we localStorage 40× per toetsaanslag
-// uitlezen en parsen. De cache wordt gewist zodra er een lijst wijzigt.
-let _savedListsCache = null;
-function invalidateSavedListsCache_() { _savedListsCache = null; }
+// uitlezen en parsen. Per werkruimte apart, anders zie je bij "Cold calling"
+// nog de cache van "Evenementen".
+let _savedListsCache = {};
+function invalidateSavedListsCache_() { _savedListsCache[state.activeWorkspace] = null; }
 
 function getSavedLists_() {
-  if (_savedListsCache) return _savedListsCache;
+  const ws = state.activeWorkspace;
+  if (_savedListsCache[ws]) return _savedListsCache[ws];
   try {
-    const raw = localStorage.getItem(BELLIJST_SAVED_LISTS_KEY);
-    _savedListsCache = raw ? JSON.parse(raw) : [];
+    const raw = localStorage.getItem(BELLIJST_SAVED_LISTS_KEY_());
+    _savedListsCache[ws] = raw ? JSON.parse(raw) : [];
   } catch (e) {
-    _savedListsCache = [];
+    _savedListsCache[ws] = [];
   }
-  return _savedListsCache;
+  return _savedListsCache[ws];
 }
 
 window.saveNamedList = function() {
@@ -7270,7 +7619,7 @@ window.saveNamedList = function() {
   }
 
   try {
-    localStorage.setItem(BELLIJST_SAVED_LISTS_KEY, JSON.stringify(lists));
+    localStorage.setItem(BELLIJST_SAVED_LISTS_KEY_(), JSON.stringify(lists));
     invalidateSavedListsCache_();
     state.callSavedListsMsg = msg;
   } catch (e) {
@@ -7318,7 +7667,7 @@ window.deleteNamedList = function(id) {
 
   const overblijvend = lists.filter(function(l) { return l.id !== id; });
   try {
-    localStorage.setItem(BELLIJST_SAVED_LISTS_KEY, JSON.stringify(overblijvend));
+    localStorage.setItem(BELLIJST_SAVED_LISTS_KEY_(), JSON.stringify(overblijvend));
     invalidateSavedListsCache_();
     state.callSavedListsMsg = "Lijst \u201c" + entry.naam + "\u201d verwijderd.";
   } catch (e) {
@@ -7386,7 +7735,7 @@ function init() {
     '</div>' +
 
     '<div id="panelBellijst" style="display:none">' +
-      '<div class="event-context-fields">' +
+      '<div id="callWorkspaceEventFields" class="event-context-fields">' +
         '<div id="eventStatusBlock"></div>' +
         '<div class="event-shortcut-panel">' +
           '<div class="event-shortcut-hint" style="font-size:12.5px;color:var(--c-slate-700);margin-bottom:2px">' +
@@ -7405,15 +7754,15 @@ function init() {
         '<button class="call-settings-toggle" id="callSettingsToggle" onclick="toggleCallSettings()"></button>' +
         '<button class="call-save-btn" id="callSaveBtn" onclick="saveNamedList()" style="display:none">' + ICONS.check + ' Lijst opslaan</button>' +
         '<button class="call-settings-toggle" id="callSavedListsToggle" onclick="toggleSavedListsPanel()"></button>' +
-        '<button class="call-clear-btn" id="callClearBtn" onclick="clearCallList()" style="display:none">' + ICONS.close + ' Nieuwe lijst opladen</button>' +
+        '<button class="call-clear-btn" id="callClearBtn" onclick="clearCallList()" style="display:none">' + ICONS.close + ' Huidige lijst wissen</button>' +
       '</div>' +
       '<div id="callSavedListsPanel"></div>' +
       '<div id="callSavedListsMsg"></div>' +
       '<div id="callSettingsPanel"></div>' +
       '<div class="call-upload-zone" id="callUploadZone">' +
         '<div class="call-upload-icon">' + ICONS.upload + '</div>' +
-        '<div class="call-upload-title">Laad je campagnelijst op</div>' +
-        '<div class="call-upload-sub">CSV werkt altijd, ook offline. Excel (.xlsx) vereist eenmalig internet om de leesbibliotheek te laden.</div>' +
+        '<div class="call-upload-title" id="callUploadTitle">Laad je campagnelijst op</div>' +
+        '<div class="call-upload-sub" id="callUploadSub">CSV werkt altijd, ook offline. Excel (.xlsx) vereist eenmalig internet om de leesbibliotheek te laden.</div>' +
         '<label class="call-upload-btn">Bestand kiezen<input type="file" accept=".csv,.xlsx,.xls" onchange="handleCallFileUpload(event)" style="display:none"></label>' +
         '<div class="call-upload-error" id="callUploadError"></div>' +
       '</div>' +

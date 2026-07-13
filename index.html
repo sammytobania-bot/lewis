@@ -320,11 +320,21 @@
   .cold-bulk-btn:disabled { opacity: .55; cursor: default; }
   .cold-bulk-status { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
 
-  /* Cold calling: "In 30 seconden" — het bedrijf in één oogopslag, vóór je belt */
-  .cold-snapshot { margin: 10px 0 12px; background: #fff; border: 1px solid var(--c-navy); border-radius: var(--radius-btn); padding: 10px 13px; }
-  .cold-snapshot-titel { font-size: 11px; font-weight: 800; color: var(--c-navy); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 7px; }
-  .cold-snapshot-lijst { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
-  .cold-snapshot-lijst li { background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 12px; font-weight: 600; color: var(--c-ink); }
+  /* Cold calling: de Quick Scan-fiche — kwalificatie in één oogopslag */
+  .qs-block { margin: 10px 0 12px; background: #fff; border: 1px solid var(--c-navy); border-radius: var(--radius-btn); padding: 10px 13px; }
+  .qs-titel { font-size: 11px; font-weight: 800; color: var(--c-navy); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .qs-tabel { width: 100%; border-collapse: collapse; }
+  .qs-tabel tr { border-bottom: 1px solid var(--c-slate-100); }
+  .qs-tabel tr:last-child { border-bottom: none; }
+  .qs-label { padding: 5px 10px 5px 0; font-size: 12px; font-weight: 700; color: var(--c-slate-500); white-space: nowrap; width: 1%; vertical-align: top; }
+  .qs-waarde { padding: 5px 0; font-size: 12.5px; font-weight: 600; color: var(--c-ink); vertical-align: top; }
+  /* "Onbekend" is geen leeg veld maar een actiepunt: visueel duidelijk anders. */
+  .qs-onbekend { color: var(--c-slate-400); font-style: italic; font-weight: 500; }
+  .qs-vraag { font-size: 10.5px; font-weight: 700; color: var(--c-red); font-style: normal; }
+  .qs-fit { font-size: 13px; }
+  .qs-trigger { display: inline-block; background: var(--c-navy); color: #fff; border-radius: var(--radius-pill); padding: 2px 10px; font-size: 11.5px; font-weight: 800; }
+  .qs-trigger.qs-onbekend { background: var(--c-slate-100); color: var(--c-slate-400); }
+  .qs-trigger-uitleg { margin-top: 3px; font-size: 11.5px; color: var(--c-slate-500); font-weight: 500; line-height: 1.45; }
 
   /* Bewijs: max 2 referenties, elk met steekwoorden i.p.v. lopende tekst */
   .cold-refs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
@@ -6511,6 +6521,10 @@ function callRowHtml(r, showRestore) {
 
     if (state.activeWorkspace === "coldcall") {
       const bezig = state.coldLoadingId === r._id;
+      // Draait er een bulk-analyse, dan mag GEEN ENKELE rij nog een klikbare
+      // analyseknop tonen: dit bedrijf is ofwel al bezig, ofwel staat het in de
+      // wachtrij. Twee keer klikken zou dezelfde (betaalde) analyse dubbel afvuren.
+      const bulkBezig = state.coldBulkBezig;
       // In het geheugen zit de analyse los van het topic; bij het wisselen van
       // topic kijken we dus telkens naar de BLIJVENDE opslag voor dit bedrijf
       // + het huidige topic, niet naar wat er toevallig in coldScripts hangt.
@@ -6518,6 +6532,9 @@ function callRowHtml(r, showRestore) {
 
       if (bezig) {
         html += '<div class="cold-loading">Lewis zoekt online en analyseert ' + esc(r.bedrijf) + '… (kan 10-20 sec duren)</div>';
+      } else if (bulkBezig && (!cold || cold.fout)) {
+        // Staat nog in de rij te wachten tot de bulk hier aankomt.
+        html += '<div class="cold-loading">⏳ In wachtrij…</div>';
       } else if (!cold) {
         html += '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">🔍 Analyseer bedrijf (' + esc(state.coldTopic) + ')</button>';
       } else if (cold.fout) {
@@ -6530,14 +6547,10 @@ function callRowHtml(r, showRestore) {
           html += '<span class="cold-cached">Eerder geanalyseerd — ' + esc(new Date(cold.opgeslagenOp).toLocaleDateString("nl-BE")) + '</span>';
         }
 
-        // "In 30 seconden": wie is dit bedrijf? Staat bovenaan, want dit is wat
-        // je moet weten vóór je belt — niet wat je moet zéggen.
-        if ((cold.snapshot || []).length) {
-          html += '<div class="cold-snapshot">' +
-            '<div class="cold-snapshot-titel">⏱️ In 30 seconden</div>' +
-            '<ul class="cold-snapshot-lijst">' +
-            cold.snapshot.map(function(s) { return '<li>' + esc(s) + '</li>'; }).join('') +
-            '</ul></div>';
+        // Quick Scan: de kwalificatie-fiche. Vaste velden, vaste waarden — dit
+        // is wat je moet WETEN vóór je belt, niet wat je moet zeggen.
+        if (cold.quickscan) {
+          html += renderQuickScan(cold.quickscan, state.coldTopic);
         }
 
         if ((cold.pijnpunten || []).length) {
@@ -6571,7 +6584,9 @@ function callRowHtml(r, showRestore) {
         if ((cold.bronnen || []).length) {
           html += '<div class="cold-bronnen">Bronnen: ' + cold.bronnen.map(esc).join(' · ') + '</div>';
         }
-        html += '<button class="cold-btn cold-refresh" onclick="analyseColdCall(' + r._id + ', true)">↻ Opnieuw analyseren</button>';
+        if (!bulkBezig) {
+          html += '<button class="cold-btn cold-refresh" onclick="analyseColdCall(' + r._id + ', true)">↻ Opnieuw analyseren</button>';
+        }
         html += '</div>';
       }
     }
@@ -6961,11 +6976,11 @@ function saveColdAnalyse_(bedrijf, topic, data) {
 function getColdAnalyse_(bedrijf, topic) {
   const a = getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
   if (!a || a.fout) return a;
-  // Analyses van vóór het "In 30 seconden"-blok missen de snapshot. Die zouden
-  // anders eeuwig in hun oude, veel te lange vorm blijven hangen — de cache is
-  // net bedoeld om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
-  // Zonder snapshot: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
-  if (!Array.isArray(a.snapshot) || a.snapshot.length === 0) return null;
+  // Analyses van vóór de quickscan-fiche missen dat veld. Die zouden anders
+  // eeuwig in hun oude, veel te lange vorm blijven hangen — de cache is bedoeld
+  // om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
+  // Zonder quickscan: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
+  if (!a.quickscan) return null;
   return a;
 }
 
@@ -6979,29 +6994,83 @@ const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consulting
   "Dit wordt gelezen terwijl de telefoon overgaat. Een verkoper scant dit in 30 seconden, hij leest geen rapport. " +
   "Lange, volgeschreven bullets zijn ONBRUIKBAAR, ook al staat er correcte informatie in. " +
   "Schrap alles wat niet nodig is om het gesprek te openen. Kort is beter dan volledig.\n\n" +
+  "TWEEDE REGEL — NIET GOKKEN:\n" +
+  "De quickscan hieronder is een KWALIFICATIE-fiche. Welk ERP een bedrijf draait, of ze al op S/4HANA zitten, " +
+  "waar beslissingen vallen: dat staat zelden publiek online. Vind je het niet met zekerheid in de websearch, " +
+  "dan vul je \"Onbekend\" in. Dat is een NUTTIG antwoord — het zegt de verkoper wat hij moet uitvragen. " +
+  "Een gegokte waarde die stellig oogt is veel schadelijker dan \"Onbekend\", want daar handelt hij naar.\n\n" +
   "Regels:\n" +
-  "- snapshot: het bedrijf in één oogopslag. Precies 4 tot 6 telegramstijl-punten van MAXIMAAL 6 WOORDEN elk. " +
-  "Geen zinnen, geen werkwoorden, geen uitleg. Denk: \"27 productiesites wereldwijd\", \"Wereldleider in mout\", " +
-  "\"6% personeelsafbouw\", \"ESG-doel: -30,3% CO2 tegen 2030\". Dit is wat iemand moet weten om te snappen " +
-  "waarover dit bedrijf gaat, vóór hij belt.\n" +
-  "- pijnpunten: MAXIMAAL 4, en elk pijnpunt is ÉÉN KORTE ZIN van hooguit 12 woorden. Geen toelichting, geen " +
-  "bronvermelding, geen cijfers-met-uitleg erachter — die context staat al in de snapshot. " +
+  "- quickscan: een vaste fiche met deze velden. Gebruik EXACT deze toegelaten waarden, niets anders:\n" +
+  "  * erpVandaag: \"SAP\" | \"Oracle\" | \"Dynamics\" | \"Infor\" | \"Andere\" | \"Onbekend\"\n" +
+  "  * sapKlant: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
+  "  * s4hana: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
+  "  * productFit: \"Hoog\" | \"Gemiddeld\" | \"Laag\" — jouw inschatting of het topic hier past. " +
+  "Dit MAG je inschatten (het is een oordeel, geen feit), maar baseer het op de pijnpunten die je vond.\n" +
+  "  * beslissingBelgie: \"Ja\" | \"Nee\" | \"Gedeeld\" | \"Onbekend\" — valt de IT-beslissing in Belgie, " +
+  "of bij een buitenlandse moeder/groep?\n" +
+  "  * omzet: bedrag met eenheid (bv. \"€ 1,4 mld\", \"€ 71M\") of \"Onbekend\"\n" +
+  "  * werknemers: aantal (bv. \"2.000\", \"~500\") of \"Onbekend\"\n" +
+  "  * trigger: de belangrijkste aanleiding om NU te bellen. Kies er EEN: \"Legacy ERP\" | \"Groei\" | " +
+  "\"Overname\" | \"Compliance\" | \"Carve-out\" | \"Private equity\" | \"Herstructurering\" | " +
+  "\"Internationalisering\" | \"Duurzaamheid/CSRD\" | \"Onbekend\"\n" +
+  "  * triggerToelichting: EEN korte zin (max 12 woorden) die de trigger onderbouwt met een concreet feit.\n" +
+  "- pijnpunten: MAXIMAAL 4, en elk pijnpunt is EEN KORTE ZIN van hooguit 12 woorden. Geen toelichting, geen " +
+  "bronvermelding, geen cijfers-met-uitleg erachter — die context staat al in de quickscan. " +
   "Goed: \"Complexe financiele consolidatie over 27 sites wereldwijd.\" " +
   "Fout: een bullet van drie regels met cijfers, bronnen en een redenering.\n" +
   "- gebruikteReferenties: MAXIMAAL 2 referenties. Per referentie geef je 2 tot 3 steekwoorden (elk max 5 woorden), " +
-  "geen lopende tekst. Denk: [\"Food & Beverage\", \"SAC dashboards\", \"Real-time marges\"]. " +
-  "De verkoper moet in een oogopslag zien waarom hij dit mag noemen.\n" +
+  "geen lopende tekst. Denk: [\"Food & Beverage\", \"SAC dashboards\", \"Real-time marges\"].\n" +
   "- aanbevolenProduct: welk concreet product/oplossing uit ons portfolio het beste past, met de naam exact " +
   "zoals in de meegeleverde productenlijst.\n" +
   "- opening: MAXIMAAL 2 zinnen, samen hooguit 45 woorden. Vertrekt vanuit een pijnpunt van DIT bedrijf, " +
-  "niet vanuit het product. Mag één concreet feit uit de websearch noemen als haakje.\n" +
-  "- vragen: PRECIES 3 open vragen, elk één zin van hooguit 20 woorden. Niet meer dan 3. Kies de drie sterkste " +
-  "en laat de rest vallen.\n" +
-  "- bronnen: kort, enkel de bron zelf (bv. \"jaarverslag 2025\", \"persbericht jan 2026\"). Geen zinnen.\n" +
-  "- Verzin NOOIT feiten. Vond de websearch niets bruikbaars, zeg dat expliciet in plaats van te gokken.\n" +
+  "niet vanuit het product.\n" +
+  "- vragen: PRECIES 3 open vragen, elk een zin van hooguit 20 woorden. Niet meer dan 3.\n" +
+  "- bronnen: kort, enkel de bron zelf (bv. \"jaarverslag 2025\"). Geen zinnen.\n" +
+  "- Verzin NOOIT feiten.\n" +
   "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
-  "{\"snapshot\": [string], \"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]}], " +
+  "{\"quickscan\": {\"erpVandaag\": string, \"sapKlant\": string, \"s4hana\": string, \"productFit\": string, " +
+  "\"beslissingBelgie\": string, \"omzet\": string, \"werknemers\": string, \"trigger\": string, " +
+  "\"triggerToelichting\": string}, " +
+  "\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]}], " +
   "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]}";
+
+// Toegelaten waarden per quickscan-veld. Alles wat het model hierbuiten verzint,
+// wordt "Onbekend" — een onverwachte waarde stilzwijgend tonen zou de fiche juist
+// weer onbetrouwbaar maken.
+const QS_ENUMS = {
+  erpVandaag: ["SAP", "Oracle", "Dynamics", "Infor", "Andere", "Onbekend"],
+  sapKlant: ["Ja", "Nee", "Onbekend"],
+  s4hana: ["Ja", "Nee", "Onbekend"],
+  productFit: ["Hoog", "Gemiddeld", "Laag"],
+  beslissingBelgie: ["Ja", "Nee", "Gedeeld", "Onbekend"],
+  trigger: ["Legacy ERP", "Groei", "Overname", "Compliance", "Carve-out", "Private equity",
+    "Herstructurering", "Internationalisering", "Duurzaamheid/CSRD", "Onbekend"],
+};
+
+function qsWaarde_(veld, waarde) {
+  const toegelaten = QS_ENUMS[veld];
+  const w = String(waarde == null ? "" : waarde).trim();
+  if (!toegelaten) return w || "Onbekend";       // vrije velden: omzet, werknemers
+  const treffer = toegelaten.find(function(t) { return t.toLowerCase() === w.toLowerCase(); });
+  if (treffer) return treffer;
+  // productFit heeft geen "Onbekend": een fit is altijd een inschatting.
+  return veld === "productFit" ? "Gemiddeld" : "Onbekend";
+}
+
+function normaliseerQuickscan_(q) {
+  q = q || {};
+  return {
+    erpVandaag: qsWaarde_("erpVandaag", q.erpVandaag),
+    sapKlant: qsWaarde_("sapKlant", q.sapKlant),
+    s4hana: qsWaarde_("s4hana", q.s4hana),
+    productFit: qsWaarde_("productFit", q.productFit),
+    beslissingBelgie: qsWaarde_("beslissingBelgie", q.beslissingBelgie),
+    omzet: qsWaarde_("omzet", q.omzet),
+    werknemers: qsWaarde_("werknemers", q.werknemers),
+    trigger: qsWaarde_("trigger", q.trigger),
+    triggerToelichting: String(q.triggerToelichting || "").trim(),
+  };
+}
 
 // De prompt vráágt om max 4 pijnpunten en precies 3 vragen, maar een model houdt
 // zich daar niet altijd aan. Dat mag de kaart niet opnieuw laten dichtslibben —
@@ -7011,7 +7080,7 @@ function normaliseerColdAnalyse_(a) {
   const lijst = function(x) { return Array.isArray(x) ? x.filter(Boolean) : []; };
 
   return {
-    snapshot: lijst(a.snapshot).slice(0, 6),
+    quickscan: normaliseerQuickscan_(a.quickscan),
     pijnpunten: lijst(a.pijnpunten).slice(0, 4),
     gebruikteReferenties: lijst(a.gebruikteReferenties).slice(0, 2).map(function(g) {
       // Oudere, al opgeslagen analyses hebben nog "reden" (lopende tekst) i.p.v.
@@ -7030,7 +7099,50 @@ function normaliseerColdAnalyse_(a) {
   };
 }
 
+// De quickscan-fiche. "Onbekend" wordt bewust anders getoond (gedempt, cursief):
+// dat is geen ontbrekende data maar een ACTIEPUNT — precies wat de verkoper aan
+// de telefoon moet uitvragen. Zou het er hetzelfde uitzien als een echt antwoord,
+// dan verdwijnt dat signaal.
+const FIT_KLEUR = { "Hoog": "🟢", "Gemiddeld": "🟡", "Laag": "🔴" };
+
+function qsCel_(waarde, extraKlasse) {
+  const onbekend = String(waarde).toLowerCase() === "onbekend";
+  return '<td class="qs-waarde' + (onbekend ? ' qs-onbekend' : '') + (extraKlasse ? ' ' + extraKlasse : '') + '">' +
+    esc(waarde) + (onbekend ? ' <span class="qs-vraag">— uitvragen</span>' : '') + '</td>';
+}
+
+function renderQuickScan(q, topic) {
+  const fitIcoon = FIT_KLEUR[q.productFit] || "🟡";
+
+  let html = '<div class="qs-block">';
+  html += '<div class="qs-titel">⚡ ' + esc(topic) + ' Quick Scan</div>';
+  html += '<table class="qs-tabel"><tbody>';
+
+  html += '<tr><td class="qs-label">ERP vandaag</td>' + qsCel_(q.erpVandaag) + '</tr>';
+  html += '<tr><td class="qs-label">SAP-klant?</td>' + qsCel_(q.sapKlant) + '</tr>';
+  html += '<tr><td class="qs-label">S/4HANA?</td>' + qsCel_(q.s4hana) + '</tr>';
+  html += '<tr><td class="qs-label">Product fit</td>' +
+    '<td class="qs-waarde qs-fit"><strong>' + fitIcoon + ' ' + esc(q.productFit) + '</strong></td></tr>';
+  html += '<tr><td class="qs-label">Beslissing België?</td>' + qsCel_(q.beslissingBelgie) + '</tr>';
+  html += '<tr><td class="qs-label">Omzet</td>' + qsCel_(q.omzet) + '</tr>';
+  html += '<tr><td class="qs-label">Werknemers</td>' + qsCel_(q.werknemers) + '</tr>';
+
+  // De trigger is het BELANGRIJKSTE veld: dat is de reden om nú te bellen.
+  // Daarom onderaan, visueel losgetrokken, met de onderbouwing erbij.
+  const triggerOnbekend = String(q.trigger).toLowerCase() === "onbekend";
+  html += '<tr><td class="qs-label">Trigger</td><td class="qs-waarde">' +
+    '<span class="qs-trigger' + (triggerOnbekend ? ' qs-onbekend' : '') + '">' + esc(q.trigger) + '</span>' +
+    (q.triggerToelichting ? '<div class="qs-trigger-uitleg">' + esc(q.triggerToelichting) + '</div>' : '') +
+    '</td></tr>';
+
+  html += '</tbody></table></div>';
+  return html;
+}
+
 window.analyseColdCall = function(id, forceer) {
+  // Nooit twee analyses tegelijk op dezelfde rij, en nooit een losse analyse
+  // bovenop een lopende bulk-run: dat vuurt dezelfde (betaalde) AI-aanroep dubbel af.
+  if (state.coldBulkBezig || state.coldLoadingId !== null) return Promise.resolve();
   state.coldLoadingId = id;
   render();
   return analyseColdCallCore_(id, forceer).finally(function() {
@@ -7204,9 +7316,13 @@ window.analyseAllColdCalls = function(forceer) {
   teDoen.forEach(function(r, i) {
     ketting = ketting.then(function() {
       state.coldBulkHuidig = r.bedrijf;
+      // Ook de RIJ zelf moet weten dat hij aan de beurt is: anders blijft daar
+      // een klikbare "Analyseer bedrijf"-knop staan terwijl de bulk hem al doet.
+      state.coldLoadingId = r._id;
       render();
       return analyseColdCallCore_(r._id, forceer);
     }).then(function() {
+      state.coldLoadingId = null;
       state.coldBulkKlaar++;
       render();
       // Korte adempauze tussen twee bedrijven, om rate limits te ontzien.
@@ -7225,6 +7341,7 @@ window.analyseAllColdCalls = function(forceer) {
 
     state.coldBulkBezig = false;
     state.coldBulkHuidig = null;
+    state.coldLoadingId = null;
     state.coldBulkStatus = mislukt === 0
       ? "✓ " + gelukt + " bedrijf" + (gelukt === 1 ? "" : "ven") + " geanalyseerd."
       : "✓ " + gelukt + " gelukt · ⚠ " + mislukt + " mislukt (zie de foutmelding bij die bedrijven).";

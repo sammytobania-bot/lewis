@@ -332,6 +332,9 @@
   .qs-onbekend { color: var(--c-slate-400); font-style: italic; font-weight: 500; }
   .qs-vraag { font-size: 10.5px; font-weight: 700; color: var(--c-red); font-style: normal; }
   .qs-fit { font-size: 13px; }
+  .qs-modules { display: flex; flex-wrap: wrap; gap: 5px; }
+  .qs-module { background: var(--c-slate-50); border: 1px solid var(--c-navy); border-radius: var(--radius-pill); padding: 2px 9px; font-size: 11.5px; font-weight: 700; color: var(--c-navy); }
+  .qs-module-bron { margin-top: 4px; font-size: 11px; color: var(--c-slate-400); font-style: italic; }
   .qs-trigger { display: inline-block; background: var(--c-navy); color: #fff; border-radius: var(--radius-pill); padding: 2px 10px; font-size: 11.5px; font-weight: 800; }
   .qs-trigger.qs-onbekend { background: var(--c-slate-100); color: var(--c-slate-400); }
   .qs-trigger-uitleg { margin-top: 3px; font-size: 11.5px; color: var(--c-slate-500); font-weight: 500; line-height: 1.45; }
@@ -6983,11 +6986,12 @@ function saveColdAnalyse_(bedrijf, topic, data) {
 function getColdAnalyse_(bedrijf, topic) {
   const a = getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
   if (!a || a.fout) return a;
-  // Analyses van vóór de quickscan-fiche missen dat veld. Die zouden anders
-  // eeuwig in hun oude, veel te lange vorm blijven hangen — de cache is bedoeld
-  // om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
-  // Zonder quickscan: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
+  // Analyses van vóór de quickscan-fiche (of van vóór het SAP-landschap-veld)
+  // missen die velden. Die zouden anders blijven hangen in hun oude vorm — de cache
+  // is bedoeld om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
+  // Zonder die velden: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
   if (!a.quickscan) return null;
+  if (!Array.isArray(a.quickscan.sapLandschap)) return null;
   return a;
 }
 
@@ -7007,9 +7011,23 @@ const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consulting
   "dan vul je \"Onbekend\" in. Dat is een NUTTIG antwoord — het zegt de verkoper wat hij moet uitvragen. " +
   "Een gegokte waarde die stellig oogt is veel schadelijker dan \"Onbekend\", want daar handelt hij naar.\n\n" +
   "Regels:\n" +
+  "- ZOEK ACTIEF NAAR HET SAP-LANDSCHAP. Dit is het waardevolste veld van de hele fiche, dus doe hier moeite voor. " +
+  "Bedrijven zetten dit zelden op hun website, maar het lekt op voorspelbare plaatsen: " +
+  "(a) VACATURES — een job voor \"SAP FICO consultant\" of \"SuccessFactors key user\" bewijst welke modules draaien; " +
+  "(b) LINKEDIN-PROFIELEN van hun IT- en finance-medewerkers, waar systemen in functietitels staan; " +
+  "(c) PERSBERICHTEN van SAP of implementatiepartners over dit bedrijf; " +
+  "(d) CASE STUDIES en klantenreferenties op partnerwebsites; " +
+  "(e) hun eigen jaarverslag of IT-nieuws. " +
+  "Gebruik hier gerust een van je zoekopdrachten expliciet voor (bv. bedrijfsnaam + \"SAP\", of bedrijfsnaam + \"vacature SAP\").\n" +
   "- quickscan: een vaste fiche met deze velden. Gebruik EXACT deze toegelaten waarden, niets anders:\n" +
   "  * erpVandaag: \"SAP\" | \"Oracle\" | \"Dynamics\" | \"Infor\" | \"Andere\" | \"Onbekend\"\n" +
   "  * sapKlant: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
+  "  * sapLandschap: lijst van de CONCRETE SAP-producten/modules die je met bewijs hebt gevonden. " +
+  "Gebruik de gangbare productnamen: \"SAP ECC\", \"S/4HANA\", \"SuccessFactors\", \"Ariba\", \"Concur\", \"SAP BW\", " +
+  "\"SAC\", \"Fieldglass\", \"BTP\", \"IBP\", \"SAP CX\", enz. Lege lijst als je niets hard kan maken — dat is een " +
+  "geldig antwoord. Vermeld hier alleen wat je ECHT gevonden hebt, nooit wat je vermoedt.\n" +
+  "  * sapLandschapBron: EEN korte zin (max 12 woorden) die zegt WAARUIT je dat afleidt " +
+  "(bv. \"vacature SAP FICO consultant, maart 2026\"). Leeg als sapLandschap leeg is.\n" +
   "  * s4hana: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
   "  * productFit: \"Hoog\" | \"Gemiddeld\" | \"Laag\" — jouw inschatting of het topic hier past. " +
   "Dit MAG je inschatten (het is een oordeel, geen feit), maar baseer het op de pijnpunten die je vond.\n" +
@@ -7035,7 +7053,8 @@ const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consulting
   "- bronnen: kort, enkel de bron zelf (bv. \"jaarverslag 2025\"). Geen zinnen.\n" +
   "- Verzin NOOIT feiten.\n" +
   "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
-  "{\"quickscan\": {\"erpVandaag\": string, \"sapKlant\": string, \"s4hana\": string, \"productFit\": string, " +
+  "{\"quickscan\": {\"erpVandaag\": string, \"sapKlant\": string, \"sapLandschap\": [string], " +
+  "\"sapLandschapBron\": string, \"s4hana\": string, \"productFit\": string, " +
   "\"beslissingBelgie\": string, \"omzet\": string, \"werknemers\": string, \"trigger\": string, " +
   "\"triggerToelichting\": string}, " +
   "\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]}], " +
@@ -7066,9 +7085,16 @@ function qsWaarde_(veld, waarde) {
 
 function normaliseerQuickscan_(q) {
   q = q || {};
+  const landschap = (Array.isArray(q.sapLandschap) ? q.sapLandschap : [])
+    .map(function(s) { return String(s || "").trim(); })
+    .filter(Boolean)
+    .slice(0, 8);
   return {
     erpVandaag: qsWaarde_("erpVandaag", q.erpVandaag),
     sapKlant: qsWaarde_("sapKlant", q.sapKlant),
+    sapLandschap: landschap,
+    // Zonder gevonden modules is een "bron" betekenisloos — dan hoort er niets te staan.
+    sapLandschapBron: landschap.length ? String(q.sapLandschapBron || "").trim() : "",
     s4hana: qsWaarde_("s4hana", q.s4hana),
     productFit: qsWaarde_("productFit", q.productFit),
     beslissingBelgie: qsWaarde_("beslissingBelgie", q.beslissingBelgie),
@@ -7127,6 +7153,22 @@ function renderQuickScan(q, topic) {
 
   html += '<tr><td class="qs-label">ERP vandaag</td>' + qsCel_(q.erpVandaag) + '</tr>';
   html += '<tr><td class="qs-label">SAP-klant?</td>' + qsCel_(q.sapKlant) + '</tr>';
+
+  // Welke SAP-producten draaien ze? Dit is het veld waar de verkoper het meest
+  // aan heeft: "SAP-klant: Ja" zegt niets, "ECC + SuccessFactors" zegt alles.
+  const modules = q.sapLandschap || [];
+  html += '<tr><td class="qs-label">SAP-landschap</td><td class="qs-waarde">';
+  if (modules.length) {
+    html += '<div class="qs-modules">' +
+      modules.map(function(m) { return '<span class="qs-module">' + esc(m) + '</span>'; }).join('') + '</div>';
+    if (q.sapLandschapBron) {
+      html += '<div class="qs-module-bron">via ' + esc(q.sapLandschapBron) + '</div>';
+    }
+  } else {
+    html += '<span class="qs-onbekend">Niets gevonden <span class="qs-vraag">— uitvragen</span></span>';
+  }
+  html += '</td></tr>';
+
   html += '<tr><td class="qs-label">S/4HANA?</td>' + qsCel_(q.s4hana) + '</tr>';
   html += '<tr><td class="qs-label">Product fit</td>' +
     '<td class="qs-waarde qs-fit"><strong>' + fitIcoon + ' ' + esc(q.productFit) + '</strong></td></tr>';
@@ -7247,7 +7289,10 @@ function analyseColdCallCore_(id, forceer) {
       model: "claude-sonnet-4-5",
       max_tokens: 2000,
       system: COLD_SYSTEM_PROMPT,
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+      // Meer zoekruimte dan de oorspronkelijke 3: het SAP-landschap achterhalen
+      // vraagt vaak een aparte zoekopdracht (vacatures, partner-persberichten),
+      // bovenop het gewone bedrijfsonderzoek.
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
       messages: [{ role: "user", content: "Bereid de cold call voor dit bedrijf voor. Zoek eerst kort online naar het bedrijf zelf voor actuele context, en gebruik dan onderstaande interne data.\n\n" + JSON.stringify(context) }]
     })
   })

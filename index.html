@@ -665,6 +665,10 @@
   .call-crm-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-700); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
   .call-crm-btn:hover { border-color: var(--c-primary); color: var(--c-primary-darker); }
   .call-crm-btn .icon { width: 11px; height: 11px; }
+  /* Verwijderen: neutraal in rust, rood pas bij hover — het is een destructieve
+     actie, maar hij hoeft niet permanent de aandacht op te eisen. */
+  .call-del-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 6px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-400); font-size: 11.5px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .call-del-btn:hover { border-color: var(--c-red); color: var(--c-red); }
   @media (max-width: 640px) {
     .call-brief-modal { width: 96%; max-height: 92vh; }
   }
@@ -6601,6 +6605,9 @@ function callRowHtml(r, showRestore) {
   } else {
     html += '<div class="call-row-actions-col">';
     html += '<button class="call-crm-btn" id="crmBtn-' + r._id + '" onclick="copyCallRowForCRM(' + r._id + ')">' + ICONS.copy + ' Kopieer voor CRM</button>';
+    // Verwijderen: vooral nodig bij cold calling, waar je bedrijven zelf intypt
+    // en een typfout of een niet-interessant bedrijf anders eeuwig blijft staan.
+    html += '<button class="call-del-btn" onclick="deleteCallRow(' + r._id + ')" title="Verwijder dit bedrijf uit de lijst">✕ Verwijderen</button>';
     html += '</div>';
   }
   html += '</div>';
@@ -7138,6 +7145,36 @@ function renderQuickScan(q, topic) {
   html += '</tbody></table></div>';
   return html;
 }
+
+// Verwijdert een bedrijf volledig uit de bellijst.
+window.deleteCallRow = function(id) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+
+  // Alleen bevestiging vragen als er écht iets verloren gaat. Een bedrijf dat je
+  // net verkeerd hebt ingetypt moet in één klik weg kunnen; een bedrijf waar al
+  // een gesprek en notities aan hangen niet.
+  const heeftWerk = row.gebeld || row.outcome ||
+    (row.liveNotes || "").trim() ||
+    (row.historiek || []).length > 0 ||
+    Object.keys(row.blindAnswers || {}).length > 0;
+
+  if (heeftWerk && !confirm("\"" + (row.bedrijf || "Dit bedrijf") + "\" verwijderen?\n\nDe notities, uitkomst en contacthistoriek van dit bedrijf gaan verloren.")) {
+    return;
+  }
+
+  state.callRows = state.callRows.filter(function(r) { return r._id !== id; });
+
+  // Losse eindjes opruimen die naar deze rij verwijzen — anders blijft er een
+  // laadindicator of een notitie-preview hangen van een rij die niet meer bestaat.
+  delete state.coldScripts[id];
+  if (state.coldLoadingId === id) state.coldLoadingId = null;
+  if (state.openHistoryId === id) state.openHistoryId = null;
+  if (state.cleanedNotePreview && state.cleanedNotePreview.id === id) state.cleanedNotePreview = null;
+
+  autosaveCallState_();
+  render();
+};
 
 window.analyseColdCall = function(id, forceer) {
   // Nooit twee analyses tegelijk op dezelfde rij, en nooit een losse analyse

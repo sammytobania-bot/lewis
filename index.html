@@ -440,13 +440,13 @@
 
   .call-list { display: flex; flex-direction: column; gap: 8px; }
   .call-row { display: flex; align-items: flex-start; gap: 12px; background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 12px 16px; box-shadow: var(--shadow-card); }
-  .call-row.gebeld { opacity: .55; }
+  .call-row.gebeld { opacity: 1; }
   .call-checkbox { padding-top: 2px; }
   .call-checkbox input { width: 17px; height: 17px; accent-color: var(--c-primary); cursor: pointer; }
   .call-row-main { flex: 1; min-width: 0; }
   .call-row-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .call-bedrijf { font-size: 14px; font-weight: 700; color: var(--c-navy); }
-  .call-row.gebeld .call-bedrijf { text-decoration: line-through; }
+  .call-row.gebeld .call-bedrijf { text-decoration: none; }
   .call-campagne-tag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: var(--radius-pill); background: var(--c-primary-100); color: var(--c-primary-darker); }
   .call-am-tag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: var(--radius-pill); background: var(--c-slate-100); color: var(--c-slate-500); }
   .call-notities { font-size: 12px; color: var(--c-slate-700); margin-top: 6px; line-height: 1.5; background: var(--c-slate-50); border-radius: 6px; padding: 7px 10px; }
@@ -495,6 +495,9 @@
   .call-history-toggle { margin-top: 8px; background: none; border: none; padding: 3px 0; font-size: 11.5px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; font-family: inherit; }
   .call-history-list { margin-top: 6px; border-left: 2px solid var(--c-slate-200); padding-left: 11px; display: flex; flex-direction: column; gap: 9px; }
   .call-history-item { display: flex; gap: 8px; align-items: flex-start; }
+  .call-history-del { background: none; border: none; color: var(--c-slate-200); font-size: 13px; line-height: 1; cursor: pointer; padding: 3px 4px; flex-shrink: 0; font-family: inherit; }
+  .call-history-item:hover .call-history-del { color: var(--c-slate-400); }
+  .call-history-del:hover { color: var(--c-red) !important; }
   .call-history-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
   .call-history-head { font-size: 12px; font-weight: 700; color: var(--c-navy); }
   .call-history-head span { font-weight: 500; color: var(--c-slate-400); }
@@ -4461,10 +4464,11 @@ window.clearCallList = function() {
 // niet kwijt te raken. De uitkomst gaat mee in de CRM-export, want daar hoort
 // de definitieve registratie thuis.
 const CALL_OUTCOMES = [
-  { id: "niet_bereikt",   label: "Niet bereikt",   kort: "Niet bereikt",   kleur: "#94a3b8", crm: "Niet bereikt" },
-  { id: "geen_interesse", label: "Geen interesse", kort: "Geen interesse", kleur: "#c53030", crm: "Geen interesse" },
-  { id: "opvolgen",       label: "Opvolgen",       kort: "Opvolgen",       kleur: "#d97706", crm: "Opvolgen — terugbellen" },
-  { id: "afspraak",       label: "Afspraak",       kort: "Afspraak",       kleur: "#059669", crm: "Afspraak gemaakt" },
+  { id: "niet_opgenomen", label: "⚪ Niet opgenomen", kort: "Niet opgenomen", kleur: "#94a3b8", crm: "Niet opgenomen" },
+  { id: "geen_interesse", label: "🔴 Geen interesse", kort: "Geen interesse", kleur: "#dc2626", crm: "Geen interesse" },
+  { id: "terugbellen",    label: "🟡 Terugbellen",    kort: "Terugbellen",    kleur: "#eab308", crm: "Terugbellen" },
+  { id: "nurture",        label: "🟠 Nurture",        kort: "Nurture",        kleur: "#f97316", crm: "Opnemen in nurtureflow" },
+  { id: "afspraak",       label: "🟢 Afspraak",       kort: "Afspraak",       kleur: "#16a34a", crm: "Afspraak gemaakt" },
 ];
 
 function outcomeById(id) {
@@ -4472,27 +4476,54 @@ function outcomeById(id) {
 }
 
 // Legt een uitkomst vast en schrijft ze in de historiek van dit contact.
+// Belangrijk: een correctie kort na de vorige klik (bv. je klikte verkeerd)
+// overschrijft het laatste moment in plaats van er een nieuw bij te maken.
+// Zonder dit krijg je vier "contactmomenten" binnen dezelfde minuut.
+const CORRECTIE_VENSTER_MS = 2 * 60 * 1000; // 2 minuten
+
 window.setCallOutcome = function(id, outcomeId) {
   const row = state.callRows.find(function(r) { return r._id === id; });
   if (!row) return;
+  row.historiek = row.historiek || [];
+  const laatste = row.historiek[0];
+  const nu = new Date();
 
-  // Klik op dezelfde uitkomst = ongedaan maken.
+  // Klik op dezelfde uitkomst = ongedaan maken. Ook het bijhorende moment
+  // verdwijnt, anders blijft er een contactmoment staan zonder status.
   if (row.outcome === outcomeId) {
-    row.outcome = null;
-    row.gebeld = false;
+    if (laatste && laatste.outcome === outcomeId) row.historiek.shift();
+    const vorige = row.historiek[0];
+    row.outcome = vorige ? vorige.outcome : null;
+    row.gebeld = !!vorige;
+    row.laatstGebeld = vorige ? vorige.datum : null;
+    if (row.outcome !== "terugbellen") row.terugbelDatum = null;
+    if (row.historiek.length === 0) state.openHistoryId = null;
+    autosaveCallState_();
+    render();
+    return;
+  }
+
+  const isCorrectie = laatste && (nu - new Date(laatste.datum)) < CORRECTIE_VENSTER_MS;
+
+  row.outcome = outcomeId;
+  row.gebeld = true;
+  row.laatstGebeld = nu.toISOString();
+
+  if (isCorrectie) {
+    // Verbeter het laatste moment; geen nieuw contactmoment aanmaken.
+    laatste.outcome = outcomeId;
+    laatste.datum = nu.toISOString();
+    laatste.notitie = row.liveNotes || laatste.notitie || "";
   } else {
-    row.outcome = outcomeId;
-    row.gebeld = true;
-    row.laatstGebeld = new Date().toISOString();
-    row.historiek = row.historiek || [];
     row.historiek.unshift({
-      datum: new Date().toISOString(),
+      datum: nu.toISOString(),
       outcome: outcomeId,
       notitie: row.liveNotes || "",
     });
-    // Terugbeldatum is enkel zinvol bij opvolgen.
-    if (outcomeId !== "opvolgen") row.terugbelDatum = null;
   }
+
+  // Terugbeldatum is enkel zinvol bij "terugbellen".
+  if (outcomeId !== "terugbellen") row.terugbelDatum = null;
   autosaveCallState_();
   render();
 };
@@ -4502,6 +4533,36 @@ window.setCallbackDate = function(id, waarde) {
   if (!row) return;
   row.terugbelDatum = waarde || null;
   autosaveCallState_();
+};
+
+// Verwijdert één contactmoment (bv. een misklik). Wist je het meest recente
+// moment, dan valt de huidige uitkomst terug op het moment daaronder — anders
+// zou de statusstip iets tonen dat niet meer in de historiek staat.
+window.deleteHistoryItem = function(id, index) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row || !row.historiek || !row.historiek[index]) return;
+
+  row.historiek.splice(index, 1);
+
+  if (index === 0) {
+    const vorige = row.historiek[0];
+    if (vorige) {
+      row.outcome = vorige.outcome;
+      row.laatstGebeld = vorige.datum;
+      row.gebeld = true;
+    } else {
+      // Niets meer over: terug naar "nog niet gebeld".
+      row.outcome = null;
+      row.laatstGebeld = null;
+      row.gebeld = false;
+      row.terugbelDatum = null;
+    }
+    if (row.outcome !== "terugbellen") row.terugbelDatum = null;
+  }
+
+  if (row.historiek.length === 0) state.openHistoryId = null;
+  autosaveCallState_();
+  render();
 };
 
 window.toggleCallHistory = function(id) {
@@ -4521,7 +4582,7 @@ function callProgress() {
   // Opvolgingen die vandaag of eerder terugbeld moeten worden.
   const vandaag = new Date().toISOString().slice(0, 10);
   const teBellen = rows.filter(function(r) {
-    return r.outcome === "opvolgen" && r.terugbelDatum && r.terugbelDatum <= vandaag;
+    return r.outcome === "terugbellen" && r.terugbelDatum && r.terugbelDatum <= vandaag;
   }).length;
   return { totaal: totaal, gedaan: gedaan, per: per, teBellen: teBellen };
 }
@@ -4618,7 +4679,7 @@ window.copyCallRowForCRM = function(id) {
   const oc = outcomeById(row.outcome);
   if (oc) {
     lines.push("Uitkomst: " + oc.crm);
-    if (row.outcome === "opvolgen" && row.terugbelDatum) {
+    if (row.outcome === "terugbellen" && row.terugbelDatum) {
       lines.push("Terugbellen op: " + new Date(row.terugbelDatum + "T00:00:00").toLocaleDateString("nl-BE"));
     }
   }
@@ -6163,18 +6224,19 @@ function callRowHtml(r, showRestore) {
   if (!showRestore) {
     html += '<textarea class="call-live-note" id="liveNote-' + r._id + '" placeholder="Eigen notities tijdens het gesprek..." onblur="state.callRows.find(function(x){return x._id===' + r._id + ';}).liveNotes=this.value;autosaveCallState_();">' + esc(r.liveNotes || "") + '</textarea>';
 
-    // Uitkomst van het gesprek.
+    // Uitkomst van het gesprek. De emoji draagt de kleur, dus de actieve knop
+    // krijgt enkel een gekleurde rand + lichte vulling (geen volvlak).
     html += '<div class="call-outcome-row">';
     CALL_OUTCOMES.forEach(function(o) {
       const actief = r.outcome === o.id;
       html += '<button class="call-outcome-btn' + (actief ? ' actief' : '') + '" ' +
-        (actief ? 'style="background:' + o.kleur + ';border-color:' + o.kleur + ';color:#fff" ' : '') +
+        (actief ? 'style="border-color:' + o.kleur + ';box-shadow:inset 0 0 0 1px ' + o.kleur + ';color:var(--c-navy)" ' : '') +
         'onclick="setCallOutcome(' + r._id + ',\'' + o.id + '\')">' + esc(o.label) + '</button>';
     });
     html += '</div>';
 
     // Terugbeldatum: enkel zinvol bij opvolgen.
-    if (r.outcome === "opvolgen") {
+    if (r.outcome === "terugbellen") {
       const vandaag = new Date().toISOString().slice(0, 10);
       const teLaat = r.terugbelDatum && r.terugbelDatum <= vandaag;
       html += '<div class="call-callback-row">' +
@@ -6190,15 +6252,17 @@ function callRowHtml(r, showRestore) {
       html += '<button class="call-history-toggle" onclick="toggleCallHistory(' + r._id + ')">' +
         '🕘 ' + r.historiek.length + ' contactmoment' + (r.historiek.length === 1 ? '' : 'en') + (open ? ' ▲' : ' ▼') + '</button>';
       if (open) {
-        html += '<div class="call-history-list">' + r.historiek.map(function(h) {
+        html += '<div class="call-history-list">' + r.historiek.map(function(h, idx) {
           const ho = outcomeById(h.outcome);
           const d = new Date(h.datum).toLocaleDateString("nl-BE", { day: "2-digit", month: "short", year: "numeric" });
           const t = new Date(h.datum).toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" });
           return '<div class="call-history-item">' +
             '<span class="call-history-dot" style="background:' + (ho ? ho.kleur : "#94a3b8") + '"></span>' +
-            '<div><div class="call-history-head">' + esc(ho ? ho.label : "Gebeld") + ' · <span>' + esc(d) + ' ' + esc(t) + '</span></div>' +
+            '<div style="flex:1"><div class="call-history-head">' + esc(ho ? ho.kort : "Gebeld") + ' · <span>' + esc(d) + ' ' + esc(t) + '</span></div>' +
             (h.notitie ? '<div class="call-history-note">' + esc(h.notitie) + '</div>' : '') +
-            '</div></div>';
+            '</div>' +
+            '<button class="call-history-del" title="Verwijder dit contactmoment" onclick="deleteHistoryItem(' + r._id + ',' + idx + ')">✕</button>' +
+          '</div>';
         }).join('') + '</div>';
       }
     }

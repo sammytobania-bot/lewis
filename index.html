@@ -3028,6 +3028,9 @@ const state = {
   askQLoading: false,
   askQResult: null,      // { matches:[...], geenGoedeMatch, suggestie } of null
   askQError: null,
+  // Historiek (enkel deze sessie; verdwijnt bij herladen)
+  askHistory: [],        // [{ id, mode:"notities"|"vraag", input, result, tijd }]
+  askHistoryOpen: false, // toont de historiek-lijst i.p.v. het invoerscherm
 
   // Bellijst (campagnelijst-upload, enkel deze sessie bewaard)
   callRows: [],          // [{ _id, raw:{...alle kolommen...}, bedrijf, contact, functie, telefoon, email, campagne, status:"ok"|"competitor"|"irrelevant", reden, manualOverride, gebeld }]
@@ -3458,6 +3461,30 @@ const AI_SYSTEM_PROMPT = "Je bent een interne sales-assistent voor een SAP-consu
   "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown-codeblok en zonder enige tekst ervoor of erna:\n" +
   "{\"matches\": [{\"naam\": string, \"beschrijving\": string, \"redenen\": [string, string], \"caseUrl\": string|null}], \"geenGoedeMatch\": boolean, \"suggestie\": string|null}";
 
+// Aparte prompt voor de vrije-vraagmodus ("Stel een vraag"). De prospect-prompt
+// hierboven gaat ervan uit dat de gebruiker een prospect beschrijft; een vrije
+// vraag ("welke referenties heb ik voor transportation?") is iets anders: dan
+// bevraagt de verkoper zijn eigen bibliotheek. Deze prompt behandelt dat geval.
+const ASK_SYSTEM_PROMPT = "Je bent een interne sales-assistent voor een SAP-consultingbedrijf. " +
+  "Een verkoper stelt een vraag over zijn eigen referentiebibliotheek. Jouw taak: alle referenties " +
+  "teruggeven die op die vraag passen.\n\n" +
+  "Regels:\n" +
+  "- De vraag kan gaan over een sector/industrie, een land, een SAP-oplossing of module, bedrijfsgrootte, " +
+  "omzet, of een combinatie daarvan. Ze kan ook over een concreet probleem gaan.\n" +
+  "- Begrijp synoniemen en taalvarianten. 'transportation', 'transport', 'logistiek' en 'vervoer' betekenen hetzelfde. " +
+  "Zo ook 'bouw'/'construction', 'zorg'/'healthcare', 'voeding'/'food', 'productie'/'manufacturing'. " +
+  "Match op de betekenis, niet op de exacte letters.\n" +
+  "- Vraagt de verkoper naar een sector of industrie, geef dan ALLE referenties uit die sector terug — niet alleen de 'beste'. " +
+  "Het is een bibliotheekvraag, geen aanbeveling.\n" +
+  "- Gebruik uitsluitend de meegeleverde lijst. Verzin nooit een bedrijf dat er niet in staat.\n" +
+  "- Gebruik voor elke referentie exact de waarde van het 'naam'-veld zoals die in de data staat.\n" +
+  "- Geef per referentie een korte, feitelijke beschrijving (max 1 zin) en 1 tot 2 korte redenen waarom ze op de vraag past.\n" +
+  "- Als een referentie een 'cases'-veld heeft, kies de meest relevante case-url voor caseUrl. Anders null.\n" +
+  "- Enkel als er echt niets past, geef een lege matches-lijst, zet geenGoedeMatch op true, en leg in suggestie kort uit " +
+  "wat er wél in de bibliotheek zit (bijvoorbeeld welke sectoren beschikbaar zijn).\n" +
+  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown-codeblok en zonder tekst ervoor of erna:\n" +
+  "{\"matches\": [{\"naam\": string, \"beschrijving\": string, \"redenen\": [string], \"caseUrl\": string|null}], \"geenGoedeMatch\": boolean, \"suggestie\": string|null}";
+
 // ─── OFFLINE FALLBACK: lokale matching-engine ──────────────────────────────
 // Werkt zonder netwerk of API. Scoort elke referentie op basis van sector,
 // businessprobleem (afgeleid van BUSINESS_NEEDS), functietitel, SAP-oplossing,
@@ -3471,16 +3498,18 @@ const OFFLINE_SECTOR_KEYWORDS = [
   ["retail", "retail"], ["winkel", "retail"], ["kleinhandel", "retail"], ["e-commerce", "retail"],
   ["energie", "energie"], ["utilities", "energie"], ["elektriciteit", "energie"], ["waterbedrijf", "energie"], ["netbeheerder", "energie"], ["nutsbedrijf", "energie"],
   ["ziekenhuis", "zorg"], ["zorgsector", "zorg"], ["zorginstelling", "zorg"], ["healthcare", "zorg"], ["farma", "zorg"], ["pharma", "zorg"], ["medisch", "zorg"], ["gezondheidszorg", "zorg"],
-  ["logistiek", "transport"], ["logistics", "transport"], ["transportbedrijf", "transport"], ["haven", "transport"], ["magazijn", "transport"], ["warehouse", "transport"], ["distributiecentrum", "transport"],
-  ["financiële sector", "financieel"], ["verzekering", "financieel"], ["insurance", "financieel"],
-  ["overheid", "publiek"], ["publieke sector", "publiek"], ["onderwijs", "publiek"], ["universiteit", "publiek"], ["hogeschool", "publiek"], ["politie", "publiek"], ["gemeente", "publiek"],
-  ["technologiebedrijf", "tech"], ["softwarebedrijf", "tech"], ["semiconductor", "tech"], ["technologie", "tech"],
-  ["consultancybedrijf", "diensten"], ["dienstverlener", "diensten"], ["adviesbureau", "diensten"], ["zakelijke dienstverlening", "diensten"],
+  ["logistiek", "transport"], ["logistics", "transport"], ["transportation", "transport"], ["transportbedrijf", "transport"], ["haven", "transport"], ["magazijn", "transport"], ["warehouse", "transport"], ["distributiecentrum", "transport"], ["vervoer", "transport"], ["shipping", "transport"],
+  ["financiële sector", "financieel"], ["verzekering", "financieel"], ["insurance", "financieel"], ["financial", "financieel"], ["banking", "financieel"],
+  ["overheid", "publiek"], ["publieke sector", "publiek"], ["public sector", "publiek"], ["onderwijs", "publiek"], ["universiteit", "publiek"], ["hogeschool", "publiek"], ["politie", "publiek"], ["gemeente", "publiek"],
+  ["technologiebedrijf", "tech"], ["softwarebedrijf", "tech"], ["semiconductor", "tech"], ["technologie", "tech"], ["technology", "tech"],
+  ["consultancybedrijf", "diensten"], ["dienstverlener", "diensten"], ["adviesbureau", "diensten"], ["zakelijke dienstverlening", "diensten"], ["professional services", "diensten"],
 ];
 const OFFLINE_SECTOR_WORDS = [
   ["bank", "financieel"], ["bouw", "industrie"], ["zorg", "zorg"], ["retail", "retail"],
   ["energie", "energie"], ["chemie", "chemie"], ["transport", "transport"], ["voeding", "voeding"],
   ["logistiek", "transport"], ["farma", "zorg"], ["pharma", "zorg"], ["overheid", "publiek"],
+  ["healthcare", "zorg"], ["manufacturing", "industrie"], ["food", "voeding"], ["energy", "energie"],
+  ["chemicals", "chemie"], ["automotive", "industrie"], ["telecom", "tech"],
 ]; // korte, dubbelzinnige termen: enkel exacte woordmatch
 
 const OFFLINE_ROLE_NEED_PHRASES = [
@@ -3707,6 +3736,42 @@ function tryOnlineAiMatch(query) {
   .finally(function() { clearTimeout(timeoutId); });
 }
 
+// Vrije vraag over de referentiebibliotheek. Zelfde opzet als tryOnlineAiMatch,
+// maar met de ASK-prompt en meer ruimte: een sectorvraag kan veel referenties
+// teruggeven, dus een krappe max_tokens zou het antwoord afkappen (en dan faalt
+// het JSON-parsen, wat als "geen match" zou aanvoelen).
+function tryOnlineAskQuestion(vraag) {
+  const contextData = buildReferentiesContextForAI();
+  const userMessage = "Vraag van de verkoper: \"" + vraag + "\"\n\nReferenties (JSON):\n" + JSON.stringify(contextData);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 20000);
+
+  return fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 4000,
+      system: ASK_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: userMessage }]
+    })
+  })
+  .then(function(response) {
+    if (!response.ok) throw new Error("API-aanvraag mislukt");
+    return response.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).map(function(block) { return block.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed || !Array.isArray(parsed.matches)) throw new Error("Onverwacht antwoordformaat");
+    return parsed;
+  })
+  .catch(function() { return null; })
+  .finally(function() { clearTimeout(timeoutId); });
+}
+
 // ─── GESPREKSANALYSE ───────────────────────────────────────────────────────
 // Neemt ruwe notities (bv. geplakt uit Copilot of eigen aantekeningen) en
 // geeft een gestructureerde briefing terug: gedetecteerde uitdagingen,
@@ -3832,22 +3897,13 @@ window.submitConversation = function() {
   attempt.then(function(parsed) {
     if (parsed) {
       state.convResult = parsed;
+      addToAskHistory("notities", notes, parsed);
     } else {
       state.convError = "De analyse kon niet worden uitgevoerd. Dit werkt alleen online (met werkende AI-verbinding). Probeer het opnieuw of gebruik 'Match op prospect' voor referenties.";
     }
     state.convLoading = false;
     render();
   });
-};
-
-window.clearConversation = function() {
-  state.convResult = null;
-  state.convError = null;
-  state.convNotes = "";
-  state.convLoading = false;
-  const input = document.getElementById("convInput");
-  if (input) { input.value = ""; input.focus(); }
-  render();
 };
 
 // ─── Zwevend Lewis-paneel: openen/sluiten en modus ─────────────────────────
@@ -3883,14 +3939,18 @@ window.submitAskQuestion = function() {
   render();
 
   const offline = (typeof navigator !== "undefined" && navigator.onLine === false);
-  const attempt = offline ? Promise.resolve(null) : tryOnlineAiMatch(q);
+  const attempt = offline ? Promise.resolve(null) : tryOnlineAskQuestion(q);
 
   attempt.then(function(parsed) {
     if (parsed) {
       state.askQResult = parsed;
+      addToAskHistory("vraag", q, parsed);
     } else {
       // Offline fallback: lokale matching-engine (bestaat al in de app).
-      try { state.askQResult = offlineMatchReferenties(q); }
+      try {
+        state.askQResult = offlineMatchReferenties(q);
+        addToAskHistory("vraag", q, state.askQResult);
+      }
       catch (e) { state.askQError = "Kon de vraag niet verwerken. Probeer het opnieuw."; }
     }
     state.askQLoading = false;
@@ -3898,13 +3958,45 @@ window.submitAskQuestion = function() {
   });
 };
 
-window.clearAskQuestion = function() {
-  state.askQResult = null;
-  state.askQError = null;
-  state.askQuestion = "";
-  state.askQLoading = false;
-  const input = document.getElementById("askQInput");
-  if (input) { input.value = ""; input.focus(); }
+// ─── Historiek (enkel deze sessie) ─────────────────────────────────────────
+function addToAskHistory(mode, input, result) {
+  state.askHistory.unshift({
+    id: "h" + Date.now(),
+    mode: mode,
+    input: input,
+    result: result,
+    tijd: new Date().toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" })
+  });
+  // Hou de lijst behapbaar.
+  if (state.askHistory.length > 20) state.askHistory.length = 20;
+}
+
+window.toggleAskHistory = function() {
+  state.askHistoryOpen = !state.askHistoryOpen;
+  render();
+};
+
+// Opent een bewaard item opnieuw: zet de invoer én het antwoord terug.
+window.openAskHistoryItem = function(id) {
+  const item = state.askHistory.find(function(h) { return h.id === id; });
+  if (!item) return;
+  state.askHistoryOpen = false;
+  state.askMode = item.mode;
+  if (item.mode === "notities") {
+    state.convNotes = item.input;
+    state.convResult = item.result;
+    state.convError = null;
+  } else {
+    state.askQuestion = item.input;
+    state.askQResult = item.result;
+    state.askQError = null;
+  }
+  render();
+};
+
+window.clearAskHistory = function() {
+  state.askHistory = [];
+  state.askHistoryOpen = false;
   render();
 };
 
@@ -5271,8 +5363,6 @@ function renderAcademyPanel() {
   getLewisStories(function(customStories) {
     var hiddenBuiltins = JSON.parse(localStorage.getItem('lewis_hidden_stories') || '[]');
     var html = '<div style="margin-bottom:24px">';
-    html += '<h2 style="font-size:22px;font-weight:800;color:var(--c-navy);margin:0 0 6px">Business Stories</h2>';
-    html += '<p style="font-size:14px;color:var(--c-slate-500);margin:0 0 20px">Begrijp de context, pijnpunten en koopsignalen achter elke oplossing.</p>';
     html += '<button class="add-item-btn" onclick="openStoryModal()">+ Verhaal toevoegen</button>';
     html += '</div>';
     html += '<div class="insights-story-grid">';
@@ -5391,6 +5481,8 @@ function render() {
   document.getElementById("panelProducts").style.display = state.activeTab === "products" ? "block" : "none";
   document.getElementById("panelAcademy").style.display = state.activeTab === "academy" ? "block" : "none";
 
+  renderPageIntro();
+
   if (state.activeTab === "referenties") {
     renderReferentiesPanel();
   } else if (state.activeTab === "cases") {
@@ -5406,6 +5498,38 @@ function render() {
   renderAskOverlay();
 }
 
+// De header draagt de merknaam ("Lewis"). De paginakop benoemt wat de gebruiker
+// hier effectief bekijkt — anders staat "Lewis" driemaal onder elkaar.
+const PAGE_INTROS = {
+  referenties: {
+    titel: "Referenties",
+    sub: "Vind snel relevante klantreferenties per oplossing, sector of use case."
+  },
+  cases: {
+    titel: "Cases",
+    sub: "Uitgewerkte klantverhalen die je kunt delen tijdens een gesprek."
+  },
+  bellijst: {
+    titel: "Bellijst",
+    sub: "Je prospects en opvolgingen op één plek."
+  },
+  products: {
+    titel: "Producten",
+    sub: "Het SAP-portfolio met signalen, pitch en ideale klantprofielen."
+  },
+  academy: {
+    titel: "Insights",
+    sub: "Begrijp de context, pijnpunten en koopsignalen achter elke oplossing."
+  },
+};
+
+function renderPageIntro() {
+  var el = document.getElementById("pageIntro");
+  if (!el) return;
+  var info = PAGE_INTROS[state.activeTab] || PAGE_INTROS.referenties;
+  el.innerHTML = '<h1>' + esc(info.titel) + '</h1><p>' + esc(info.sub) + '</p>';
+}
+
 function renderAskOverlay() {
   var fab = document.getElementById("lewisFab");
   var overlay = document.getElementById("lewisAskOverlay");
@@ -5417,16 +5541,27 @@ function renderAskOverlay() {
   if (!state.askOpen) return;
 
   var html = '';
-  // Header
+  // Header met historiek-knop
   html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
   html += '<div style="font-size:19px;font-weight:800;color:var(--c-navy)">🤖 Vraag het aan Lewis</div>';
+  html += '<div style="display:flex;align-items:center;gap:4px">';
+  if (state.askHistory.length) {
+    html += '<button onclick="toggleAskHistory()" title="Historiek van deze sessie" ' +
+      'style="background:' + (state.askHistoryOpen ? 'var(--c-primary-50)' : 'none') + ';border:none;border-radius:8px;font-size:13px;font-weight:700;color:var(--c-primary-darker);cursor:pointer;padding:6px 10px">🕘 ' + state.askHistory.length + '</button>';
+  }
   html += '<button onclick="toggleAskPanel()" style="background:none;border:none;font-size:20px;color:var(--c-slate-400);cursor:pointer;line-height:1;padding:4px 8px">✕</button>';
-  html += '</div>';
+  html += '</div></div>';
 
-  // Modus-tabs
+  if (state.askHistoryOpen) {
+    panel.innerHTML = html + renderAskHistoryBody();
+    overlay.onclick = function(e) { if (e.target === overlay) toggleAskPanel(); };
+    return;
+  }
+
+  // Modus-tabs met verduidelijkende ondertitel
   html += '<div class="lewis-ask-tabrow">';
-  html += '<button class="lewis-ask-tab' + (state.askMode === "notities" ? " active" : "") + '" onclick="setAskMode(\'notities\')">📝 Meetingnotities</button>';
-  html += '<button class="lewis-ask-tab' + (state.askMode === "vraag" ? " active" : "") + '" onclick="setAskMode(\'vraag\')">💬 Stel een vraag</button>';
+  html += '<button class="lewis-ask-tab' + (state.askMode === "notities" ? " active" : "") + '" onclick="setAskMode(\'notities\')">📝 Gesprek analyseren</button>';
+  html += '<button class="lewis-ask-tab' + (state.askMode === "vraag" ? " active" : "") + '" onclick="setAskMode(\'vraag\')">🔍 Referentie zoeken</button>';
   html += '</div>';
 
   if (state.askMode === "notities") {
@@ -5441,12 +5576,38 @@ function renderAskOverlay() {
   overlay.onclick = function(e) { if (e.target === overlay) toggleAskPanel(); };
 }
 
+// Historiek van deze sessie: klik een item om vraag én antwoord terug te halen.
+function renderAskHistoryBody() {
+  var html = '';
+  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px">';
+  html += '<div style="font-size:13px;color:var(--c-slate-500)">Deze sessie · verdwijnt bij herladen</div>';
+  html += '<button onclick="clearAskHistory()" style="background:none;border:none;font-size:12.5px;font-weight:600;color:var(--c-slate-400);cursor:pointer;padding:4px">Wissen</button>';
+  html += '</div>';
+
+  html += state.askHistory.map(function(h) {
+    var icon = h.mode === "notities" ? "📝" : "🔍";
+    var kort = h.input.length > 90 ? esc(h.input.slice(0, 90)) + "…" : esc(h.input);
+    var aantal = 0;
+    if (h.mode === "vraag" && h.result && h.result.matches) aantal = h.result.matches.length;
+    if (h.mode === "notities" && h.result && h.result.referenties) aantal = h.result.referenties.length;
+    var meta = h.tijd + (aantal ? ' · ' + aantal + ' referentie' + (aantal === 1 ? '' : 's') : '');
+    return '<div onclick="openAskHistoryItem(\'' + h.id + '\')" ' +
+      'style="background:#fff;border:1px solid var(--c-slate-200);border-radius:10px;padding:12px 15px;margin-bottom:9px;cursor:pointer">' +
+      '<div style="font-size:13.5px;color:var(--c-ink);line-height:1.45">' + icon + ' ' + kort + '</div>' +
+      '<div style="font-size:12px;color:var(--c-slate-400);margin-top:4px">' + esc(meta) + '</div>' +
+    '</div>';
+  }).join('');
+
+  html += '<button onclick="toggleAskHistory()" style="margin-top:6px;padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;width:100%">← Terug</button>';
+  return html;
+}
+
 function renderAskNotitiesBody() {
   var loading = state.convLoading;
   var r = state.convResult;
   var err = state.convError;
   var html = '';
-  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5">Plak je gespreksnotities — uit Microsoft Copilot, een Teams-transcript of eigen aantekeningen. Lewis detecteert de uitdagingen, stelt producten en referenties voor, en geeft je scherpe vervolgvragen.</div>';
+  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5"><strong style="color:var(--c-ink)">Na een klantgesprek.</strong> Plak je notities (Copilot, Teams-transcript of eigen aantekeningen). Lewis haalt de uitdagingen eruit en stelt producten, referenties en vervolgvragen voor.</div>';
   html += '<textarea id="convInput" placeholder="Bv. CFO geeft aan dat rapportering nog in Excel gebeurt, maandafsluiting duurt 10 dagen, ERP is SAP en CSRD komt eraan." ' +
     'style="width:100%;min-height:120px;padding:13px 15px;border:1px solid var(--c-slate-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--c-ink);background:#fff;resize:vertical;box-sizing:border-box;line-height:1.5">' +
     (state.convNotes ? esc(state.convNotes) : '') + '</textarea>';
@@ -5454,7 +5615,6 @@ function renderAskNotitiesBody() {
   html += '<button onclick="submitConversation()" ' + (loading ? 'disabled ' : '') +
     'style="padding:11px 22px;background:var(--c-primary);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;font-family:inherit;cursor:' + (loading ? 'default' : 'pointer') + ';opacity:' + (loading ? '.6' : '1') + '">' +
     (loading ? 'Bezig met analyseren...' : '🎯 Analyseer gesprek') + '</button>';
-  if (r || err) html += '<button onclick="clearConversation()" style="padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">Nieuwe analyse</button>';
   html += '</div>';
 
   if (loading) html += '<div style="margin-top:20px;font-size:14px;color:var(--c-slate-500)">Lewis leest de notities en stelt een briefing samen…</div>';
@@ -5492,15 +5652,14 @@ function renderAskVraagBody() {
   var r = state.askQResult;
   var err = state.askQError;
   var html = '';
-  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5">Stel een vraag over je referenties. Bv. "Welke referenties heb ik voor een ziekenhuis?" of "Wie in de voedingssector gebruikt SAP?"</div>';
+  html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5"><strong style="color:var(--c-ink)">Vóór een gesprek.</strong> Zoek in je referentiebibliotheek op sector, land, oplossing of grootte. Bv. "Welke referenties heb ik voor een ziekenhuis?"</div>';
   html += '<textarea id="askQInput" placeholder="Welke referenties heb ik voor een ziekenhuis?" ' +
     'style="width:100%;min-height:72px;padding:13px 15px;border:1px solid var(--c-slate-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--c-ink);background:#fff;resize:vertical;box-sizing:border-box;line-height:1.5">' +
     (state.askQuestion ? esc(state.askQuestion) : '') + '</textarea>';
   html += '<div style="display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap">';
   html += '<button onclick="submitAskQuestion()" ' + (loading ? 'disabled ' : '') +
     'style="padding:11px 22px;background:var(--c-primary);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;font-family:inherit;cursor:' + (loading ? 'default' : 'pointer') + ';opacity:' + (loading ? '.6' : '1') + '">' +
-    (loading ? 'Bezig met zoeken...' : '🔍 Vraag Lewis') + '</button>';
-  if (r || err) html += '<button onclick="clearAskQuestion()" style="padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">Nieuwe vraag</button>';
+    (loading ? 'Bezig met zoeken...' : '🔍 Zoek referenties') + '</button>';
   html += '</div>';
 
   if (loading) html += '<div style="margin-top:20px;font-size:14px;color:var(--c-slate-500)">Lewis zoekt in de referentiebibliotheek…</div>';
@@ -6257,7 +6416,7 @@ function init() {
     '</div></header>' +
 
     '<div id="appBody">' +
-    '<div class="page-intro"><h1>Lewis</h1><p>Alle commerciële kennis die je nodig hebt voor elk klantengesprek.</p></div>' +
+    '<div class="page-intro" id="pageIntro"></div>' +
     '<div id="onboardingHint"></div>' +
 
     '<div id="panelReferenties">' +

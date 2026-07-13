@@ -271,6 +271,49 @@
   .module-tag { font-size: 10.5px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--c-slate-100); color: var(--c-slate-700); font-weight: 500; }
   .module-tag.selected { background: var(--c-primary-100); color: var(--c-primary-darker); font-weight: 700; }
   .module-tag.empty { background: var(--c-slate-50); color: var(--c-slate-400); font-style: italic; }
+  .bedrijf-beschrijving { font-size: 12.5px; color: var(--c-ink); line-height: 1.55; margin-bottom: 7px; }
+  /* Belreden + script bovenaan */
+  .reason-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .reason-btn { padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .reason-btn:hover { border-color: var(--c-slate-400); }
+  .reason-btn.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
+  .script-toggle { background: none; border: none; padding: 4px 0; font-size: 12.5px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; font-family: inherit; }
+  .script-card { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 16px 18px; margin: 8px 0 14px; }
+  .script-event { font-size: 12px; color: var(--c-slate-600); background: var(--c-primary-50); border: 1px solid var(--c-primary-200); border-radius: var(--radius-btn); padding: 8px 12px; margin-bottom: 14px; }
+  .script-warn { font-size: 12px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-btn); padding: 8px 12px; margin-bottom: 14px; line-height: 1.5; }
+  .script-block { margin-bottom: 16px; }
+  .script-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--c-slate-400); margin: 10px 0 5px; }
+  .script-line { font-size: 13.5px; color: var(--c-ink); line-height: 1.6; margin: 0; }
+  .script-vragen { margin: 0; padding-left: 20px; }
+  .script-vragen li { font-size: 13.5px; color: var(--c-ink); line-height: 1.6; margin-bottom: 5px; }
+  .script-reactie { border-left: 3px solid var(--c-slate-200); padding: 7px 0 7px 11px; margin-bottom: 10px; }
+  .script-situatie { font-size: 12.5px; font-weight: 800; color: var(--c-navy); margin-bottom: 3px; }
+  /* Blind spots */
+  .blind-spots { margin-top: 8px; }
+  .blind-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #d97706; margin-bottom: 5px; }
+  .blind-tag { display: inline-block; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: var(--radius-pill); padding: 4px 11px; font-size: 11.5px; font-weight: 700; margin: 0 5px 5px 0; }
+  .blind-ok { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: #16a34a; }
+  /* Cold calling */
+  .cold-btn { margin-top: 8px; padding: 6px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .cold-btn:hover { border-color: var(--c-navy); }
+  .cold-loading { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
+  .cold-fout { margin-top: 8px; font-size: 12px; color: var(--c-red); }
+  .cold-card { margin-top: 8px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); padding: 11px 14px; }
+  .cold-opl { display: inline-block; background: var(--c-navy); color: #fff; border-radius: var(--radius-pill); padding: 3px 11px; font-size: 11px; font-weight: 800; }
+  .cold-lijst { margin: 0; padding-left: 18px; }
+  .cold-lijst li { font-size: 12.5px; color: var(--c-ink); line-height: 1.55; margin-bottom: 4px; }
+  .call-hist-badge { display: inline-block; margin-top: 6px; padding: 4px 10px; border-radius: var(--radius-pill); background: var(--c-primary-50); border: 1px solid var(--c-primary-200); color: var(--c-primary-darker); font-size: 11.5px; font-weight: 700; cursor: pointer; }
+  .call-hist-badge:hover { background: var(--c-primary-100); }
+  /* Eerdere contacten (over meerdere evenementen/lijsten heen) */
+  .hist-item { border-left: 3px solid var(--c-primary-200); padding: 7px 0 7px 10px; margin-bottom: 9px; }
+  .hist-item:last-child { margin-bottom: 0; }
+  .hist-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .hist-event { font-size: 12.5px; font-weight: 800; color: var(--c-navy); }
+  .hist-datum { font-size: 11.5px; color: var(--c-slate-400); }
+  .hist-wie { font-size: 12px; color: var(--c-slate-600); margin-top: 2px; }
+  .hist-outcome { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: var(--c-slate-600); margin-top: 4px; }
+  .hist-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .hist-note { font-size: 12px; color: var(--c-ink); line-height: 1.5; margin-top: 4px; background: var(--c-slate-50); border-radius: 6px; padding: 6px 9px; }
   .verhaal { font-size: 12px; color: var(--c-slate-500); line-height: 1.55; }
   .contact-block { border-top: 1px solid var(--c-slate-100); padding-top: 10px; margin-top: 2px; }
   .contact-label { font-size: 10.5px; color: var(--c-slate-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; font-weight: 700; }
@@ -2527,108 +2570,108 @@ function normalizeRef(r) {
 }
 
 const ERP = [
-  {naam:"NovaBuild",industrie:"Construction",oplossing:"S/4HANA",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["Finance","Procurement","Sales","Reporting"],verhaal:"Van legacy ERP naar S/4HANA Public Cloud in 6 maanden. Finance en inkoop volledig geïntegreerd met real-time dashboards.",referentie:true,deployment:"public-cloud"},
-  {naam:"GreenPack Solutions",industrie:"Manufacturing",oplossing:"S/4HANA",land:"NL",medewerkers:"650",omzet:"98 miljoen",modules:["Finance","Sales","Warehouse Management"],verhaal:"Migratie van ECC naar S/4HANA Public Cloud inclusief warehouse management en SAC rapportage.",referentie:true,deployment:"public-cloud"},
-  {naam:"MedCare Group",industrie:"Healthcare",oplossing:"S/4HANA",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"RISE with SAP voor geïntegreerde financiële rapportage over 12 vestigingen.",referentie:true,deployment:"rise"},
-  {naam:"Portex Logistics",industrie:"Transportation",oplossing:"S/4HANA",land:"BE",medewerkers:"480",omzet:"67 miljoen",modules:["Finance","Sales","Procurement"],verhaal:"Greenfield implementatie in 5 maanden. Volledig papierloos inkoop- en verkoopproces.",referentie:true,deployment:"public-cloud"},
-  {naam:"Stellara Energy",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"NL",medewerkers:"310",omzet:"88 miljoen",modules:["Finance","Reporting"],verhaal:"Van go-live beslissing tot productie in 4 maanden. Kwartaalrapportage nu in uren ipv weken.",referentie:true,deployment:"public-cloud"},
-  {naam:"AgroFresh",industrie:"Food & Beverage",oplossing:"S/4HANA",land:"BE",medewerkers:"820",omzet:"145 miljoen",modules:["Finance","Procurement","Sales","Reporting"],verhaal:"ERP-transformatie voor versspecialist. SAC dashboards geven management dagelijks inzicht in marges.",referentie:true,deployment:"public-cloud"},
-  {naam:"Velora Chemicals",industrie:"Chemicals",oplossing:"S/4HANA",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["Finance","Production","Quality","Procurement"],verhaal:"RISE with SAP voor chemisch productiebedrijf. Batchbeheer en kwaliteitscontrole volledig geautomatiseerd.",referentie:true,deployment:"rise"},
-  {naam:"Nordic Parts",industrie:"Automotive",oplossing:"S/4HANA",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["Finance","Sales","Procurement","Reporting"],verhaal:"Leverancier van auto-onderdelen. Migratie van SAP ECC naar Public Cloud in 7 maanden.",referentie:true,deployment:"public-cloud"},
-  {naam:"Beltrex Steel",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["Finance","Production","Sales","Procurement"],verhaal:"Staalbedrijf met complexe productieprocessen. S/4HANA on-premise voor maximale controle over productiedata.",referentie:true,deployment:"on-prem"},
-  {naam:"OceanFreight NV",industrie:"Transportation",oplossing:"S/4HANA",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["Finance","Sales","Reporting"],verhaal:"Scheepvaartbedrijf. Financieel beheer voor meerdere entiteiten nu vanuit één systeem.",referentie:true,deployment:"public-cloud"},
-  {naam:"BioSeed Benelux",industrie:"Agriculture",oplossing:"S/4HANA",land:"NL",medewerkers:"280",omzet:"42 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Zaaigoedbedrijf met seizoenspieken. Cloud ERP biedt flexibele capaciteit en real-time financieel inzicht.",referentie:true,deployment:"public-cloud"},
-  {naam:"Thermopack NV",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["Finance","Sales","Production"],verhaal:"Producent van thermische verpakkingen. Productie- en verkoopplanning nu volledig geïntegreerd.",referentie:true,deployment:"public-cloud"},
-  {naam:"Marine Construct",industrie:"Construction",oplossing:"S/4HANA",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["Finance","Projects","Procurement"],verhaal:"Marinebouwer. Projectfinanciering en inkoopbeheer voor complexe overheidscontracten.",referentie:true,deployment:"rise"},
-  {naam:"CleanWater Tech",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"NL",medewerkers:"420",omzet:"61 miljoen",modules:["Finance","Assets","Reporting"],verhaal:"Waterzuiveringsbedrijf. Asset management en onderhoud volledig in S/4HANA Public Cloud.",referentie:true,deployment:"public-cloud"},
-  {naam:"Europrint Group",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["Finance","Sales","Procurement"],verhaal:"Drukkerijgroep met 5 sites. Geconsolideerde rapportage over alle vestigingen in real-time.",referentie:true,deployment:"public-cloud"},
+  {naam:"NovaBuild",beschrijving:"Bouwonderneming die woningen, kantoren en bedrijfsgebouwen realiseert.",industrie:"Construction",oplossing:"S/4HANA",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["Finance","Procurement","Sales","Reporting"],verhaal:"Van legacy ERP naar S/4HANA Public Cloud in 6 maanden. Finance en inkoop volledig geïntegreerd met real-time dashboards.",referentie:true,deployment:"public-cloud"},
+  {naam:"GreenPack Solutions",beschrijving:"Producent van duurzame verpakkingen voor de voedings- en consumentengoederenindustrie.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"NL",medewerkers:"650",omzet:"98 miljoen",modules:["Finance","Sales","Warehouse Management"],verhaal:"Migratie van ECC naar S/4HANA Public Cloud inclusief warehouse management en SAC rapportage.",referentie:true,deployment:"public-cloud"},
+  {naam:"MedCare Group",beschrijving:"Zorggroep die ziekenhuizen en zorgcentra uitbaat met medische en verpleegkundige diensten.",industrie:"Healthcare",oplossing:"S/4HANA",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"RISE with SAP voor geïntegreerde financiële rapportage over 12 vestigingen.",referentie:true,deployment:"rise"},
+  {naam:"Portex Logistics",beschrijving:"Logistiek dienstverlener die goederenstromen beheert: opslag, orderpicking en distributie vanuit eigen magazijnen naar retail en industrie.",industrie:"Transportation",oplossing:"S/4HANA",land:"BE",medewerkers:"480",omzet:"67 miljoen",modules:["Finance","Sales","Procurement"],verhaal:"Greenfield implementatie in 5 maanden. Volledig papierloos inkoop- en verkoopproces.",referentie:true,deployment:"public-cloud"},
+  {naam:"Stellara Energy",beschrijving:"Energieleverancier die elektriciteit en gas levert aan bedrijven en huishoudens.",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"NL",medewerkers:"310",omzet:"88 miljoen",modules:["Finance","Reporting"],verhaal:"Van go-live beslissing tot productie in 4 maanden. Kwartaalrapportage nu in uren ipv weken.",referentie:true,deployment:"public-cloud"},
+  {naam:"AgroFresh",beschrijving:"Producent en verdeler van verse groenten en fruit. Levert aan supermarktketens en groothandels in de Benelux.",industrie:"Food & Beverage",oplossing:"S/4HANA",land:"BE",medewerkers:"820",omzet:"145 miljoen",modules:["Finance","Procurement","Sales","Reporting"],verhaal:"ERP-transformatie voor versspecialist. SAC dashboards geven management dagelijks inzicht in marges.",referentie:true,deployment:"public-cloud"},
+  {naam:"Velora Chemicals",beschrijving:"Chemisch productiebedrijf dat basischemicaliën en specialiteiten maakt voor industriële afnemers.",industrie:"Chemicals",oplossing:"S/4HANA",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["Finance","Production","Quality","Procurement"],verhaal:"RISE with SAP voor chemisch productiebedrijf. Batchbeheer en kwaliteitscontrole volledig geautomatiseerd.",referentie:true,deployment:"rise"},
+  {naam:"Nordic Parts",beschrijving:"Toeleverancier van onderdelen en componenten aan de automobiel- en machinebouwindustrie.",industrie:"Automotive",oplossing:"S/4HANA",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["Finance","Sales","Procurement","Reporting"],verhaal:"Leverancier van auto-onderdelen. Migratie van SAP ECC naar Public Cloud in 7 maanden.",referentie:true,deployment:"public-cloud"},
+  {naam:"Beltrex Steel",beschrijving:"Staalproducent die staalplaten en profielen maakt voor de bouw- en machinebouwsector.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["Finance","Production","Sales","Procurement"],verhaal:"Staalbedrijf met complexe productieprocessen. S/4HANA on-premise voor maximale controle over productiedata.",referentie:true,deployment:"on-prem"},
+  {naam:"OceanFreight NV",beschrijving:"Expediteur die zeevracht organiseert: boekingen, douaneformaliteiten en internationaal goederenvervoer.",industrie:"Transportation",oplossing:"S/4HANA",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["Finance","Sales","Reporting"],verhaal:"Scheepvaartbedrijf. Financieel beheer voor meerdere entiteiten nu vanuit één systeem.",referentie:true,deployment:"public-cloud"},
+  {naam:"BioSeed Benelux",beschrijving:"Veredelaar en verdeler van zaaigoed voor de professionele land- en tuinbouw.",industrie:"Agriculture",oplossing:"S/4HANA",land:"NL",medewerkers:"280",omzet:"42 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Zaaigoedbedrijf met seizoenspieken. Cloud ERP biedt flexibele capaciteit en real-time financieel inzicht.",referentie:true,deployment:"public-cloud"},
+  {naam:"Thermopack NV",beschrijving:"Producent van isolerende en thermische verpakkingen voor het vervoer van gekoelde goederen.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["Finance","Sales","Production"],verhaal:"Producent van thermische verpakkingen. Productie- en verkoopplanning nu volledig geïntegreerd.",referentie:true,deployment:"public-cloud"},
+  {naam:"Marine Construct",beschrijving:"Maritiem bouwbedrijf dat havens, kades en offshore-constructies bouwt voor overheidsopdrachten.",industrie:"Construction",oplossing:"S/4HANA",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["Finance","Projects","Procurement"],verhaal:"Marinebouwer. Projectfinanciering en inkoopbeheer voor complexe overheidscontracten.",referentie:true,deployment:"rise"},
+  {naam:"CleanWater Tech",beschrijving:"Bouwer van waterzuiveringsinstallaties voor industriële klanten en gemeenten.",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"NL",medewerkers:"420",omzet:"61 miljoen",modules:["Finance","Assets","Reporting"],verhaal:"Waterzuiveringsbedrijf. Asset management en onderhoud volledig in S/4HANA Public Cloud.",referentie:true,deployment:"public-cloud"},
+  {naam:"Europrint Group",beschrijving:"Drukkerijgroep die verpakkingen en commercieel drukwerk produceert voor merken en retailers.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["Finance","Sales","Procurement"],verhaal:"Drukkerijgroep met 5 sites. Geconsolideerde rapportage over alle vestigingen in real-time.",referentie:true,deployment:"public-cloud"},
 ];
 
 const SF = [
-  {naam:"NovaBuild",industrie:"Construction",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["Employee Central","Recruiting","Onboarding","Learning"],verhaal:"HR-transformatie voor bouwbedrijf. Onboarding van werf tot kantoor volledig digitaal in één platform.",referentie:true},
-  {naam:"RetailFirst",industrie:"Retail",oplossing:"SuccessFactors",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["Employee Central","Compensation","Reporting"],verhaal:"Retailketen met 80 winkels. Loonbeheer en performance management voor 4.200 medewerkers centraal beheerd.",referentie:true},
-  {naam:"TechCore Systems",industrie:"Technology",oplossing:"SuccessFactors",land:"BE",medewerkers:"900",omzet:"130 miljoen",modules:["Employee Central","Learning","Compensation"],verhaal:"IT-bedrijf. Talent management en continuous learning voor technische profielen.",referentie:true},
-  {naam:"Velora Chemicals",industrie:"Chemicals",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["Employee Central","Recruiting","Performance & Goals"],verhaal:"Chemisch bedrijf. Recruitment voor gespecialiseerde technische functies en jaarlijkse evaluatiecyclus gedigitaliseerd.",referentie:true},
-  {naam:"Nordic Parts",industrie:"Automotive",oplossing:"SAP Concur",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Concur geïmplementeerd voor 920 medewerkers. Reiskosten goedkeuringsproces van 3 weken naar 2 dagen.",referentie:true},
-  {naam:"MedCare Group",industrie:"Healthcare",oplossing:"SuccessFactors",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["Employee Central","Recruiting","Onboarding","Performance & Goals","Reporting"],verhaal:"Zorggroep. Centrale HR-database voor 3.400 medewerkers over 12 locaties. Verlofbeheer nu volledig digitaal.",referentie:true},
-  {naam:"OceanFreight NV",industrie:"Transportation",oplossing:"SAP Concur",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Scheepvaartbedrijf. Reiskosten voor internationale teams automatisch verwerkt en gerapporteerd.",referentie:true},
-  {naam:"BioSeed Benelux",industrie:"Agriculture",oplossing:"SuccessFactors",land:"NL",medewerkers:"280",omzet:"42 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Agrobedrijf. Seizoensarbeiders en vaste medewerkers in één HR-platform beheerd.",referentie:true},
-  {naam:"Thermopack NV",industrie:"Manufacturing",oplossing:"SAP Concur",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["Concur Expense"],verhaal:"Onkostenbeheer volledig gedigitaliseerd. Papieren bonnetjes zijn verleden tijd.",referentie:true},
-  {naam:"Europrint Group",industrie:"Manufacturing",oplossing:"SuccessFactors",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["Employee Central","Onboarding","Recruiting"],verhaal:"Drukkerijgroep. Nieuwe medewerkers zijn dag één productief dankzij digitale onboarding.",referentie:true},
-  {naam:"BlueStar Pharma",industrie:"Life Sciences",oplossing:"SuccessFactors",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["Employee Central","Performance & Goals","Learning","Succession"],verhaal:"Farmaceutisch bedrijf. Talent intelligence en opvolgingsplanning voor kritieke functies.",referentie:true},
-  {naam:"CityTrans",industrie:"Transportation",oplossing:"SuccessFactors",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["Employee Central","Time & Attendance","Recruiting"],verhaal:"Vervoersbedrijf. Urenregistratie voor chauffeurs geïntegreerd met payroll. Fouten met 80% gedaald.",referentie:true},
-  {naam:"Beltrex Steel",industrie:"Manufacturing",oplossing:"SAP Concur",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["Concur Travel","Concur Expense","Concur Invoice"],verhaal:"Staalgroep. Concur Invoice verwerkt 12.000 leveranciersfacturen per maand automatisch.",referentie:true},
-  {naam:"Marine Construct",industrie:"Construction",oplossing:"SuccessFactors",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Marinebouwer. Certificaatbeheer voor technisch personeel volledig geautomatiseerd.",referentie:true},
+  {naam:"NovaBuild",beschrijving:"Bouwonderneming die woningen, kantoren en bedrijfsgebouwen realiseert.",industrie:"Construction",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["Employee Central","Recruiting","Onboarding","Learning"],verhaal:"HR-transformatie voor bouwbedrijf. Onboarding van werf tot kantoor volledig digitaal in één platform.",referentie:true},
+  {naam:"RetailFirst",beschrijving:"Supermarktketen met filialen die dagelijkse voedings- en huishoudproducten verkopen.",industrie:"Retail",oplossing:"SuccessFactors",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["Employee Central","Compensation","Reporting"],verhaal:"Retailketen met 80 winkels. Loonbeheer en performance management voor 4.200 medewerkers centraal beheerd.",referentie:true},
+  {naam:"TechCore Systems",beschrijving:"Producent van elektronische componenten en systemen voor industriële toepassingen.",industrie:"Technology",oplossing:"SuccessFactors",land:"BE",medewerkers:"900",omzet:"130 miljoen",modules:["Employee Central","Learning","Compensation"],verhaal:"IT-bedrijf. Talent management en continuous learning voor technische profielen.",referentie:true},
+  {naam:"Velora Chemicals",beschrijving:"Chemisch productiebedrijf dat basischemicaliën en specialiteiten maakt voor industriële afnemers.",industrie:"Chemicals",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["Employee Central","Recruiting","Performance & Goals"],verhaal:"Chemisch bedrijf. Recruitment voor gespecialiseerde technische functies en jaarlijkse evaluatiecyclus gedigitaliseerd.",referentie:true},
+  {naam:"Nordic Parts",beschrijving:"Toeleverancier van onderdelen en componenten aan de automobiel- en machinebouwindustrie.",industrie:"Automotive",oplossing:"SAP Concur",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Concur geïmplementeerd voor 920 medewerkers. Reiskosten goedkeuringsproces van 3 weken naar 2 dagen.",referentie:true},
+  {naam:"MedCare Group",beschrijving:"Zorggroep die ziekenhuizen en zorgcentra uitbaat met medische en verpleegkundige diensten.",industrie:"Healthcare",oplossing:"SuccessFactors",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["Employee Central","Recruiting","Onboarding","Performance & Goals","Reporting"],verhaal:"Zorggroep. Centrale HR-database voor 3.400 medewerkers over 12 locaties. Verlofbeheer nu volledig digitaal.",referentie:true},
+  {naam:"OceanFreight NV",beschrijving:"Expediteur die zeevracht organiseert: boekingen, douaneformaliteiten en internationaal goederenvervoer.",industrie:"Transportation",oplossing:"SAP Concur",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Scheepvaartbedrijf. Reiskosten voor internationale teams automatisch verwerkt en gerapporteerd.",referentie:true},
+  {naam:"BioSeed Benelux",beschrijving:"Veredelaar en verdeler van zaaigoed voor de professionele land- en tuinbouw.",industrie:"Agriculture",oplossing:"SuccessFactors",land:"NL",medewerkers:"280",omzet:"42 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Agrobedrijf. Seizoensarbeiders en vaste medewerkers in één HR-platform beheerd.",referentie:true},
+  {naam:"Thermopack NV",beschrijving:"Producent van isolerende en thermische verpakkingen voor het vervoer van gekoelde goederen.",industrie:"Manufacturing",oplossing:"SAP Concur",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["Concur Expense"],verhaal:"Onkostenbeheer volledig gedigitaliseerd. Papieren bonnetjes zijn verleden tijd.",referentie:true},
+  {naam:"Europrint Group",beschrijving:"Drukkerijgroep die verpakkingen en commercieel drukwerk produceert voor merken en retailers.",industrie:"Manufacturing",oplossing:"SuccessFactors",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["Employee Central","Onboarding","Recruiting"],verhaal:"Drukkerijgroep. Nieuwe medewerkers zijn dag één productief dankzij digitale onboarding.",referentie:true},
+  {naam:"BlueStar Pharma",beschrijving:"Farmaceutisch bedrijf dat geneesmiddelen ontwikkelt en produceert voor de Europese markt.",industrie:"Life Sciences",oplossing:"SuccessFactors",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["Employee Central","Performance & Goals","Learning","Succession"],verhaal:"Farmaceutisch bedrijf. Talent intelligence en opvolgingsplanning voor kritieke functies.",referentie:true},
+  {naam:"CityTrans",beschrijving:"Vervoersbedrijf voor stedelijk personenvervoer. Beheert bus- en shuttlediensten in stadsregio's.",industrie:"Transportation",oplossing:"SuccessFactors",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["Employee Central","Time & Attendance","Recruiting"],verhaal:"Vervoersbedrijf. Urenregistratie voor chauffeurs geïntegreerd met payroll. Fouten met 80% gedaald.",referentie:true},
+  {naam:"Beltrex Steel",beschrijving:"Staalproducent die staalplaten en profielen maakt voor de bouw- en machinebouwsector.",industrie:"Manufacturing",oplossing:"SAP Concur",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["Concur Travel","Concur Expense","Concur Invoice"],verhaal:"Staalgroep. Concur Invoice verwerkt 12.000 leveranciersfacturen per maand automatisch.",referentie:true},
+  {naam:"Marine Construct",beschrijving:"Maritiem bouwbedrijf dat havens, kades en offshore-constructies bouwt voor overheidsopdrachten.",industrie:"Construction",oplossing:"SuccessFactors",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Marinebouwer. Certificaatbeheer voor technisch personeel volledig geautomatiseerd.",referentie:true},
 ];
 
 const CPI = [
-  {naam:"NovaBuild",industrie:"Construction",oplossing:"SAP BTP",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["BTP"],verhaal:"SAP Integration Suite koppelt ERP, projectbeheer en facturatiesystemen. Geen handmatige exports meer.",referentie:true},
-  {naam:"RetailFirst",industrie:"Retail",oplossing:"SAP BTP",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["BTP"],verhaal:"Event-driven integratiearchitectuur voor real-time voorraadbeheer over 80 winkels.",referentie:true},
-  {naam:"TechCore Systems",industrie:"Technology",oplossing:"SAP BTP",land:"BE",medewerkers:"900",omzet:"130 miljoen",modules:["BTP"],verhaal:"API Management platform voor veilige ontsluiting van bedrijfsdata naar 40+ externe partners.",referentie:true},
-  {naam:"MedCare Group",industrie:"Healthcare",oplossing:"SAP BTP",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["BTP"],verhaal:"Integration Suite koppelt SAP aan EPD-systemen. Patiëntdata stroomt veilig tussen 12 locaties.",referentie:true},
-  {naam:"BlueStar Pharma",industrie:"Life Sciences",oplossing:"SAP BTP",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["BTP"],verhaal:"Joule AI verwerkt compliance-rapportages automatisch. 60% tijdsbesparing op regulatory submissions.",referentie:true},
-  {naam:"CityTrans",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["BTP"],verhaal:"IoT-koppeling via Integration Suite monitort wagenpark real-time. Preventief onderhoud vervangt brandjes blussen.",referentie:true},
-  {naam:"Velora Chemicals",industrie:"Chemicals",oplossing:"SAP BTP",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["BTP"],verhaal:"SAP Build Apps voor mobiele kwaliteitscontrole op de productievloer. Papieren checklists zijn verleden tijd.",referentie:true},
-  {naam:"CleanWater Tech",industrie:"Energy & Utilities",oplossing:"SAP BTP",land:"NL",medewerkers:"420",omzet:"61 miljoen",modules:["BTP"],verhaal:"Sensordata van 200 pompstations gekoppeld aan SAP via Event Mesh. Storingen voorspeld vóór ze optreden.",referentie:true},
-  {naam:"Europrint Group",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["BTP"],verhaal:"Integration Suite verbindt 5 drukkerijlocaties. Orderflow volledig geautomatiseerd van klant tot drukpers.",referentie:true},
+  {naam:"NovaBuild",beschrijving:"Bouwonderneming die woningen, kantoren en bedrijfsgebouwen realiseert.",industrie:"Construction",oplossing:"SAP BTP",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["BTP"],verhaal:"SAP Integration Suite koppelt ERP, projectbeheer en facturatiesystemen. Geen handmatige exports meer.",referentie:true},
+  {naam:"RetailFirst",beschrijving:"Supermarktketen met filialen die dagelijkse voedings- en huishoudproducten verkopen.",industrie:"Retail",oplossing:"SAP BTP",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["BTP"],verhaal:"Event-driven integratiearchitectuur voor real-time voorraadbeheer over 80 winkels.",referentie:true},
+  {naam:"TechCore Systems",beschrijving:"Producent van elektronische componenten en systemen voor industriële toepassingen.",industrie:"Technology",oplossing:"SAP BTP",land:"BE",medewerkers:"900",omzet:"130 miljoen",modules:["BTP"],verhaal:"API Management platform voor veilige ontsluiting van bedrijfsdata naar 40+ externe partners.",referentie:true},
+  {naam:"MedCare Group",beschrijving:"Zorggroep die ziekenhuizen en zorgcentra uitbaat met medische en verpleegkundige diensten.",industrie:"Healthcare",oplossing:"SAP BTP",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["BTP"],verhaal:"Integration Suite koppelt SAP aan EPD-systemen. Patiëntdata stroomt veilig tussen 12 locaties.",referentie:true},
+  {naam:"BlueStar Pharma",beschrijving:"Farmaceutisch bedrijf dat geneesmiddelen ontwikkelt en produceert voor de Europese markt.",industrie:"Life Sciences",oplossing:"SAP BTP",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["BTP"],verhaal:"Joule AI verwerkt compliance-rapportages automatisch. 60% tijdsbesparing op regulatory submissions.",referentie:true},
+  {naam:"CityTrans",beschrijving:"Vervoersbedrijf voor stedelijk personenvervoer. Beheert bus- en shuttlediensten in stadsregio's.",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["BTP"],verhaal:"IoT-koppeling via Integration Suite monitort wagenpark real-time. Preventief onderhoud vervangt brandjes blussen.",referentie:true},
+  {naam:"Velora Chemicals",beschrijving:"Chemisch productiebedrijf dat basischemicaliën en specialiteiten maakt voor industriële afnemers.",industrie:"Chemicals",oplossing:"SAP BTP",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["BTP"],verhaal:"SAP Build Apps voor mobiele kwaliteitscontrole op de productievloer. Papieren checklists zijn verleden tijd.",referentie:true},
+  {naam:"CleanWater Tech",beschrijving:"Bouwer van waterzuiveringsinstallaties voor industriële klanten en gemeenten.",industrie:"Energy & Utilities",oplossing:"SAP BTP",land:"NL",medewerkers:"420",omzet:"61 miljoen",modules:["BTP"],verhaal:"Sensordata van 200 pompstations gekoppeld aan SAP via Event Mesh. Storingen voorspeld vóór ze optreden.",referentie:true},
+  {naam:"Europrint Group",beschrijving:"Drukkerijgroep die verpakkingen en commercieel drukwerk produceert voor merken en retailers.",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"730",omzet:"112 miljoen",modules:["BTP"],verhaal:"Integration Suite verbindt 5 drukkerijlocaties. Orderflow volledig geautomatiseerd van klant tot drukpers.",referentie:true},
 ];
 
 const EXTRA_REFS = [
-  {naam:"VanderGroup",industrie:"Professional Services",oplossing:"SAP BTP",land:"BE",medewerkers:"2.100",omzet:"310 miljoen",modules:["BTP"],verhaal:"SAP Build Process Automation digitaliseert goedkeuringsflows voor 2.100 consultants.",referentie:true},
-  {naam:"Thermopack NV",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["BTP"],verhaal:"Integration Suite koppelt productieplanning aan logistieke partner voor just-in-time levering.",referentie:true},
-  {naam:"Beltrex Steel",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["BTP"],verhaal:"Generative AI Hub analyseert klachtendata. Kwaliteitsproblemen worden 3 weken vroeger gedetecteerd.",referentie:true},
-  {naam:"Marine Construct",industrie:"Construction",oplossing:"SAP BTP",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["BTP"],verhaal:"API Management ontsluît projectdata voor overheidsportalen. Rapportage aan klanten volledig geautomatiseerd.",referentie:true},
-  {naam:"AgroFresh",industrie:"Food & Beverage",oplossing:"SAP BTP",land:"BE",medewerkers:"820",omzet:"145 miljoen",modules:["BTP"],verhaal:"IoT-sensoren in koelcellen gekoppeld aan SAP. Temperatuurafwijkingen triggeren automatisch een actie.",referentie:true},
-  {naam:"Nordic Parts",industrie:"Automotive",oplossing:"SAP BTP",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["BTP"],verhaal:"Integration Suite synchroniseert voorraaddata met 7 autofabrikanten via EDI en REST API.",referentie:true},
-  {naam:"OceanFreight NV",industrie:"Transportation",oplossing:"SAP BTP",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["BTP"],verhaal:"SAP Build Apps voor digitale ladingsinspectie op haven. Schade wordt direct in SAP geregistreerd.",referentie:true},
+  {naam:"VanderGroup",beschrijving:"Familiaal investeringsbedrijf met deelnemingen in industrie, vastgoed en dienstverlening.",industrie:"Professional Services",oplossing:"SAP BTP",land:"BE",medewerkers:"2.100",omzet:"310 miljoen",modules:["BTP"],verhaal:"SAP Build Process Automation digitaliseert goedkeuringsflows voor 2.100 consultants.",referentie:true},
+  {naam:"Thermopack NV",beschrijving:"Producent van isolerende en thermische verpakkingen voor het vervoer van gekoelde goederen.",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"510",omzet:"76 miljoen",modules:["BTP"],verhaal:"Integration Suite koppelt productieplanning aan logistieke partner voor just-in-time levering.",referentie:true},
+  {naam:"Beltrex Steel",beschrijving:"Staalproducent die staalplaten en profielen maakt voor de bouw- en machinebouwsector.",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["BTP"],verhaal:"Generative AI Hub analyseert klachtendata. Kwaliteitsproblemen worden 3 weken vroeger gedetecteerd.",referentie:true},
+  {naam:"Marine Construct",beschrijving:"Maritiem bouwbedrijf dat havens, kades en offshore-constructies bouwt voor overheidsopdrachten.",industrie:"Construction",oplossing:"SAP BTP",land:"NL",medewerkers:"1.600",omzet:"290 miljoen",modules:["BTP"],verhaal:"API Management ontsluît projectdata voor overheidsportalen. Rapportage aan klanten volledig geautomatiseerd.",referentie:true},
+  {naam:"AgroFresh",beschrijving:"Producent en verdeler van verse groenten en fruit. Levert aan supermarktketens en groothandels in de Benelux.",industrie:"Food & Beverage",oplossing:"SAP BTP",land:"BE",medewerkers:"820",omzet:"145 miljoen",modules:["BTP"],verhaal:"IoT-sensoren in koelcellen gekoppeld aan SAP. Temperatuurafwijkingen triggeren automatisch een actie.",referentie:true},
+  {naam:"Nordic Parts",beschrijving:"Toeleverancier van onderdelen en componenten aan de automobiel- en machinebouwindustrie.",industrie:"Automotive",oplossing:"SAP BTP",land:"NL",medewerkers:"920",omzet:"210 miljoen",modules:["BTP"],verhaal:"Integration Suite synchroniseert voorraaddata met 7 autofabrikanten via EDI en REST API.",referentie:true},
+  {naam:"OceanFreight NV",beschrijving:"Expediteur die zeevracht organiseert: boekingen, douaneformaliteiten en internationaal goederenvervoer.",industrie:"Transportation",oplossing:"SAP BTP",land:"BE",medewerkers:"340",omzet:"54 miljoen",modules:["BTP"],verhaal:"SAP Build Apps voor digitale ladingsinspectie op haven. Schade wordt direct in SAP geregistreerd.",referentie:true},
 ];
 
 const BDC_REFS = [
-  {naam:"MedCare Group",industrie:"Healthcare",oplossing:"SAP BTP",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["BDC","Datasphere","SAC"],verhaal:"Datasphere als centrale datalaag. Eén versie van de waarheid voor 12 vestigingen en 5 afdelingen.",referentie:true},
-  {naam:"NovaBuild",industrie:"Construction",oplossing:"SAP BTP",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["BDC","SAC"],verhaal:"SAC dashboards tonen real-time projectmarges en cashflow. Management vergadert nu op feiten.",referentie:true},
-  {naam:"RetailFirst",industrie:"Retail",oplossing:"SAP BTP",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["BDC","Datasphere","SAC"],verhaal:"Business Data Cloud koppelt SAP aan externe marktdata. Promotie-effectiviteit voorspeld met AI.",referentie:true},
-  {naam:"BlueStar Pharma",industrie:"Life Sciences",oplossing:"SAP BTP",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["BDC","Datasphere","SAC"],verhaal:"Datasphere integreert klinische data met financiële data. R&D-ROI voor het eerst meetbaar.",referentie:true},
-  {naam:"Velora Chemicals",industrie:"Chemicals",oplossing:"SAP BTP",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["BDC","SAC"],verhaal:"SAC plant productiebudgetten voor 18 maanden vooruit op basis van grondstofprijzen en orderboek.",referentie:true},
-  {naam:"CityTrans",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["BDC","Datasphere"],verhaal:"Datasphere combineert GPS-data, onderhoud en financiën. Kostprijs per rit voor het eerst exact bekend.",referentie:true},
-  {naam:"Beltrex Steel",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["BDC","SAC"],verhaal:"Energieverbruik per ton staal geanalyseerd. CO₂-rapportage geautomatiseerd voor EU-compliance.",referentie:true},
+  {naam:"MedCare Group",beschrijving:"Zorggroep die ziekenhuizen en zorgcentra uitbaat met medische en verpleegkundige diensten.",industrie:"Healthcare",oplossing:"SAP BTP",land:"NL",medewerkers:"3.400",omzet:"520 miljoen",modules:["BDC","Datasphere","SAC"],verhaal:"Datasphere als centrale datalaag. Eén versie van de waarheid voor 12 vestigingen en 5 afdelingen.",referentie:true},
+  {naam:"NovaBuild",beschrijving:"Bouwonderneming die woningen, kantoren en bedrijfsgebouwen realiseert.",industrie:"Construction",oplossing:"SAP BTP",land:"BE",medewerkers:"1.200",omzet:"240 miljoen",modules:["BDC","SAC"],verhaal:"SAC dashboards tonen real-time projectmarges en cashflow. Management vergadert nu op feiten.",referentie:true},
+  {naam:"RetailFirst",beschrijving:"Supermarktketen met filialen die dagelijkse voedings- en huishoudproducten verkopen.",industrie:"Retail",oplossing:"SAP BTP",land:"BE",medewerkers:"4.200",omzet:"680 miljoen",modules:["BDC","Datasphere","SAC"],verhaal:"Business Data Cloud koppelt SAP aan externe marktdata. Promotie-effectiviteit voorspeld met AI.",referentie:true},
+  {naam:"BlueStar Pharma",beschrijving:"Farmaceutisch bedrijf dat geneesmiddelen ontwikkelt en produceert voor de Europese markt.",industrie:"Life Sciences",oplossing:"SAP BTP",land:"BE",medewerkers:"5.600",omzet:"1,2 miljard",modules:["BDC","Datasphere","SAC"],verhaal:"Datasphere integreert klinische data met financiële data. R&D-ROI voor het eerst meetbaar.",referentie:true},
+  {naam:"Velora Chemicals",beschrijving:"Chemisch productiebedrijf dat basischemicaliën en specialiteiten maakt voor industriële afnemers.",industrie:"Chemicals",oplossing:"SAP BTP",land:"BE",medewerkers:"1.800",omzet:"380 miljoen",modules:["BDC","SAC"],verhaal:"SAC plant productiebudgetten voor 18 maanden vooruit op basis van grondstofprijzen en orderboek.",referentie:true},
+  {naam:"CityTrans",beschrijving:"Vervoersbedrijf voor stedelijk personenvervoer. Beheert bus- en shuttlediensten in stadsregio's.",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"1.800",omzet:"220 miljoen",modules:["BDC","Datasphere"],verhaal:"Datasphere combineert GPS-data, onderhoud en financiën. Kostprijs per rit voor het eerst exact bekend.",referentie:true},
+  {naam:"Beltrex Steel",beschrijving:"Staalproducent die staalplaten en profielen maakt voor de bouw- en machinebouwsector.",industrie:"Manufacturing",oplossing:"SAP BTP",land:"BE",medewerkers:"2.400",omzet:"560 miljoen",modules:["BDC","SAC"],verhaal:"Energieverbruik per ton staal geanalyseerd. CO₂-rapportage geautomatiseerd voor EU-compliance.",referentie:true},
 ];
 
 const EXTRA_REFS_2 = [
-  {naam:"Axiom Finance",industrie:"Financial Services",oplossing:"S/4HANA",land:"BE",medewerkers:"1.100",omzet:"195 miljoen",modules:["Finance","Reporting","Procurement"],verhaal:"RISE with SAP voor financiële instelling. Real-time consolidatie over 8 entiteiten.",referentie:true},
-  {naam:"Dutchpharma Labs",industrie:"Life Sciences",oplossing:"S/4HANA",land:"NL",medewerkers:"2.800",omzet:"670 miljoen",modules:["Finance","Quality","Production"],verhaal:"S/4HANA vervangt legacy systemen. Batch-traceerbaarheid voldoet nu aan FDA-normen.",referentie:true},
-  {naam:"Zenova Insurance",industrie:"Financial Services",oplossing:"SuccessFactors",land:"NL",medewerkers:"3.200",omzet:"480 miljoen",modules:["Employee Central","Recruiting","Performance & Goals"],verhaal:"Verzekeraar. Talent management voor 3.200 medewerkers vernieuwd. Verloop met 22% gedaald.",referentie:true},
-  {naam:"BrightPath Education",industrie:"Public Sector",oplossing:"SuccessFactors",land:"BE",medewerkers:"680",omzet:"42 miljoen",modules:["Employee Central","Learning","Onboarding"],verhaal:"Onderwijsinstelling. Onboarding van leerkrachten volledig gedigitaliseerd.",referentie:true},
-  {naam:"Luxpack NV",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"560",omzet:"84 miljoen",modules:["Finance","Sales","Production"],verhaal:"Luxeverpakkingsproducent. S/4HANA vervangt 3 legacy-systemen in één implementatie.",referentie:true},
-  {naam:"Origo Metals",industrie:"Manufacturing",oplossing:"S/4HANA",land:"NL",medewerkers:"1.300",omzet:"310 miljoen",modules:["Finance","Procurement","Production"],verhaal:"Metaalfabrikant. Inkoop- en productiemodule verlagen voorraadkosten met 18%.",referentie:true},
-  {naam:"SwiftCourier",industrie:"Transportation",oplossing:"SuccessFactors",land:"NL",medewerkers:"2.100",omzet:"260 miljoen",modules:["Employee Central","Time & Attendance","Recruiting"],verhaal:"Koeriersbedrijf. Urenregistratie voor 2.100 rijders en sorteermedewerkers automatisch verwerkt.",referentie:true},
-  {naam:"Alpine Hotels Group",industrie:"Retail",oplossing:"SAP Concur",land:"BE",medewerkers:"890",omzet:"140 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Hotelgroep. Zakenreiskosten voor 890 medewerkers centraal beheerd. 35% kostenbesparing.",referentie:true},
-  {naam:"BelcoWaste",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"BE",medewerkers:"740",omzet:"96 miljoen",modules:["Finance","Assets","Procurement"],verhaal:"Afvalverwerker. Asset management voor 740 voertuigen en installaties volledig in SAP.",referentie:true},
-  {naam:"Finora Capital",industrie:"Financial Services",oplossing:"SAP Concur",land:"NL",medewerkers:"450",omzet:"85 miljoen",modules:["Concur Expense","Concur Invoice"],verhaal:"Investeringsmaatschappij. Factuurverwerking geautomatiseerd. 400 facturen per maand zonder handwerk.",referentie:true},
-  {naam:"Pronto Foods",industrie:"Food & Beverage",oplossing:"S/4HANA",land:"NL",medewerkers:"1.600",omzet:"420 miljoen",modules:["Finance","Production","Sales","Procurement"],verhaal:"Voedingsproducent. Houdbaarheidsbeheer en batchtracing volledig in SAP.",referentie:true},
-  {naam:"TerraLand NV",industrie:"Agriculture",oplossing:"SAP BTP",land:"BE",medewerkers:"320",omzet:"48 miljoen",modules:["BTP"],verhaal:"Landbouwbedrijf. Weerstations en bodemmeters gekoppeld aan SAP via IoT. Irrigatie volledig geautomatiseerd.",referentie:true},
-  {naam:"Medivance",industrie:"Healthcare",oplossing:"SAP Concur",land:"BE",medewerkers:"1.900",omzet:"310 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Medisch hulpmiddelbedrijf. Reiskosten voor buitendienst automatisch gematcht met CRM-bezoeken.",referentie:true},
-  {naam:"Coastal Shipping",industrie:"Transportation",oplossing:"S/4HANA",land:"NL",medewerkers:"580",omzet:"92 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Kustvaart. Financieel beheer voor vloot van 12 schepen centraal in S/4HANA.",referentie:true},
-  {naam:"Optivo Consulting",industrie:"Professional Services",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.400",omzet:"220 miljoen",modules:["Employee Central","Recruiting","Learning","Performance & Goals"],verhaal:"Consultancybedrijf. Skills-tracking per competentie voor 1.400 consultants.",referentie:true},
-  {naam:"SolarGrid NL",industrie:"Energy & Utilities",oplossing:"SAP BTP",land:"NL",medewerkers:"280",omzet:"55 miljoen",modules:["BTP"],verhaal:"Zonne-energiebedrijf. Productiedata van 8.000 panelen real-time in SAP via Integration Suite.",referentie:true},
-  {naam:"Delvaux Partners",industrie:"Professional Services",oplossing:"SAP Concur",land:"BE",medewerkers:"620",omzet:"98 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Advocatenkantoor. Klantgebonden onkosten automatisch doorgerekend via Concur integratie.",referentie:true},
-  {naam:"Fortix Defense",industrie:"Aerospace & Defense",oplossing:"S/4HANA",land:"BE",medewerkers:"3.100",omzet:"890 miljoen",modules:["Finance","Procurement","Projects"],verhaal:"Defensiebedrijf. Projectfinanciering compliant met NAVO-normen.",referentie:true},
-  {naam:"BrewMaster Group",industrie:"Food & Beverage",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.100",omzet:"185 miljoen",modules:["Employee Central","Recruiting","Time & Attendance"],verhaal:"Brouwerij. Roosterbeheer voor brouwerijen en horecapersoneel volledig digitaal.",referentie:true},
-  {naam:"InnovaPort",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"950",omzet:"170 miljoen",modules:["BTP"],verhaal:"Havenoperator. Containerstatus real-time beschikbaar via API voor 120 scheepvaartklanten.",referentie:true},
-  {naam:"Belvana Retail",industrie:"Retail",oplossing:"S/4HANA",land:"BE",medewerkers:"2.600",omzet:"520 miljoen",modules:["Finance","Sales","Procurement","Reporting"],verhaal:"Modedetailhandel met 95 winkels. Centrale inkoop en financiën voor heel België.",referentie:true},
-  {naam:"ThermaHeat",industrie:"Manufacturing",oplossing:"SuccessFactors",land:"NL",medewerkers:"780",omzet:"118 miljoen",modules:["Employee Central","Onboarding","Learning"],verhaal:"HVAC-producent. Technische opleiding voor monteurs centraal beheerd. Certificaten automatisch opgevolgd.",referentie:true},
-  {naam:"Flexirent NV",industrie:"Financial Services",oplossing:"S/4HANA",land:"BE",medewerkers:"390",omzet:"72 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Leasemaatschappij. Contractbeheer voor 12.000 voertuigen geïntegreerd met facturatie.",referentie:true},
-  {naam:"PharmaBridge",industrie:"Life Sciences",oplossing:"SuccessFactors",land:"NL",medewerkers:"4.100",omzet:"950 miljoen",modules:["Employee Central","Performance & Goals","Succession","Learning"],verhaal:"Farmaceut. Opvolgingsplanning voor 200 kritieke functies wereldwijd gestroomlijnd.",referentie:true},
-  {naam:"CraftBuild",industrie:"Construction",oplossing:"SAP Concur",land:"NL",medewerkers:"830",omzet:"124 miljoen",modules:["Concur Expense","Concur Invoice"],verhaal:"Aannemer. Werkbon-gedreven onkostenbeheer. Kosten automatisch gekoppeld aan project in SAP.",referentie:true},
-  {naam:"DataSolve",industrie:"Technology",oplossing:"SAP BTP",land:"BE",medewerkers:"460",omzet:"67 miljoen",modules:["BTP"],verhaal:"Datakantoor. Generative AI Hub bouwt klantspecifieke modellen op bedrijfsdata. GDPR-compliant.",referentie:true},
-  {naam:"RiverPort Terminals",industrie:"Transportation",oplossing:"S/4HANA",land:"NL",medewerkers:"1.200",omzet:"230 miljoen",modules:["Finance","Procurement","Assets","Reporting"],verhaal:"Terminaloperator. Onderhoud en inkoop voor 6 terminals geïntegreerd in S/4HANA.",referentie:true},
-  {naam:"Novacare Clinics",industrie:"Healthcare",oplossing:"S/4HANA",land:"BE",medewerkers:"2.200",omzet:"340 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Privéklinieken. Financiële consolidatie voor 8 klinieken nu in real-time beschikbaar.",referentie:true},
-  {naam:"UrbanMove",industrie:"Transportation",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.500",omzet:"198 miljoen",modules:["Employee Central","Recruiting","Time & Attendance"],verhaal:"Stadsvervoer. Digitale roosters voor 1.500 chauffeurs. Overuren automatisch berekend.",referentie:true},
-  {naam:"Gemstone Luxury",industrie:"Retail",oplossing:"SAP Concur",land:"BE",medewerkers:"340",omzet:"78 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Luxedetailhandel. Inkoopteam beheert internationale reizen en kosten volledig via Concur.",referentie:true},
-  {naam:"SkyCargo NL",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"2.400",omzet:"580 miljoen",modules:["BTP"],verhaal:"Luchtvrachtoperator. Zendingstatus via API beschikbaar voor 300 klanten wereldwijd.",referentie:true},
-  {naam:"Genova Biotech",industrie:"Life Sciences",oplossing:"S/4HANA",land:"BE",medewerkers:"1.700",omzet:"440 miljoen",modules:["Finance","Quality","Production"],verhaal:"Biotech. GMP-compliant productiebeheer in S/4HANA. EMA-audits doorstaan zonder bevindingen.",referentie:true},
-  {naam:"NordFleet",industrie:"Automotive",oplossing:"SuccessFactors",land:"NL",medewerkers:"680",omzet:"105 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Autodealer. Salestraining en productopleiding voor 680 medewerkers centraal in SuccessFactors.",referentie:true},
-  {naam:"Agrotec Services",industrie:"Agriculture",oplossing:"SuccessFactors",land:"NL",medewerkers:"520",omzet:"64 miljoen",modules:["Employee Central","Time & Attendance","Onboarding"],verhaal:"Agrodienstverlener. Seizoensarbeiders snel ingeschreven. Contracten en uren automatisch verwerkt.",referentie:true},
-  {naam:"Belcom Telecom",industrie:"Telecommunications",oplossing:"SAP BTP",land:"BE",medewerkers:"3.800",omzet:"720 miljoen",modules:["BTP"],verhaal:"Telecomoperator. Integration Suite koppelt billing, CRM en netwerksystemen.",referentie:true},
+  {naam:"Axiom Finance",beschrijving:"Financiële dienstverlener gespecialiseerd in kredietverlening en vermogensbeheer voor ondernemingen.",industrie:"Financial Services",oplossing:"S/4HANA",land:"BE",medewerkers:"1.100",omzet:"195 miljoen",modules:["Finance","Reporting","Procurement"],verhaal:"RISE with SAP voor financiële instelling. Real-time consolidatie over 8 entiteiten.",referentie:true},
+  {naam:"Dutchpharma Labs",beschrijving:"Farmaceutisch laboratorium dat geneesmiddelen test en kwaliteitscontroles uitvoert.",industrie:"Life Sciences",oplossing:"S/4HANA",land:"NL",medewerkers:"2.800",omzet:"670 miljoen",modules:["Finance","Quality","Production"],verhaal:"S/4HANA vervangt legacy systemen. Batch-traceerbaarheid voldoet nu aan FDA-normen.",referentie:true},
+  {naam:"Zenova Insurance",beschrijving:"Verzekeraar die schade- en levensverzekeringen aanbiedt aan particulieren en bedrijven.",industrie:"Financial Services",oplossing:"SuccessFactors",land:"NL",medewerkers:"3.200",omzet:"480 miljoen",modules:["Employee Central","Recruiting","Performance & Goals"],verhaal:"Verzekeraar. Talent management voor 3.200 medewerkers vernieuwd. Verloop met 22% gedaald.",referentie:true},
+  {naam:"BrightPath Education",beschrijving:"Onderwijsorganisatie met opleidingscentra voor volwassenenonderwijs en bedrijfstrainingen.",industrie:"Public Sector",oplossing:"SuccessFactors",land:"BE",medewerkers:"680",omzet:"42 miljoen",modules:["Employee Central","Learning","Onboarding"],verhaal:"Onderwijsinstelling. Onboarding van leerkrachten volledig gedigitaliseerd.",referentie:true},
+  {naam:"Luxpack NV",beschrijving:"Producent van hoogwaardige verpakkingen voor cosmetica-, parfum- en luxemerken.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"BE",medewerkers:"560",omzet:"84 miljoen",modules:["Finance","Sales","Production"],verhaal:"Luxeverpakkingsproducent. S/4HANA vervangt 3 legacy-systemen in één implementatie.",referentie:true},
+  {naam:"Origo Metals",beschrijving:"Metaalverwerker die non-ferrometalen recycleert en halffabricaten levert aan de industrie.",industrie:"Manufacturing",oplossing:"S/4HANA",land:"NL",medewerkers:"1.300",omzet:"310 miljoen",modules:["Finance","Procurement","Production"],verhaal:"Metaalfabrikant. Inkoop- en productiemodule verlagen voorraadkosten met 18%.",referentie:true},
+  {naam:"SwiftCourier",beschrijving:"Koeriersbedrijf voor pakket- en expresslevering aan webshops en zakelijke klanten.",industrie:"Transportation",oplossing:"SuccessFactors",land:"NL",medewerkers:"2.100",omzet:"260 miljoen",modules:["Employee Central","Time & Attendance","Recruiting"],verhaal:"Koeriersbedrijf. Urenregistratie voor 2.100 rijders en sorteermedewerkers automatisch verwerkt.",referentie:true},
+  {naam:"Alpine Hotels Group",beschrijving:"Hotelgroep met vakantieresorts in de Alpen. Beheert kamers, restaurants en wellnessfaciliteiten.",industrie:"Retail",oplossing:"SAP Concur",land:"BE",medewerkers:"890",omzet:"140 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Hotelgroep. Zakenreiskosten voor 890 medewerkers centraal beheerd. 35% kostenbesparing.",referentie:true},
+  {naam:"BelcoWaste",beschrijving:"Afvalverwerker die bedrijfsafval ophaalt, sorteert en recycleert voor industriële klanten.",industrie:"Energy & Utilities",oplossing:"S/4HANA",land:"BE",medewerkers:"740",omzet:"96 miljoen",modules:["Finance","Assets","Procurement"],verhaal:"Afvalverwerker. Asset management voor 740 voertuigen en installaties volledig in SAP.",referentie:true},
+  {naam:"Finora Capital",beschrijving:"Investeringsmaatschappij die kapitaal verstrekt aan groeibedrijven en vastgoedprojecten.",industrie:"Financial Services",oplossing:"SAP Concur",land:"NL",medewerkers:"450",omzet:"85 miljoen",modules:["Concur Expense","Concur Invoice"],verhaal:"Investeringsmaatschappij. Factuurverwerking geautomatiseerd. 400 facturen per maand zonder handwerk.",referentie:true},
+  {naam:"Pronto Foods",beschrijving:"Voedingsproducent die maaltijden en verse bereidingen maakt voor supermarkten en foodservice.",industrie:"Food & Beverage",oplossing:"S/4HANA",land:"NL",medewerkers:"1.600",omzet:"420 miljoen",modules:["Finance","Production","Sales","Procurement"],verhaal:"Voedingsproducent. Houdbaarheidsbeheer en batchtracing volledig in SAP.",referentie:true},
+  {naam:"TerraLand NV",beschrijving:"Landbouwbedrijf dat akkerbouwgewassen teelt en verwerkt voor de voedingsindustrie.",industrie:"Agriculture",oplossing:"SAP BTP",land:"BE",medewerkers:"320",omzet:"48 miljoen",modules:["BTP"],verhaal:"Landbouwbedrijf. Weerstations en bodemmeters gekoppeld aan SAP via IoT. Irrigatie volledig geautomatiseerd.",referentie:true},
+  {naam:"Medivance",beschrijving:"Producent en verdeler van medische apparatuur en hulpmiddelen voor ziekenhuizen.",industrie:"Healthcare",oplossing:"SAP Concur",land:"BE",medewerkers:"1.900",omzet:"310 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Medisch hulpmiddelbedrijf. Reiskosten voor buitendienst automatisch gematcht met CRM-bezoeken.",referentie:true},
+  {naam:"Coastal Shipping",beschrijving:"Rederij die vracht over zee vervoert tussen Europese havens, met focus op containervervoer.",industrie:"Transportation",oplossing:"S/4HANA",land:"NL",medewerkers:"580",omzet:"92 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Kustvaart. Financieel beheer voor vloot van 12 schepen centraal in S/4HANA.",referentie:true},
+  {naam:"Optivo Consulting",beschrijving:"Consultancybureau dat organisaties adviseert over strategie, processen en digitalisering.",industrie:"Professional Services",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.400",omzet:"220 miljoen",modules:["Employee Central","Recruiting","Learning","Performance & Goals"],verhaal:"Consultancybedrijf. Skills-tracking per competentie voor 1.400 consultants.",referentie:true},
+  {naam:"SolarGrid NL",beschrijving:"Ontwikkelaar en beheerder van zonne-energieparken die groene stroom leveren aan het net.",industrie:"Energy & Utilities",oplossing:"SAP BTP",land:"NL",medewerkers:"280",omzet:"55 miljoen",modules:["BTP"],verhaal:"Zonne-energiebedrijf. Productiedata van 8.000 panelen real-time in SAP via Integration Suite.",referentie:true},
+  {naam:"Delvaux Partners",beschrijving:"Adviesbureau dat bedrijven begeleidt bij financiële en operationele vraagstukken.",industrie:"Professional Services",oplossing:"SAP Concur",land:"BE",medewerkers:"620",omzet:"98 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Advocatenkantoor. Klantgebonden onkosten automatisch doorgerekend via Concur integratie.",referentie:true},
+  {naam:"Fortix Defense",beschrijving:"Producent van beveiligings- en defensiematerieel voor overheden en veiligheidsdiensten.",industrie:"Aerospace & Defense",oplossing:"S/4HANA",land:"BE",medewerkers:"3.100",omzet:"890 miljoen",modules:["Finance","Procurement","Projects"],verhaal:"Defensiebedrijf. Projectfinanciering compliant met NAVO-normen.",referentie:true},
+  {naam:"BrewMaster Group",beschrijving:"Brouwerijgroep die bieren produceert en distribueert naar horeca en retail.",industrie:"Food & Beverage",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.100",omzet:"185 miljoen",modules:["Employee Central","Recruiting","Time & Attendance"],verhaal:"Brouwerij. Roosterbeheer voor brouwerijen en horecapersoneel volledig digitaal.",referentie:true},
+  {naam:"InnovaPort",beschrijving:"Havenbedrijf dat terminals uitbaat en goederen op- en overslaat voor internationale handel.",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"950",omzet:"170 miljoen",modules:["BTP"],verhaal:"Havenoperator. Containerstatus real-time beschikbaar via API voor 120 scheepvaartklanten.",referentie:true},
+  {naam:"Belvana Retail",beschrijving:"Winkelketen in mode en huishoudartikelen met filialen verspreid over België.",industrie:"Retail",oplossing:"S/4HANA",land:"BE",medewerkers:"2.600",omzet:"520 miljoen",modules:["Finance","Sales","Procurement","Reporting"],verhaal:"Modedetailhandel met 95 winkels. Centrale inkoop en financiën voor heel België.",referentie:true},
+  {naam:"ThermaHeat",beschrijving:"Producent van verwarmingsketels en klimaatinstallaties voor woningen en bedrijfsgebouwen.",industrie:"Manufacturing",oplossing:"SuccessFactors",land:"NL",medewerkers:"780",omzet:"118 miljoen",modules:["Employee Central","Onboarding","Learning"],verhaal:"HVAC-producent. Technische opleiding voor monteurs centraal beheerd. Certificaten automatisch opgevolgd.",referentie:true},
+  {naam:"Flexirent NV",beschrijving:"Verhuurbedrijf van machines, materieel en bedrijfswagens aan de bouw- en industriesector.",industrie:"Financial Services",oplossing:"S/4HANA",land:"BE",medewerkers:"390",omzet:"72 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Leasemaatschappij. Contractbeheer voor 12.000 voertuigen geïntegreerd met facturatie.",referentie:true},
+  {naam:"PharmaBridge",beschrijving:"Groothandel in geneesmiddelen die apotheken en ziekenhuizen bevoorraadt.",industrie:"Life Sciences",oplossing:"SuccessFactors",land:"NL",medewerkers:"4.100",omzet:"950 miljoen",modules:["Employee Central","Performance & Goals","Succession","Learning"],verhaal:"Farmaceut. Opvolgingsplanning voor 200 kritieke functies wereldwijd gestroomlijnd.",referentie:true},
+  {naam:"CraftBuild",beschrijving:"Bouwbedrijf gespecialiseerd in residentiële en kleinschalige commerciële projecten.",industrie:"Construction",oplossing:"SAP Concur",land:"NL",medewerkers:"830",omzet:"124 miljoen",modules:["Concur Expense","Concur Invoice"],verhaal:"Aannemer. Werkbon-gedreven onkostenbeheer. Kosten automatisch gekoppeld aan project in SAP.",referentie:true},
+  {naam:"DataSolve",beschrijving:"IT-dienstverlener die software-integratie en datamanagement levert aan middelgrote bedrijven.",industrie:"Technology",oplossing:"SAP BTP",land:"BE",medewerkers:"460",omzet:"67 miljoen",modules:["BTP"],verhaal:"Datakantoor. Generative AI Hub bouwt klantspecifieke modellen op bedrijfsdata. GDPR-compliant.",referentie:true},
+  {naam:"RiverPort Terminals",beschrijving:"Uitbater van binnenvaartterminals waar containers worden overgeslagen tussen schip, trein en vrachtwagen.",industrie:"Transportation",oplossing:"S/4HANA",land:"NL",medewerkers:"1.200",omzet:"230 miljoen",modules:["Finance","Procurement","Assets","Reporting"],verhaal:"Terminaloperator. Onderhoud en inkoop voor 6 terminals geïntegreerd in S/4HANA.",referentie:true},
+  {naam:"Novacare Clinics",beschrijving:"Uitbater van privéklinieken met gespecialiseerde medische behandelingen en dagopnames.",industrie:"Healthcare",oplossing:"S/4HANA",land:"BE",medewerkers:"2.200",omzet:"340 miljoen",modules:["Finance","Procurement","Reporting"],verhaal:"Privéklinieken. Financiële consolidatie voor 8 klinieken nu in real-time beschikbaar.",referentie:true},
+  {naam:"UrbanMove",beschrijving:"Aanbieder van deelmobiliteit en stedelijk vervoer, met deelwagens en -fietsen.",industrie:"Transportation",oplossing:"SuccessFactors",land:"BE",medewerkers:"1.500",omzet:"198 miljoen",modules:["Employee Central","Recruiting","Time & Attendance"],verhaal:"Stadsvervoer. Digitale roosters voor 1.500 chauffeurs. Overuren automatisch berekend.",referentie:true},
+  {naam:"Gemstone Luxury",beschrijving:"Juwelier en verdeler van luxegoederen, actief in eigen winkels en via groothandel.",industrie:"Retail",oplossing:"SAP Concur",land:"BE",medewerkers:"340",omzet:"78 miljoen",modules:["Concur Travel","Concur Expense"],verhaal:"Luxedetailhandel. Inkoopteam beheert internationale reizen en kosten volledig via Concur.",referentie:true},
+  {naam:"SkyCargo NL",beschrijving:"Luchtvrachtbedrijf dat goederen per vliegtuig vervoert en de bijhorende afhandeling verzorgt.",industrie:"Transportation",oplossing:"SAP BTP",land:"NL",medewerkers:"2.400",omzet:"580 miljoen",modules:["BTP"],verhaal:"Luchtvrachtoperator. Zendingstatus via API beschikbaar voor 300 klanten wereldwijd.",referentie:true},
+  {naam:"Genova Biotech",beschrijving:"Biotechbedrijf dat medisch onderzoek doet en biologische geneesmiddelen ontwikkelt.",industrie:"Life Sciences",oplossing:"S/4HANA",land:"BE",medewerkers:"1.700",omzet:"440 miljoen",modules:["Finance","Quality","Production"],verhaal:"Biotech. GMP-compliant productiebeheer in S/4HANA. EMA-audits doorstaan zonder bevindingen.",referentie:true},
+  {naam:"NordFleet",beschrijving:"Transportbedrijf met een eigen vrachtwagenvloot voor wegvervoer van stukgoed door Europa.",industrie:"Automotive",oplossing:"SuccessFactors",land:"NL",medewerkers:"680",omzet:"105 miljoen",modules:["Employee Central","Recruiting","Learning"],verhaal:"Autodealer. Salestraining en productopleiding voor 680 medewerkers centraal in SuccessFactors.",referentie:true},
+  {naam:"Agrotec Services",beschrijving:"Leverancier van landbouwmachines en technische dienstverlening voor land- en tuinbouwbedrijven.",industrie:"Agriculture",oplossing:"SuccessFactors",land:"NL",medewerkers:"520",omzet:"64 miljoen",modules:["Employee Central","Time & Attendance","Onboarding"],verhaal:"Agrodienstverlener. Seizoensarbeiders snel ingeschreven. Contracten en uren automatisch verwerkt.",referentie:true},
+  {naam:"Belcom Telecom",beschrijving:"Telecomoperator die internet-, telefonie- en netwerkdiensten levert aan bedrijven en particulieren.",industrie:"Telecommunications",oplossing:"SAP BTP",land:"BE",medewerkers:"3.800",omzet:"720 miljoen",modules:["BTP"],verhaal:"Telecomoperator. Integration Suite koppelt billing, CRM en netwerksystemen.",referentie:true},
 ];
 const seenKeys = new Set();
 
@@ -3079,6 +3122,10 @@ const state = {
   eventStructured: null,   // { titel, datum, locatie, thema, topics:[], doelgroep:[], klantencases:[], sprekers:[{naam,bedrijf,onderwerp}] } of null
   eventLoading: false,     // AI is de geplakte eventtekst aan het structureren
   openHistoryId: null,     // welk contact toont zijn belhistoriek
+  callReason: "event_opvolgen", // waarom bellen we? stuurt het script
+  scriptOpen: false,       // het algemene script bovenaan open/dicht
+  coldScripts: {},         // per rij-id: AI-analyse voor cold calling
+  coldLoadingId: null,     // welk bedrijf wordt nu geanalyseerd
   eventError: null,
 
   // Call Briefs (per deelnemer, gecached binnen de sessie)
@@ -5263,8 +5310,15 @@ function generateCallBriefOffline(row) {
 const CALL_BRIEF_SYSTEM_PROMPT = "Je vult een call brief aan voor een verkoper die een deelnemer aan een evenement gaat bellen. " +
   "Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown-codeblok en zonder tekst ervoor of erna:\n" +
   "{\"bedrijfBeschrijving\": string|null}\n" +
-  "Regels: bedrijfBeschrijving is feitelijk, maximaal 2 zinnen, in eenvoudige taal die een junior lead generation specialist meteen begrijpt. " +
-  "Verzin geen feiten — als je het bedrijf niet kent, laat het veld op null staan.";
+  "Regels:\n" +
+  "- bedrijfBeschrijving is feitelijk, maximaal 2 zinnen, in eenvoudige taal die een junior lead generation specialist meteen begrijpt.\n" +
+  "- Beschrijf WAT het bedrijf concreet doet. Stop nooit bij de sector alleen. " +
+  "\"Transport\" is onvoldoende: zeg wát ze vervoeren en voor wie. " +
+  "Schrijf bijvoorbeeld \"Internationaal transportbedrijf gespecialiseerd in het vervoer van chemische stoffen en gevaarlijke goederen in bulk\" " +
+  "in plaats van \"Actief in transport\". Zo ook: niet \"retail\" maar \"keten van supermarkten\"; " +
+  "niet \"productie\" maar \"producent van verpakkingsmateriaal voor de voedingsindustrie\".\n" +
+  "- Vermeld indien gekend: wat ze maken/vervoeren/verkopen, voor welke markt, en of ze nationaal of internationaal werken.\n" +
+  "- Verzin geen feiten — als je het bedrijf niet kent, laat het veld op null staan. Liever niets dan een gok.";
 
 function tryEnrichCallBriefOnline(row, base) {
   const context = { bedrijf: row.bedrijf, functie: row.functie };
@@ -6244,6 +6298,18 @@ function callRowHtml(r, showRestore) {
   const existingBadge = callStatusBadge(r.bedrijf);
   if (existingBadge) html += existingBadge;
 
+  // Waarschuw meteen in de lijst als we dit bedrijf/deze persoon al eerder
+  // spraken. Anders moet je elke brief openen om te ontdekken dat er historiek is.
+  if (!showRestore) {
+    const xh = findCrossListHistory(r);
+    if (xh.persoon.length > 0 || xh.collegas.length > 0) {
+      const bits = [];
+      if (xh.persoon.length > 0) bits.push(xh.persoon.length + '× eerder gesproken');
+      if (xh.collegas.length > 0) bits.push(xh.collegas.length + '× collega');
+      html += '<div class="call-hist-badge" onclick="openCallBrief(' + r._id + ')">🕘 ' + esc(bits.join(' · ')) + ' — bekijk brief</div>';
+    }
+  }
+
   if (!showRestore) {
     html += '<textarea class="call-live-note" id="liveNote-' + r._id + '" placeholder="Eigen notities tijdens het gesprek..." onblur="state.callRows.find(function(x){return x._id===' + r._id + ';}).liveNotes=this.value;autosaveCallState_();">' + esc(r.liveNotes || "") + '</textarea>';
 
@@ -6290,6 +6356,45 @@ function callRowHtml(r, showRestore) {
       }
     }
 
+    // Wat je per contact ziet, hangt af van WAAROM je belt.
+    if (state.callReason === "blind_spots") {
+      const gaten = findBlindSpots(r);
+      if (gaten.length > 0) {
+        html += '<div class="blind-spots"><div class="blind-label">❓ Uit te vragen (' + gaten.length + ')</div>' +
+          gaten.map(function(k) { return '<span class="blind-tag">' + esc(k) + '</span>'; }).join('') + '</div>';
+      } else {
+        html += '<div class="blind-ok">✓ Geen ontbrekende velden</div>';
+      }
+    }
+
+    if (state.callReason === "cold_calling") {
+      const cold = state.coldScripts[r._id];
+      const bezig = state.coldLoadingId === r._id;
+      if (bezig) {
+        html += '<div class="cold-loading">Lewis analyseert ' + esc(r.bedrijf) + '…</div>';
+      } else if (!cold) {
+        html += '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">🔍 Analyseer bedrijf</button>';
+      } else if (cold.fout) {
+        html += '<div class="cold-fout">' + esc(cold.fout) + '</div>' +
+          '<button class="cold-btn" onclick="analyseColdCall(' + r._id + ')">Opnieuw proberen</button>';
+      } else {
+        html += '<div class="cold-card">';
+        html += '<div class="cold-opl">' + esc(cold.oplossing || "") + '</div>';
+        if ((cold.pijnpunten || []).length) {
+          html += '<div class="script-label">Waarschijnlijke pijnpunten</div><ul class="cold-lijst">' +
+            cold.pijnpunten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
+        }
+        if (cold.opening) {
+          html += '<div class="script-label">Opening</div><p class="script-line">' + esc(cold.opening) + '</p>';
+        }
+        if ((cold.vragen || []).length) {
+          html += '<div class="script-label">Vragen</div><ol class="cold-lijst">' +
+            cold.vragen.map(function(v) { return '<li>' + esc(v) + '</li>'; }).join('') + '</ol>';
+        }
+        html += '</div>';
+      }
+    }
+
     if (state.cleanedNotePreview && state.cleanedNotePreview.id === r._id) {
       html += renderCleanNotePreview(state.cleanedNotePreview);
     }
@@ -6309,6 +6414,283 @@ function callRowHtml(r, showRestore) {
 
 function briefSection(label, contentHtml) {
   return '<div class="call-brief-section"><div class="call-brief-label">' + esc(label) + '</div><div class="call-brief-content">' + contentHtml + '</div></div>';
+}
+
+// ─── BELSCRIPTEN PER BELREDEN ──────────────────────────────────────────────
+// We bellen om drie redenen (evenementen splitsen we in uitnodigen én
+// opvolgen). Het script hoort bij de REDEN, niet bij het contact — vandaar
+// één script bovenaan de lijst in plaats van een knop naast elke rij.
+// Uitzondering: cold calling, want daar analyseert de AI elk bedrijf apart.
+const CALL_REASONS = [
+  { id: "event_uitnodigen", label: "📩 Evenement — uitnodigen" },
+  { id: "event_opvolgen",   label: "📞 Evenement — opvolgen" },
+  { id: "blind_spots",      label: "❓ Blind spots" },
+  { id: "cold_calling",     label: "❄️ Cold calling" },
+];
+
+// Cold calling doen we enkel voor deze twee oplossingen.
+const COLD_CALL_SOLUTIONS = ["SuccessFactors", "S/4HANA"];
+
+// Bouwt de thema-omschrijving voor in de vragen ("data, rapportering en AI").
+// Afkortingen (AI, BDC, ERP, HR...) blijven in hoofdletters — "ai" leest als
+// een tikfout in een script dat je hardop voorleest.
+function scriptThema_(ev) {
+  const netjes = function(s) {
+    return String(s).replace(/\.$/, "").split(/\s+/).map(function(w) {
+      const kern = w.replace(/[^A-Za-z]/g, "");
+      if (kern.length <= 4 && kern === kern.toUpperCase() && kern.length > 1) return w;
+      return w.toLowerCase();
+    }).join(" ");
+  };
+  if (!ev) return "digitalisering";
+  const t = (ev.topics || []).slice(0, 3).map(netjes);
+  if (t.length >= 2) return t.slice(0, -1).join(", ") + " en " + t[t.length - 1];
+  if (t.length === 1) return t[0];
+  if (ev.thema) return netjes(ev.thema);
+  return "digitalisering";
+}
+
+window.setCallReason = function(id) {
+  state.callReason = id;
+  render();
+};
+
+window.toggleScript = function() {
+  state.scriptOpen = !state.scriptOpen;
+  render();
+};
+
+// Bouwt het script voor de gekozen belreden. Evenement-scripts passen zich aan
+// het geladen evenement aan; staat er geen, dan gebruiken we neutrale taal.
+function buildReasonScript() {
+  const ev = state.eventStructured;
+  const evNaam = ev && ev.titel ? ev.titel : null;
+  const thema = scriptThema_(ev);
+  const datum = ev && ev.datum ? ev.datum : null;
+
+  if (state.callReason === "event_uitnodigen") {
+    return {
+      opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Ik bel u omdat wij binnenkort " +
+        (evNaam ? evNaam : "een sessie") + " organiseren" + (datum ? " op " + datum : "") +
+        ", en ik dacht dat dit voor u interessant kon zijn.",
+      blokken: [
+        { label: "Waarom dit relevant is", lijnen: [
+          "We gaan er dieper in op " + thema + ".",
+          "Het is bedoeld voor mensen die hier binnen hun organisatie mee bezig zijn.",
+          "Je hoort er hoe andere bedrijven dit vandaag aanpakken — geen verkooppraatje, wel concrete cases.",
+        ]},
+        { label: "Vragen", lijnen: [
+          "Is dit een thema dat vandaag bij jullie speelt?",
+          "Wie binnen jullie organisatie houdt zich hiermee bezig?",
+          "Zou u (of een collega) hierbij willen aansluiten?",
+        ]},
+      ],
+      reacties: [
+        { situatie: "\u201cJa, interessant\u201d", antwoord: "Fijn! Ik stuur u de uitnodiging met alle praktische info door. Mag ik daarvoor uw e-mailadres bevestigen?", outcome: "afspraak" },
+        { situatie: "\u201cGeen tijd / past niet\u201d", antwoord: "Geen probleem. Zal ik u op de hoogte houden van volgende sessies rond " + thema + "?", outcome: "nurture" },
+        { situatie: "\u201cNiet mijn domein\u201d", antwoord: "Dat begrijp ik. Weet u wie binnen jullie organisatie hier wél mee bezig is? Dan neem ik met die persoon contact op.", outcome: null },
+      ],
+      afsluiter: "Bedankt voor uw tijd en tot binnenkort!",
+    };
+  }
+
+  if (state.callReason === "event_opvolgen") {
+    return {
+      opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Ik las dat u aanwezig was op " +
+        (evNaam ? evNaam : "ons recente evenement") + " en wij polsen graag naar hoe u het evenement ervaren hebt.",
+      blokken: [
+        { label: "Enkele vragen", lijnen: [
+          "Hoe hebt u deze ervaren?",
+          "Waar staan jullie vandaag op vlak van " + thema + "?",
+          "Zijn er bepaalde topics extra blijven hangen?",
+          "In welke mate zijn deze topics vandaag relevant binnen jullie organisatie?",
+          "Wat vond u dat goed was?",
+          "Wat kon beter of hebt u gemist?",
+        ]},
+        { label: "Brug naar vervolg", lijnen: [
+          "Bedankt voor alle informatie! Zou het nuttig zijn om hierover eens van gedachten te wisselen met één van onze experten?",
+        ]},
+      ],
+      reacties: [
+        { situatie: "\u201cIk heb interesse\u201d", antwoord: "Prima, dan kijk ik graag even met onze experten wie hiervoor het best geplaatst is en plannen we een vervolggesprek in.", outcome: "afspraak" },
+        { situatie: "\u201cGeen concrete nood\u201d", antwoord: "Geen probleem, dan houd ik u graag op de hoogte van toekomstige sessies rond " + thema + ".", outcome: "nurture" },
+        { situatie: "\u201cWe werken al met een andere SAP-partner hiervoor\u201d", antwoord: "Prima. Was er desondanks iets tijdens het evenement dat u interessant vond of waar u nog vragen rond heeft?", outcome: null },
+      ],
+      afsluiter: "Top, bedankt voor de toelichting en nog een fijne dag gewenst!",
+    };
+  }
+
+  if (state.callReason === "blind_spots") {
+    return {
+      opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Wij werken al samen met jullie, en ik wil ons beeld van jullie IT-landschap graag even actueel houden. Heeft u twee minuten?",
+      blokken: [
+        { label: "Aanpak", lijnen: [
+          "Kijk hieronder bij het contact welke velden een \u201c?\u201d hebben — dat zijn de gaten die je moet invullen.",
+          "Stel de vraag open. Je hoeft niet elk veld in één gesprek te hebben.",
+          "Noteer het antwoord meteen in het notitieveld van het contact.",
+        ]},
+        { label: "Voorbeeldvragen", lijnen: [
+          "Welk ERP-systeem gebruiken jullie vandaag?",
+          "Draaien jullie dat on-premise of in de cloud?",
+          "Welk systeem gebruiken jullie voor HR / payroll?",
+          "Staat er de komende jaren een migratie of upgrade gepland?",
+          "Wie is bij jullie verantwoordelijk voor dat systeem?",
+        ]},
+      ],
+      reacties: [
+        { situatie: "Geeft de info", antwoord: "Bedankt, dat helpt ons om jullie gerichter te ondersteunen. Ik noteer het meteen.", outcome: null },
+        { situatie: "\u201cWaarom willen jullie dat weten?\u201d", antwoord: "Puur om u niet lastig te vallen met dingen die niet relevant zijn. Hoe beter we jullie situatie kennen, hoe gerichter we u kunnen helpen.", outcome: null },
+        { situatie: "Wil het nu niet bespreken", antwoord: "Geen probleem. Mag ik u daarover een korte mail sturen, dan kunt u het invullen wanneer het u past?", outcome: "terugbellen" },
+      ],
+      afsluiter: "Bedankt voor de update en nog een fijne dag!",
+    };
+  }
+
+  // Cold calling
+  return {
+    opening: "Dag [naam], u spreekt met [uw naam] van Flexso. Wij helpen bedrijven zoals het uwe met SAP — concreet rond " +
+      COLD_CALL_SOLUTIONS.join(" en ") + ". Ik bel u kort om te polsen of dat bij jullie speelt. Heeft u een minuutje?",
+    blokken: [
+      { label: "Aanpak", lijnen: [
+        "Klik bij het bedrijf op \u201cAnalyseer bedrijf\u201d — Lewis zoekt dan de waarschijnlijke pijnpunten en de passende insteek.",
+        "Vertrek altijd vanuit de frustratie van de klant, nooit vanuit het product.",
+        "We bellen enkel rond " + COLD_CALL_SOLUTIONS.join(" en ") + ".",
+      ]},
+      { label: "Openingsvragen", lijnen: [
+        "Hoe beheren jullie vandaag [ERP / HR]?",
+        "Waar loopt het vandaag stroef in dat proces?",
+        "Staat er een migratie of vernieuwing op de planning?",
+      ]},
+    ],
+    reacties: [
+      { situatie: "Herkent het pijnpunt", antwoord: "Dat horen we vaker. We hebben dat bij vergelijkbare bedrijven opgelost — zou het nuttig zijn dat eens te tonen met een expert erbij?", outcome: "afspraak" },
+      { situatie: "\u201cNu niet, misschien later\u201d", antwoord: "Begrijpelijk. Mag ik u af en toe iets nuttigs doorsturen rond dit thema, en later nog eens polsen?", outcome: "nurture" },
+      { situatie: "\u201cWe hebben al een partner\u201d", antwoord: "Prima. Puur uit interesse: zijn er zaken waar u vandaag toch tegenaan loopt?", outcome: null },
+      { situatie: "\u201cGeen interesse\u201d", antwoord: "Geen probleem, bedankt voor uw tijd. Fijne dag!", outcome: "geen_interesse" },
+    ],
+    afsluiter: "Bedankt voor uw tijd en nog een fijne dag!",
+  };
+}
+
+// ─── BLIND SPOTS ───────────────────────────────────────────────────────────
+// In de geüploade Excel staat letterlijk een "?" in een cel waarvan we het
+// antwoord niet kennen (bv. onder ERP). Die cellen zijn precies wat je moet
+// uitvragen. We kijken naar de RUWE kolommen, niet naar de herkende velden.
+function findBlindSpots(row) {
+  const raw = row.raw || {};
+  const gaten = [];
+  Object.keys(raw).forEach(function(kolom) {
+    const waarde = String(raw[kolom] == null ? "" : raw[kolom]).trim();
+    if (waarde === "?" || waarde === "??" || waarde.toLowerCase() === "onbekend") {
+      gaten.push(kolom);
+    }
+  });
+  return gaten;
+}
+
+// ─── COLD CALLING: AI-analyse per bedrijf ──────────────────────────────────
+const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consultingbedrijf. " +
+  "Wij bellen UITSLUITEND rond SuccessFactors (HR) en S/4HANA (ERP). Andere oplossingen mag je niet voorstellen.\n\n" +
+  "Regels:\n" +
+  "- Bepaal welke van de twee (SuccessFactors of S/4HANA) het meest relevant is voor dit bedrijf, gezien hun sector en omvang. Beide mag ook.\n" +
+  "- pijnpunten: 2 tot 4 problemen die bij dit soort bedrijf waarschijnlijk spelen en die wij oplossen. Concreet en herkenbaar, geen jargon.\n" +
+  "- opening: één zin waarmee de verkoper het gesprek opent, vertrekkend vanuit een pijnpunt — nooit vanuit het product.\n" +
+  "- vragen: 3 open vragen die het pijnpunt boven water halen.\n" +
+  "- Verzin geen feiten over dit specifieke bedrijf. Baseer je op wat typisch is voor de sector en de grootte. " +
+  "Ken je het bedrijf niet, redeneer dan vanuit de sector.\n" +
+  "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
+  "{\"oplossing\": string, \"pijnpunten\": [string], \"opening\": string, \"vragen\": [string]}";
+
+window.analyseColdCall = function(id) {
+  const row = state.callRows.find(function(r) { return r._id === id; });
+  if (!row) return;
+  state.coldLoadingId = id;
+  render();
+
+  const context = {
+    bedrijf: row.bedrijf,
+    functie: row.functie || null,
+    // Wat we al weten uit onze eigen referentiedata (indien bekend).
+    referentie: (function() {
+      const ref = REFS.find(function(x) { return normBedrijf_(x.naam) === normBedrijf_(row.bedrijf); });
+      return ref ? { industrie: ref.industrie, beschrijving: ref.beschrijving, medewerkers: ref.medewerkers } : null;
+    })(),
+  };
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 20000);
+
+  fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 1200,
+      system: COLD_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: "Bedrijf:\n" + JSON.stringify(context) }]
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error("mislukt"); return r.json(); })
+  .then(function(data) {
+    const text = (data.content || []).map(function(b) { return b.text || ""; }).join("");
+    const parsed = JSON.parse(text.replace(/```json|```/g, "").trim());
+    state.coldScripts[id] = parsed;
+  })
+  .catch(function() {
+    state.coldScripts[id] = { fout: "Analyse mislukt. Probeer opnieuw (vereist internetverbinding)." };
+  })
+  .finally(function() {
+    clearTimeout(timeoutId);
+    state.coldLoadingId = null;
+    render();
+  });
+};
+
+function renderScriptPanel() {
+  const el = document.getElementById("callScriptBlock");
+  if (!el) return;
+
+  // Keuze van de belreden.
+  let html = '<div class="reason-row">';
+  CALL_REASONS.forEach(function(r) {
+    html += '<button class="reason-btn' + (state.callReason === r.id ? ' actief' : '') + '" onclick="setCallReason(\'' + r.id + '\')">' + esc(r.label) + '</button>';
+  });
+  html += '</div>';
+
+  html += '<button class="script-toggle" onclick="toggleScript()">' +
+    (state.scriptOpen ? '▲ Verberg script' : '▼ Toon belscript') + '</button>';
+
+  if (state.scriptOpen) {
+    const s = buildReasonScript();
+    const ev = state.eventStructured;
+    const isEvent = state.callReason.indexOf("event_") === 0;
+
+    html += '<div class="script-card">';
+    if (isEvent && !ev) {
+      html += '<div class="script-warn">Nog geen evenement geladen — het script gebruikt algemene formuleringen. Plak hierboven de eventtekst voor een script op maat.</div>';
+    } else if (isEvent && ev) {
+      html += '<div class="script-event">Aangepast aan: <strong>' + esc(ev.titel || "evenement") + '</strong>' + (ev.datum ? ' · ' + esc(ev.datum) : '') + '</div>';
+    }
+
+    html += '<div class="script-block"><div class="script-label">Opening</div><p class="script-line">' + esc(s.opening) + '</p></div>';
+
+    s.blokken.forEach(function(b) {
+      html += '<div class="script-block"><div class="script-label">' + esc(b.label) + '</div><ol class="script-vragen">' +
+        b.lijnen.map(function(l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ol></div>';
+    });
+
+    html += '<div class="script-block"><div class="script-label">Afhankelijk van het antwoord</div>';
+    s.reacties.forEach(function(r) {
+      html += '<div class="script-reactie"><div class="script-situatie">' + esc(r.situatie) + '</div><p class="script-line">' + esc(r.antwoord) + '</p></div>';
+    });
+    html += '</div>';
+
+    html += '<div class="script-block"><div class="script-label">Afsluiter</div><p class="script-line">' + esc(s.afsluiter) + '</p></div>';
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
 }
 
 function renderEventContext() {
@@ -6386,6 +6768,24 @@ function renderCallBriefOverlay() {
     html += briefSection("Event", eventHtml);
   }
   html += briefSection("Aanwezige persoon", '<strong>' + esc(row.contact || "Onbekend") + '</strong>' + (row.functie ? '<div class="call-brief-sub">' + esc(row.functie) + '</div>' : ''));
+
+  // Wat weten we al? Eerdere contacten met deze persoon en met collega's,
+  // opgehaald uit alle opgeslagen lijsten. Dit staat bewust hoog in de brief:
+  // je wil dit weten vóór je belt, niet erna.
+  const hist = findCrossListHistory(row);
+  if (hist.persoon.length > 0) {
+    html += briefSection(
+      "Eerder gesproken met " + esc((row.contact || "").split(" ")[0] || "deze persoon"),
+      hist.persoon.map(renderHistItem_).join("")
+    );
+  }
+  if (hist.collegas.length > 0) {
+    html += briefSection(
+      "Collega's van " + esc(row.bedrijf) + " (" + hist.collegas.length + ")",
+      hist.collegas.map(renderHistItem_).join("")
+    );
+  }
+
   if (brief.bedrijfBeschrijving) html += briefSection("Wat doet het bedrijf?", esc(brief.bedrijfBeschrijving));
 
   let opmContent = "";
@@ -6431,6 +6831,7 @@ function renderCallBriefOverlay() {
 function renderBellijstPanel() {
   renderEventContext();
   renderCallBriefOverlay();
+  renderScriptPanel();
 
   document.getElementById("callSettingsToggle").innerHTML = ICONS.gear + ' Concurrenten &amp; filters';
   document.getElementById("callClearBtn").style.display = state.callRows.length > 0 ? "inline-flex" : "none";
@@ -6449,7 +6850,7 @@ function renderBellijstPanel() {
           '<div class="call-saved-list-info"><div class="call-saved-list-naam">' + esc(l.naam) + '</div><div class="call-saved-list-meta">' + l.aantal + ' bedrijven · bewaard op ' + esc(l.savedAt) + '</div></div>' +
           '<div class="call-saved-list-actions">' +
           '<button onclick="loadNamedList(' + l.id + ')">Laden</button>' +
-          '<button class="danger" onclick="deleteNamedList(' + l.id + ')">' + ICONS.close + '</button>' +
+          '<button class="danger" onclick="deleteNamedList(' + l.id + ')" title="Lijst definitief verwijderen">Verwijderen</button>' +
           '</div></div>';
       });
     }
@@ -6631,7 +7032,14 @@ function renderCard(r) {
     });
   }
 
-  // Verhaal
+  // Wat doet het bedrijf? Dit staat bewust vóór het SAP-verhaal: een verkoper
+  // moet eerst weten wie hij voor zich heeft. De sector alleen ("Transportation")
+  // zegt niets — vervoeren ze voeding of chemie?
+  if (r.beschrijving) {
+    html += '<div class="bedrijf-beschrijving">' + esc(r.beschrijving) + '</div>';
+  }
+
+  // Verhaal (wat we bij hen gedaan hebben)
   if (r.verhaal) {
     html += '<div class="verhaal">' + esc(r.verhaal) + '</div>';
   }
@@ -6715,13 +7123,120 @@ function restoreAutosavedCallState_() {
   }
 }
 
+// ─── HISTORIEK OVER ALLE LIJSTEN HEEN ──────────────────────────────────────
+// Opgeslagen lijsten waren tot nu toe eilanden: laad je lijst B, dan zie je
+// niets meer van lijst A. Maar als je Gert van Carrefour belt, wil je weten op
+// welke eerdere evenementen hij was en wat hij toen zei — én of een collega van
+// Carrefour ergens anders is geweest. Deze functies doorzoeken daarom ALLE
+// opgeslagen lijsten, niet alleen de lijst die nu open staat.
+
+// Normaliseert een bedrijfsnaam zodat "Carrefour", "Carrefour Belgium NV" en
+// "carrefour  belgium" als hetzelfde bedrijf gelden.
+function normBedrijf_(naam) {
+  if (!naam) return "";
+  return naam.toLowerCase()
+    .replace(/\b(nv|bv|sa|bvba|cvba|comm\.v|vzw|group|belgium|belgië|belgie|holding|international)\b/g, "")
+    .replace(/[^a-z0-9]/g, "")
+    .trim();
+}
+
+function normPersoon_(naam) {
+  if (!naam) return "";
+  return naam.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
+}
+
+// Zoekt in alle opgeslagen lijsten (én de huidige) naar eerdere contacten.
+// Geeft twee groepen terug:
+//   persoon  = dezelfde persoon, op andere evenementen
+//   collegas = andere mensen van hetzelfde bedrijf
+function findCrossListHistory(row) {
+  const doelBedrijf = normBedrijf_(row.bedrijf);
+  const doelPersoon = normPersoon_(row.contact);
+  if (!doelBedrijf && !doelPersoon) return { persoon: [], collegas: [] };
+
+  const persoon = [];
+  const collegas = [];
+
+  // Alle opgeslagen lijsten doorlopen. De huidige lijst slaan we over: die staat
+  // al op het scherm, en het contact zelf hoeft niet in zijn eigen historiek.
+  getSavedLists_().forEach(function(lijst) {
+    const snap = lijst.snapshot || {};
+    const rows = snap.callRows || [];
+    // Naam van het evenement: liefst uit de eventcontext, anders de lijstnaam.
+    const ev = snap.eventStructured || {};
+    const evNaam = ev.titel || lijst.naam;
+    const evDatum = ev.datum || null;
+
+    rows.forEach(function(r) {
+      if (normBedrijf_(r.bedrijf) !== doelBedrijf) return;
+      // Alleen tonen als er iets te vertellen valt: een uitkomst of een notitie.
+      const heeftInfo = r.outcome || (r.liveNotes && r.liveNotes.trim()) || (r.historiek || []).length > 0;
+      if (!heeftInfo) return;
+
+      const item = {
+        lijstId: lijst.id,
+        lijstNaam: lijst.naam,
+        evenement: evNaam,
+        datum: evDatum,
+        opgeslagen: lijst.savedAt,
+        contact: r.contact || "(onbekend)",
+        functie: r.functie || null,
+        outcome: r.outcome || null,
+        notities: (r.liveNotes || "").trim(),
+        historiek: r.historiek || [],
+      };
+
+      const zelfdePersoon = doelPersoon && normPersoon_(r.contact) === doelPersoon;
+      if (zelfdePersoon) persoon.push(item);
+      else collegas.push(item);
+    });
+  });
+
+  return { persoon: persoon, collegas: collegas };
+}
+
+// Eén eerder contact: welk evenement, wie, welke uitkomst, en wat er gezegd is.
+function renderHistItem_(h) {
+  const oc = outcomeById(h.outcome);
+  let out = '<div class="hist-item">';
+  out += '<div class="hist-top">';
+  out += '<span class="hist-event">' + esc(h.evenement) + '</span>';
+  if (h.datum) out += '<span class="hist-datum">' + esc(h.datum) + '</span>';
+  out += '</div>';
+
+  const wie = [];
+  if (h.contact) wie.push(esc(h.contact));
+  if (h.functie) wie.push(esc(h.functie));
+  if (wie.length) out += '<div class="hist-wie">' + wie.join(' · ') + '</div>';
+
+  if (oc) {
+    out += '<div class="hist-outcome"><span class="hist-dot" style="background:' + oc.kleur + '"></span>' + esc(oc.kort) + '</div>';
+  }
+  // De feedback van toen — dit is waar het echt om draait.
+  if (h.notities) {
+    out += '<div class="hist-note">' + esc(h.notities) + '</div>';
+  } else if (h.historiek.length > 0 && h.historiek[0].notitie) {
+    out += '<div class="hist-note">' + esc(h.historiek[0].notitie) + '</div>';
+  }
+  out += '</div>';
+  return out;
+}
+
+// Kleine cache: findCrossListHistory draait voor élke rij bij élke render.
+// Zonder cache zou dat betekenen dat we localStorage 40× per toetsaanslag
+// uitlezen en parsen. De cache wordt gewist zodra er een lijst wijzigt.
+let _savedListsCache = null;
+function invalidateSavedListsCache_() { _savedListsCache = null; }
+
 function getSavedLists_() {
+  if (_savedListsCache) return _savedListsCache;
   try {
     const raw = localStorage.getItem(BELLIJST_SAVED_LISTS_KEY);
-    return raw ? JSON.parse(raw) : [];
+    _savedListsCache = raw ? JSON.parse(raw) : [];
   } catch (e) {
-    return [];
+    _savedListsCache = [];
   }
+  return _savedListsCache;
 }
 
 window.saveNamedList = function() {
@@ -6730,17 +7245,34 @@ window.saveNamedList = function() {
   const naam = window.prompt("Naam voor deze lijst:", voorstel);
   if (!naam) return;
   const lists = getSavedLists_();
-  const entry = {
-    id: Date.now(),
-    naam: naam,
-    savedAt: new Date().toLocaleString("nl-BE"),
-    aantal: state.callRows.length,
-    snapshot: snapshotCallState_(),
-  };
-  lists.unshift(entry);
+
+  // Bestaat er al een lijst met deze naam? Dan die BIJWERKEN, niet dupliceren.
+  // Tijdens een belronde sla je tussendoor op; zonder deze check kreeg je
+  // meerdere kopieën van hetzelfde evenement — en zag je bij een contact
+  // "3× eerder gesproken" terwijl het om één evenement ging.
+  const bestaande = lists.find(function(l) { return l.naam.toLowerCase() === naam.toLowerCase(); });
+  let msg;
+  if (bestaande) {
+    if (!window.confirm("Er bestaat al een lijst \u201c" + bestaande.naam + "\u201d.\n\nBijwerken met de huidige stand?")) return;
+    bestaande.savedAt = new Date().toLocaleString("nl-BE");
+    bestaande.aantal = state.callRows.length;
+    bestaande.snapshot = snapshotCallState_();
+    msg = "Lijst \u201c" + bestaande.naam + "\u201d bijgewerkt.";
+  } else {
+    lists.unshift({
+      id: Date.now(),
+      naam: naam,
+      savedAt: new Date().toLocaleString("nl-BE"),
+      aantal: state.callRows.length,
+      snapshot: snapshotCallState_(),
+    });
+    msg = "Opgeslagen als \u201c" + naam + "\u201d.";
+  }
+
   try {
     localStorage.setItem(BELLIJST_SAVED_LISTS_KEY, JSON.stringify(lists));
-    state.callSavedListsMsg = "Opgeslagen als \u201c" + naam + "\u201d.";
+    invalidateSavedListsCache_();
+    state.callSavedListsMsg = msg;
   } catch (e) {
     state.callSavedListsMsg = "Opslaan mislukt (browseropslag mogelijk vol).";
   }
@@ -6768,10 +7300,32 @@ window.loadNamedList = function(id) {
 };
 
 window.deleteNamedList = function(id) {
-  let lists = getSavedLists_();
-  lists = lists.filter(function(l) { return l.id !== id; });
-  try { localStorage.setItem(BELLIJST_SAVED_LISTS_KEY, JSON.stringify(lists)); } catch (e) {}
+  const lists = getSavedLists_();
+  const entry = lists.find(function(l) { return l.id === id; });
+  if (!entry) return;
+
+  // Bevestiging vragen: een lijst bevat je uitkomsten, notities en historiek.
+  // Die is na verwijderen definitief weg — én verdwijnt uit de historiek die je
+  // te zien krijgt bij andere contacten van datzelfde bedrijf.
+  const bevestigd = window.confirm(
+    "Lijst \u201c" + entry.naam + "\u201d verwijderen?\n\n" +
+    entry.aantal + " bedrijven \u00b7 bewaard op " + entry.savedAt + "\n\n" +
+    "Alle uitkomsten en notities uit deze lijst gaan verloren. Ze verdwijnen ook " +
+    "uit de historiek bij andere contacten van dezelfde bedrijven.\n\n" +
+    "Dit kan niet ongedaan gemaakt worden."
+  );
+  if (!bevestigd) return;
+
+  const overblijvend = lists.filter(function(l) { return l.id !== id; });
+  try {
+    localStorage.setItem(BELLIJST_SAVED_LISTS_KEY, JSON.stringify(overblijvend));
+    invalidateSavedListsCache_();
+    state.callSavedListsMsg = "Lijst \u201c" + entry.naam + "\u201d verwijderd.";
+  } catch (e) {
+    state.callSavedListsMsg = "Verwijderen mislukt.";
+  }
   render();
+  setTimeout(function() { state.callSavedListsMsg = null; render(); }, 3000);
 };
 
 window.toggleSavedListsPanel = function() {
@@ -6866,6 +7420,7 @@ function init() {
       '<div class="toolbar" id="callToolbar" style="display:none">' +
         '<div class="search-wrap">' + ICONS.search + '<input type="text" id="callSearchInput" placeholder="Zoek op bedrijf, contact of campagne..."></div>' +
       '</div>' +
+      '<div id="callScriptBlock"></div>' +
       '<div class="call-view-tabs" id="callViewTabs" style="display:none"></div>' +
       '<div class="call-list" id="callListBlock"></div>' +
     '</div>' +

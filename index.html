@@ -320,6 +320,129 @@
   .cold-bulk-btn:disabled { opacity: .55; cursor: default; }
   .cold-bulk-status { margin-top: 8px; font-size: 12px; color: var(--c-slate-500); }
 
+  /* Opslagmeter: hoeveel van de ~5 MB browseropslag is in gebruik */
+  .ls-meter { margin-top: 10px; padding: 10px 12px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); }
+  .ls-meter.vol { border-color: var(--c-red); background: #fff; }
+  .ls-meter-balk { height: 5px; background: var(--c-slate-200); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+  .ls-meter-vul { height: 100%; background: var(--c-navy); border-radius: 3px; }
+  .ls-meter-vul.vol { background: var(--c-red); }
+  .ls-meter-tekst { font-size: 11.5px; color: var(--c-slate-500); }
+  .ls-meter-waarschuwing { margin-top: 6px; font-size: 11.5px; font-weight: 600; color: var(--c-red); line-height: 1.45; }
+
+  /* Eerder op een evenement geweest — het warme haakje voor een koude call */
+  .call-hist-event { margin-top: 8px; padding: 8px 12px; background: #fff; border: 1px solid var(--c-navy); border-left: 3px solid var(--c-navy); border-radius: var(--radius-btn); font-size: 12.5px; color: var(--c-ink); cursor: pointer; line-height: 1.5; }
+  .call-hist-event:hover { background: var(--c-slate-50); }
+  .call-hist-meer { color: var(--c-slate-400); font-size: 11.5px; font-weight: 600; }
+  .hist-item.hist-aanwezig { border-left: 3px solid var(--c-navy); }
+  .hist-outcome-aanwezig { font-size: 12px; font-weight: 700; color: var(--c-navy); }
+
+  /* Filter op ERP-landschap + CSV-export van wat er nu gefilterd staat */
+  .erp-filter { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; padding: 10px 12px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); }
+  .erp-filter-label { font-size: 11.5px; font-weight: 800; color: var(--c-slate-500); margin-right: 2px; }
+  .erp-pill { padding: 5px 12px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-ink); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .erp-pill:hover { border-color: var(--c-navy); }
+  .erp-pill.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
+  .erp-csv-btn { margin-left: auto; padding: 6px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: #fff; color: var(--c-navy); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap; }
+  .erp-csv-btn:hover { background: var(--c-navy); color: #fff; }
+
+  /* Websitebezoekers (Leadinfo) — harde intentie */
+  .leadinfo-blok { margin-bottom: 10px; }
+  .leadinfo-toggle { padding: 8px 15px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .leadinfo-toggle:hover { border-color: var(--c-navy); }
+  .leadinfo-paneel { margin-top: 10px; padding: 14px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); }
+  .leadinfo-uitleg { font-size: 12.5px; color: var(--c-slate-500); line-height: 1.6; margin-bottom: 9px; }
+  .leadinfo-paneel textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-family: inherit; font-size: 12.5px; resize: vertical; margin-bottom: 8px; }
+  .leadinfo-btn { padding: 7px 14px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .leadinfo-status { margin-top: 9px; font-size: 11.5px; color: var(--c-slate-500); }
+  .leadinfo-voeg-btn { margin-top: 9px; padding: 8px 15px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .call-leadinfo { margin-top: 8px; padding: 8px 12px; background: #eff6ff; border: 1px solid #2563eb; border-left: 3px solid #2563eb; border-radius: var(--radius-btn); font-size: 12.5px; color: var(--c-ink); line-height: 1.5; }
+  .call-li-paginas { margin-top: 2px; font-size: 11.5px; color: var(--c-slate-500); font-style: italic; }
+
+  /* Demodata-waarschuwing + de echte klantenlijst in Lewis */
+  .ref-demo-waarschuwing { margin-bottom: 12px; padding: 10px 13px; background: #fffbeb; border: 1px solid #ca8a04; border-radius: 10px; font-size: 12.5px; color: #854d0e; line-height: 1.55; }
+  .echte-refs { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--c-slate-200); }
+  .echte-refs-kop { font-size: 15px; font-weight: 800; color: var(--c-navy); margin-bottom: 4px; }
+  .echte-refs-sub { font-size: 12.5px; color: var(--c-slate-500); line-height: 1.55; margin-bottom: 12px; }
+  .echte-refs-groep { margin-bottom: 12px; }
+  .echte-refs-prod { font-size: 11px; font-weight: 800; color: var(--c-slate-400); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+  .echte-refs-lijst { display: flex; flex-wrap: wrap; gap: 6px; }
+  .echte-ref { display: inline-flex; flex-direction: column; background: #fff; border: 1px solid var(--c-navy); border-radius: 8px; padding: 5px 11px; font-size: 12.5px; font-weight: 700; color: var(--c-navy); }
+  .echte-ref-notitie { font-size: 10.5px; font-weight: 500; color: var(--c-slate-400); font-style: italic; margin-top: 1px; }
+
+  /* Evenementenagenda + gerichte uitnodiging */
+  .agenda-blok { margin-bottom: 10px; }
+  .agenda-toggle { padding: 8px 15px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .agenda-toggle:hover { border-color: var(--c-navy); }
+  .agenda-paneel { margin-top: 10px; padding: 14px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); }
+  .agenda-uitleg { font-size: 12.5px; color: var(--c-slate-500); line-height: 1.6; margin-bottom: 9px; }
+  .agenda-uitleg a { color: var(--c-primary-darker); font-weight: 700; }
+  .agenda-paneel textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-family: inherit; font-size: 12.5px; resize: vertical; margin-bottom: 8px; }
+  .agenda-btn { padding: 7px 14px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .agenda-btn:disabled { opacity: .6; cursor: default; }
+  .agenda-wis-btn { margin-left: 6px; padding: 7px 12px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-400); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; }
+  .agenda-wis-btn:hover { border-color: var(--c-red); color: var(--c-red); }
+  .agenda-lijst { display: flex; flex-direction: column; gap: 6px; margin-top: 11px; }
+  .agenda-event { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); padding: 8px 11px; }
+  .agenda-event-top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 12.5px; color: var(--c-ink); }
+  .agenda-event-datum { font-size: 11.5px; color: var(--c-slate-400); font-weight: 600; }
+  .agenda-themas { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+  .agenda-thema { background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-pill); padding: 1px 8px; font-size: 10.5px; font-weight: 700; color: var(--c-slate-500); }
+  .agenda-verstreken { margin-top: 7px; font-size: 11px; color: var(--c-slate-400); font-style: italic; }
+  .cold-event { margin-top: 10px; padding: 9px 12px; background: #fff; border: 1px solid var(--c-navy); border-left: 3px solid var(--c-navy); border-radius: var(--radius-btn); }
+  .cold-event.geen { border-color: var(--c-slate-200); border-left-color: var(--c-slate-200); background: var(--c-slate-50); }
+  .cold-event-kop { font-size: 10.5px; font-weight: 800; color: var(--c-slate-500); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+  .cold-event-titel { font-size: 13px; font-weight: 800; color: var(--c-navy); }
+  .cold-event-meta { font-size: 11.5px; color: var(--c-slate-500); font-weight: 600; margin-top: 1px; }
+  .cold-event-reden { margin-top: 4px; font-size: 12px; color: var(--c-slate-500); line-height: 1.5; }
+
+  /* Prospects vinden: bedrijven opsporen op basis van signalen + ICP */
+  .prospect-blok { margin-bottom: 10px; }
+  .prospect-toggle { padding: 8px 15px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .prospect-toggle:hover { opacity: .88; }
+  .prospect-paneel { margin-top: 10px; padding: 14px; background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); }
+  .prospect-uitleg { font-size: 12.5px; color: var(--c-slate-500); line-height: 1.55; margin-bottom: 10px; }
+  .prospect-sectoren { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .prospect-sector { padding: 5px 12px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-ink); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .prospect-sector:hover { border-color: var(--c-navy); }
+  .prospect-sector.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
+  .prospect-zoek-btn { padding: 8px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: #fff; color: var(--c-navy); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .prospect-zoek-btn:hover:not(:disabled) { background: var(--c-navy); color: #fff; }
+  .prospect-zoek-btn:disabled { opacity: .6; cursor: default; }
+  .prospect-kop { margin-top: 12px; font-size: 12px; font-weight: 800; color: var(--c-navy); }
+  .prospect-toelichting { margin-top: 4px; font-size: 11.5px; color: var(--c-slate-400); font-style: italic; line-height: 1.5; }
+  .prospect-leeg { margin-top: 12px; padding: 12px; background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 12.5px; color: var(--c-slate-500); line-height: 1.55; }
+  .prospect-lijst { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .prospect-kaart { background: #fff; border: 1px solid var(--c-slate-200); border-left: 3px solid var(--c-navy); border-radius: var(--radius-btn); padding: 10px 12px; }
+  .prospect-kaart-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .prospect-naam { font-size: 13px; font-weight: 800; color: var(--c-ink); }
+  .prospect-meta { font-size: 11.5px; color: var(--c-slate-400); font-weight: 600; }
+  .prospect-signaal { font-size: 12.5px; color: var(--c-ink); line-height: 1.5; }
+  .prospect-bewijs { margin-top: 4px; font-size: 11.5px; color: var(--c-slate-500); font-style: italic; }
+  .prospect-product { margin-top: 4px; font-size: 11.5px; font-weight: 700; color: var(--c-navy); }
+  .prospect-voeg-btn { margin-top: 12px; padding: 8px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .prospect-voeg-btn:hover { opacity: .88; }
+
+  /* ICP-oordeel: past dit bedrijf überhaupt bij ons? */
+  .qs-icp { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 9px; padding: 7px 11px; border-radius: var(--radius-btn); border: 1px solid; }
+  .qs-icp.icp-ja { background: #f0fdf4; border-color: #16a34a; }
+  .qs-icp.icp-twijfel { background: #fefce8; border-color: #ca8a04; }
+  .qs-icp.icp-nee { background: #fef2f2; border-color: var(--c-red); }
+  .qs-icp-verdict { font-size: 12.5px; font-weight: 800; color: var(--c-ink); }
+  .qs-icp-reden { font-size: 12px; color: var(--c-slate-500); }
+  .cold-prod-reden { font-size: 12px; color: var(--c-slate-500); font-weight: 500; }
+  .cold-ref-product { font-size: 10.5px; font-weight: 700; color: var(--c-slate-400); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 3px; }
+  /* Hoe hard mag je deze referentie brengen? */
+  .cold-ref-match { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 4px; }
+  .ref-badge { border-radius: var(--radius-pill); padding: 1px 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; }
+  .ref-badge.ref-sterk { background: #f0fdf4; border: 1px solid #16a34a; color: #15803d; }
+  .ref-badge.ref-redelijk { background: #fefce8; border: 1px solid #ca8a04; color: #a16207; }
+  .ref-badge.ref-zwak { background: var(--c-slate-50); border: 1px solid var(--c-slate-200); color: var(--c-slate-500); }
+  .ref-as { font-size: 11px; color: var(--c-slate-500); font-weight: 600; }
+
+  /* Welk bedrijf de AI heeft geïdentificeerd bij een slordig ingetypte naam */
+  .cold-ident { margin: 8px 0 0; font-size: 12px; color: var(--c-slate-500); }
+  .cold-ident-twijfel { margin: 6px 0 0; padding: 7px 11px; background: #fff; border: 1px solid var(--c-red); border-radius: var(--radius-btn); font-size: 12px; font-weight: 600; color: var(--c-red); line-height: 1.45; }
+
   /* Cold calling: de Quick Scan-fiche — kwalificatie in één oogopslag */
   .qs-block { margin: 10px 0 12px; background: #fff; border: 1px solid var(--c-navy); border-radius: var(--radius-btn); padding: 10px 13px; }
   .qs-titel { font-size: 11px; font-weight: 800; color: var(--c-navy); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
@@ -3238,6 +3361,21 @@ const state = {
   scriptOpen: false,       // het algemene script bovenaan open/dicht
   coldScripts: {},         // per rij-id: AI-analyse voor cold calling
   coldLoadingId: null,     // welk bedrijf wordt nu geanalyseerd
+  // Filter op ERP-landschap uit de quickscan: "alle" | "sap" | "nonsap" | "onbekend" | "niet"
+  erpFilter: "alle",
+  // Websitebezoekers (Leadinfo): wie was er op onze site?
+  leadinfoPaneelOpen: false,
+  leadinfoFout: null,
+  // Evenementenagenda: jij plakt de Flexso-events, de AI stelt ze gericht voor.
+  agendaPaneelOpen: false,
+  agendaBezig: false,
+  agendaFout: null,
+  // Prospects vinden: zelf bedrijven opsporen op basis van signalen + ICP.
+  prospectPaneelOpen: false,
+  prospectSector: "Alle ICP-sectoren",
+  prospectBezig: false,
+  prospectResultaat: null,
+  prospectFout: null,
   // Bulk-analyse ("analyseer alles in één keer"): voortgang van de reeks.
   coldBulkBezig: false,
   coldBulkTotaal: 0,
@@ -6107,6 +6245,15 @@ function renderAskVraagBody() {
   var r = state.askQResult;
   var err = state.askQError;
   var html = '';
+
+  // EERLIJKHEID BOVEN ALLES: deze bibliotheek (REFS/CASES) is demodata. Vraag je
+  // Lewis om een referentie, dan krijg je verzonnen klanten (MedCare Group,
+  // AgroFresh…) terug. Zonder waarschuwing zou een verkoper die aan de telefoon
+  // kunnen noemen — precies de fout die we bij cold calling al hebben dichtgezet.
+  html += '<div class="ref-demo-waarschuwing">⚠️ <strong>Let op:</strong> deze referentiebibliotheek bevat ' +
+    '<strong>fictieve demodata</strong>. De namen hieronder zijn geen echte klanten en mag je niet aan een ' +
+    'prospect noemen. Onze echte ERP-klanten staan in het overzicht onderaan.</div>';
+
   html += '<div style="font-size:13px;color:var(--c-slate-500);margin-bottom:12px;line-height:1.5"><strong style="color:var(--c-ink)">Vóór een gesprek.</strong> Zoek in je referentiebibliotheek op sector, land, oplossing of grootte. Bv. "Welke referenties heb ik voor een ziekenhuis?"</div>';
   html += '<textarea id="askQInput" placeholder="Welke referenties heb ik voor een ziekenhuis?" ' +
     'style="width:100%;min-height:72px;padding:13px 15px;border:1px solid var(--c-slate-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--c-ink);background:#fff;resize:vertical;box-sizing:border-box;line-height:1.5">' +
@@ -6134,6 +6281,34 @@ function renderAskVraagBody() {
       html += renderAskBlock('🏆 Referenties', refHtml, '');
     }
   }
+
+  // De ECHTE klanten, altijd zichtbaar. Dit is wat je wél aan een prospect mag
+  // noemen. Ze staan hier per producttype, zodat je bij een vraag over een
+  // vergelijkbaar bedrijf meteen ziet wie in de buurt komt.
+  html += renderEchteReferenties();
+  return html;
+}
+
+// De echte ERP-klanten, gegroepeerd per S/4HANA-smaak.
+function renderEchteReferenties() {
+  let html = '<div class="echte-refs">';
+  html += '<div class="echte-refs-kop">✅ Onze échte ERP-klanten</div>';
+  html += '<div class="echte-refs-sub">Deze namen mag je wél noemen. Geen exacte match voor jouw prospect? ' +
+    'Kies dan de dichtstbijzijnde op sector, migratiepad of grootte — en breng ze als "iets gelijkaardigs".</div>';
+
+  Object.keys(ICP_ERP.referenties).forEach(function(prod) {
+    html += '<div class="echte-refs-groep">';
+    html += '<div class="echte-refs-prod">' + esc(prod) + '</div>';
+    html += '<div class="echte-refs-lijst">';
+    ICP_ERP.referenties[prod].forEach(function(naam) {
+      const notitie = ICP_ERP.referentieNotities[naam];
+      html += '<span class="echte-ref" title="' + esc(notitie || naam) + '">' + esc(naam) +
+        (notitie ? '<span class="echte-ref-notitie">' + esc(notitie) + '</span>' : '') + '</span>';
+    });
+    html += '</div></div>';
+  });
+
+  html += '</div>';
   return html;
 }
 
@@ -6432,12 +6607,48 @@ function callRowHtml(r, showRestore) {
   // Waarschuw meteen in de lijst als we dit bedrijf/deze persoon al eerder
   // spraken. Anders moet je elke brief openen om te ontdekken dat er historiek is.
   if (!showRestore) {
+    // Websitebezoek: het sterkste signaal dat er is. Direct zichtbaar op de rij,
+    // niet achter een klik — dit bepaalt of je dit bedrijf vandaag belt.
+    const li = leadinfoVoor_(r.bedrijf);
+    if (li) {
+      let tekst = '<strong>Was op onze website</strong>';
+      const bits = [];
+      if (li.bezoeken) bits.push(li.bezoeken + ' bezoek' + (String(li.bezoeken).trim() === "1" ? '' : 'en'));
+      if (li.laatste) bits.push('laatst ' + esc(li.laatste));
+      if (bits.length) tekst += ' — ' + bits.join(' · ');
+      if (li.paginas) tekst += '<div class="call-li-paginas">' + esc(li.paginas) + '</div>';
+      html += '<div class="call-leadinfo">👀 ' + tekst + '</div>';
+    }
+
     const xh = findCrossListHistory(r);
     if (xh.persoon.length > 0 || xh.collegas.length > 0) {
+      // Evenement-aanwezigheid van COLLEGA'S is het krachtigste haakje voor een
+      // cold call: bel je Dirk van HR, dan wil je meteen zien dat hun CFO Sara op
+      // ons event stond. Dat achter een klik verstoppen ("bekijk brief") maakt het
+      // nutteloos — je leest dat niet meer terwijl de telefoon overgaat.
+      const aanwezig = xh.collegas.filter(function(h) { return h.aanwezigheid; })
+        .concat(xh.persoon.filter(function(h) { return h.aanwezigheid; }));
+
+      if (aanwezig.length > 0) {
+        const eerste = aanwezig[0];
+        let tekst = '<strong>' + esc(eerste.contact) + '</strong>' +
+          (eerste.functie ? ' (' + esc(eerste.functie) + ')' : '') +
+          ' was op <strong>' + esc(eerste.evenement) + '</strong>' +
+          (eerste.datum ? ' — ' + esc(eerste.datum) : '');
+        if (aanwezig.length > 1) {
+          tekst += ' <span class="call-hist-meer">+' + (aanwezig.length - 1) + ' ander' +
+            (aanwezig.length === 2 ? '' : 'e') + '</span>';
+        }
+        html += '<div class="call-hist-event" onclick="openCallBrief(' + r._id + ')">🎟️ ' + tekst + '</div>';
+      }
+
       const bits = [];
       if (xh.persoon.length > 0) bits.push(xh.persoon.length + '× eerder gesproken');
-      if (xh.collegas.length > 0) bits.push(xh.collegas.length + '× collega');
-      html += '<div class="call-hist-badge" onclick="openCallBrief(' + r._id + ')">🕘 ' + esc(bits.join(' · ')) + ' — bekijk brief</div>';
+      const gesprokenCollegas = xh.collegas.filter(function(h) { return !h.aanwezigheid; }).length;
+      if (gesprokenCollegas > 0) bits.push(gesprokenCollegas + '× collega');
+      if (bits.length > 0) {
+        html += '<div class="call-hist-badge" onclick="openCallBrief(' + r._id + ')">🕘 ' + esc(bits.join(' · ')) + ' — bekijk brief</div>';
+      }
     }
   }
 
@@ -6554,6 +6765,17 @@ function callRowHtml(r, showRestore) {
           html += '<span class="cold-cached">Eerder geanalyseerd — ' + esc(new Date(cold.opgeslagenOp).toLocaleDateString("nl-BE")) + '</span>';
         }
 
+        // Wélk bedrijf heeft de AI eigenlijk gevonden? Bij een slordig ingetypte
+        // naam ("meat&more") kan dat een ander bedrijf zijn dan je bedoelde. Beter
+        // dat je dat ziet vóór je belt dan tijdens.
+        if (cold.geidentificeerdAls) {
+          html += '<div class="cold-ident">Geanalyseerd als: <strong>' + esc(cold.geidentificeerdAls) + '</strong></div>';
+        }
+        if (cold.identificatieTwijfel) {
+          html += '<div class="cold-ident-twijfel">⚠️ Kan ook een ander bedrijf zijn: ' + esc(cold.identificatieTwijfel) +
+            ' — controleer of dit klopt.</div>';
+        }
+
         // Quick Scan: de kwalificatie-fiche. Vaste velden, vaste waarden — dit
         // is wat je moet WETEN vóór je belt, niet wat je moet zeggen.
         if (cold.quickscan) {
@@ -6565,12 +6787,31 @@ function callRowHtml(r, showRestore) {
             cold.pijnpunten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
         }
         if (cold.aanbevolenProduct) {
-          html += '<div class="script-label">Aanbevolen product</div><p class="script-line"><strong>' + esc(cold.aanbevolenProduct) + '</strong></p>';
+          html += '<div class="script-label">Aanbevolen product</div><p class="script-line"><strong>' + esc(cold.aanbevolenProduct) + '</strong>' +
+            ((cold.quickscan && cold.quickscan.productReden) ? ' <span class="cold-prod-reden">— ' + esc(cold.quickscan.productReden) + '</span>' : '') +
+            '</p>';
         }
         if ((cold.gebruikteReferenties || []).length) {
+          const STERKTE_KLEUR = { "Sterk": "ref-sterk", "Redelijk": "ref-redelijk", "Zwak": "ref-zwak" };
           html += '<div class="script-label">Te noemen als bewijs</div><div class="cold-refs">' +
             cold.gebruikteReferenties.map(function(g) {
               let ref = '<div class="cold-ref"><div class="cold-ref-naam">' + esc(g.naam) + '</div>';
+              // De GELIJKENIS is hier het belangrijkste: bij een zwakke match moet je
+              // weten dat je ze losjes brengt ("we deden iets gelijkaardigs bij…")
+              // in plaats van als hard bewijs.
+              if (g.gelijkenis || g.sterkte) {
+                ref += '<div class="cold-ref-match">';
+                if (g.sterkte) {
+                  ref += '<span class="ref-badge ' + (STERKTE_KLEUR[g.sterkte] || '') + '">' + esc(g.sterkte) + '</span>';
+                }
+                if (g.gelijkenis) {
+                  ref += '<span class="ref-as">zelfde ' + esc(g.gelijkenis.toLowerCase()) + '</span>';
+                }
+                ref += '</div>';
+              }
+              if (g.product) {
+                ref += '<div class="cold-ref-product">' + esc(g.product) + '</div>';
+              }
               if ((g.punten || []).length) {
                 ref += '<ul class="cold-ref-punten">' +
                   g.punten.map(function(p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>';
@@ -6588,6 +6829,29 @@ function callRowHtml(r, showRestore) {
           html += '<div class="script-label">Vragen</div><ol class="cold-lijst">' +
             cold.vragen.map(function(v) { return '<li>' + esc(v) + '</li>'; }).join('') + '</ol>';
         }
+
+        // Mogelijke uitnodiging. Bewust GEEN scriptregel: het is informatie waarmee
+        // jij aan de telefoon beslist of het past. Het model mag ook "geen passend
+        // event" zeggen — een uitnodiging die er altijd bij staat, wordt genegeerd;
+        // een uitnodiging die er staat omdat ze past, is een argument.
+        if (cold.eventVoorstel) {
+          const ev = cold.eventVoorstel;
+          if (ev.titel) {
+            html += '<div class="cold-event">' +
+              '<div class="cold-event-kop">🎟️ Mogelijke uitnodiging</div>' +
+              '<div class="cold-event-titel">' + esc(ev.titel) + '</div>' +
+              ((ev.datum || ev.locatie) ? '<div class="cold-event-meta">' +
+                esc([ev.datum, ev.locatie].filter(Boolean).join(" · ")) + '</div>' : '') +
+              (ev.reden ? '<div class="cold-event-reden">' + esc(ev.reden) + '</div>' : '') +
+              '</div>';
+          } else if (ev.reden) {
+            html += '<div class="cold-event geen">' +
+              '<div class="cold-event-kop">🎟️ Geen passend event</div>' +
+              '<div class="cold-event-reden">' + esc(ev.reden) + '</div>' +
+              '</div>';
+          }
+        }
+
         if ((cold.bronnen || []).length) {
           html += '<div class="cold-bronnen">Bronnen: ' + cold.bronnen.map(esc).join(' · ') + '</div>';
         }
@@ -6657,6 +6921,9 @@ window.setEventSubMode = function(mode) {
 window.setColdTopic = function(topic) {
   if (state.coldBulkBezig) return; // niet van topic wisselen midden in een bulk-analyse
   state.coldTopic = topic;
+  // Het filter slaat op de fiche van het VORIGE topic: "SAP" betekende daar iets
+  // anders. Terug naar "Alle", anders kijk je naar een lege lijst zonder te weten waarom.
+  state.erpFilter = "alle";
   // De vorige samenvatting sloeg op het vórige topic — die hier laten staan
   // zou misleidend zijn ("alles geanalyseerd" terwijl dat voor dít topic niet zo is).
   state.coldBulkStatus = null;
@@ -6986,95 +7253,332 @@ function saveColdAnalyse_(bedrijf, topic, data) {
 function getColdAnalyse_(bedrijf, topic) {
   const a = getColdAnalyses_()[coldAnalyseKey_(bedrijf, topic)] || null;
   if (!a || a.fout) return a;
-  // Analyses van vóór de quickscan-fiche (of van vóór het SAP-landschap-veld)
-  // missen die velden. Die zouden anders blijven hangen in hun oude vorm — de cache
-  // is bedoeld om AI-aanroepen te sparen, niet om verouderde output te bevriezen.
-  // Zonder die velden: behandelen als niet-geanalyseerd, zodat hij opnieuw wordt opgehaald.
+  // Analyses van vóór de topic-afhankelijke fiche gebruiken nog de oude velden
+  // (erpVandaag / s4hana) en missen huidigSysteem. Die zouden met lege cellen
+  // renderen — de cache is bedoeld om AI-aanroepen te sparen, niet om kapotte
+  // output te bevriezen. Behandelen als niet-geanalyseerd, zodat hij opnieuw
+  // wordt opgehaald in het juiste formaat voor dit topic.
   if (!a.quickscan) return null;
+  if (!a.quickscan.huidigSysteem) return null;
   if (!Array.isArray(a.quickscan.sapLandschap)) return null;
+  // Analyses van vóór de identificatiestap: die zijn mogelijk op het verkeerde
+  // bedrijf gebaseerd, zonder dat je het kan zien. Opnieuw ophalen.
+  if (!("geidentificeerdAls" in a)) return null;
+  // Analyses van vóór het ICP: die gebruiken nog de FICTIEVE demoreferenties
+  // (AgroFresh, GreenPack…) en missen het ICP-oordeel. Niet laten staan.
+  if (heeftIcp_(topic) && !a.quickscan.icpFit) return null;
   return a;
 }
 
-const COLD_SYSTEM_PROMPT = "Je bereidt een cold call voor bij een SAP-consultingbedrijf (Flexso). " +
-  "Deze belronde draait uitsluitend rond ÉÉN specifieke SAP-oplossing (zie 'topic' hieronder). " +
+// ─── HET ECHTE ICP VOOR ERP / S/4HANA ──────────────────────────────────────
+// BELANGRIJK: de REFS/CASES elders in deze app zijn FICTIEVE demodata
+// (AgroFresh, GreenPack Solutions, MedCare Group…). Die mogen NOOIT als bewijs
+// aan een prospect genoemd worden — dat zijn verzonnen klanten.
+// Onderstaande lijsten zijn de ECHTE klanten en criteria uit het ICP-document.
+// Voor het topic S/4HANA gebruiken we uitsluitend deze.
+const ICP_ERP = {
+  bedrijfstype: "HQ in Belgie (waar de beslissing valt), of een internationaal bedrijf met " +
+    "een Belgische vestiging die lokale ondersteuning nodig heeft.",
+  omzet: {
+    sweetSpot: "vanaf 100 mln EUR",
+    minimum: "50 mln EUR — flexibel naar beneden als het een sterk groeibedrijf is",
+    publicCloud: "vanaf 40-50 mln EUR, specifiek bij groeibedrijven",
+  },
+  sectoren: [
+    "Process manufacturing — voeding",
+    "Process manufacturing — chemie (eerder private cloud)",
+    "Process manufacturing — farma (eerder private cloud)",
+    "Wholesale & distribution",
+    "Logistiek",
+    "Energy & utilities",
+    "Professional services",
+  ],
+  contactpersonen: ["CIO", "CFO", "CEO", "COO"],
+
+  // Echte klanten, per producttype. Dit is wat de verkoper MAG noemen.
+  referenties: {
+    "S/4HANA on premise": ["Calodar", "Meat&More", "Cloostermans", "GOB", "Ajinomoto",
+      "Elia", "Kaneka", "Nippon Shokubai", "Tessenderlo Group"],
+    "S/4HANA RISE": ["Biobest", "Sibelco", "Prayon", "Everlam", "Bru-textiles",
+      "Drylock", "Ravago", "Indaver"],
+    "S/4HANA Public Cloud": ["Serax", "Facilicom", "Aspiravi", "Crelem Bakeries",
+      "Windgrid", "Arteco", "Meco", "Smartphoto"],
+  },
+  // Context bij specifieke referenties — handig als bewijs in een gesprek.
+  referentieNotities: {
+    "Biobest": "eerste RISE-klant, vooral template-uitrollen",
+    "Drylock": "SAP-first strategie, van S/4 on-prem naar RISE",
+    "Ravago": "van S/4 on-prem naar RISE",
+    "Indaver": "van ECC naar RISE",
+    "Serax": "van Business One naar Public Cloud",
+    "Crelem Bakeries": "van ECC naar Public Cloud",
+    "Arteco": "van ECC naar Public Cloud",
+    "Facilicom": "overgenomen van Delaware",
+    "Aspiravi": "go-live op 3 maanden tijd",
+    "Smartphoto": "go-live op 4 a 5 maanden tijd",
+    "Ajinomoto": "bekijkt overstap naar private cloud",
+  },
+
+  // De pijnpunten uit het ICP. Dit zijn de signalen waarop je kwalificeert.
+  pijnpunten: {
+    business: [
+      "Beperkte tijd om zaken structureel aan te pakken; focus ligt op brandjes blussen",
+      "Achterstand op de feiten",
+      "Silo's werken niet geintegreerd samen; is de ERP klaar om strategische beslissingen te sturen",
+      "Gedecentraliseerde strategie en communicatie",
+    ],
+    it: [
+      "Geen geintegreerd ERP, verouderd systeem, of niet aangepast aan gewijzigde omstandigheden",
+      "Geisoleerde automatiseringen; Excel wordt als ERP gebruikt",
+      "Verouderde en onvoldoende beveiligde hardware",
+      "Gebrekkig onderhouden rechten en autorisaties",
+    ],
+    ecc: [
+      "Toenemend security- en compliancerisico",
+      "Hogere onderhoudskosten (extended maintenance tegen premium) zonder nieuwe functionaliteit",
+      "Veel maatwerk: duur om te onderhouden, moeilijk te veranderen",
+      "Moeilijk opschalen bij groei, fusies of internationale expansie",
+      "ECC is niet ontworpen voor real-time inzichten, AI, advanced analytics of cloud-integraties",
+      "Integratie met moderne SaaS-oplossingen (CRM, e-commerce, planning) is complex en fragiel",
+      "Innovatie gebeurt 'rond ERP' in plaats van vanuit het ERP",
+      "Beslissingen worden uitgesteld; tijdslijnen worden krap richting 2027",
+    ],
+    move2cloud: [
+      "Hoge TCO: hardware, datacenters, security, licenties en technisch beheer blijven doorlopen",
+      "Upgrades en support vragen grote periodieke budgetten zonder directe businessimpact",
+      "Nieuwe functionaliteit en AI-features komen later dan in de cloud-edities",
+    ],
+  },
+  // Bezwaren die je zal horen — nuttig om op voorhand te weten.
+  bezwaren: [
+    "S/4HANA-migratie voelt groot, duur en risicovol",
+    "Businesscase is onduidelijk of puur IT-gedreven",
+  ],
+};
+
+// Geldt dit topic het ERP-ICP? SuccessFactors is HR en valt hier buiten.
+function heeftIcp_(topic) { return topic === "S/4HANA"; }
+
+// ─── DE QUICK SCAN IS TOPIC-AFHANKELIJK ────────────────────────────────────
+
+// Een fiche die naar "ERP vandaag: SAP/Oracle" vraagt is nutteloos als je
+// SuccessFactors verkoopt — dan wil je weten of ze op Workday of SD Worx zitten.
+// Structuur en logica blijven identiek; alleen de velden verschillen per topic.
+const SCAN_CONFIG = {
+  "S/4HANA": {
+    huidigLabel: "ERP vandaag",
+    huidigVeld: "welk ERP-pakket draaien ze vandaag",
+    huidigOpties: ["SAP", "Oracle", "Dynamics", "Infor", "Andere", "Onbekend"],
+    doelLabel: "S/4HANA?",
+    doelVraag: "zitten ze al op S/4HANA (of nog op ECC/legacy)",
+    doelOpties: ["Ja", "Nee", "Onbekend"],
+    triggerOpties: ["Legacy ERP", "Groei", "Overname", "Compliance", "Carve-out",
+      "Private equity", "Herstructurering", "Internationalisering", "Duurzaamheid/CSRD", "Onbekend"],
+    // Welke waarden van 'huidig' gelden als "bij ons thuis" (SAP) voor het filter.
+    sapWaarden: ["SAP"],
+  },
+  "SuccessFactors": {
+    huidigLabel: "HR/payroll vandaag",
+    huidigVeld: "welk HR- of loonsysteem gebruiken ze vandaag",
+    huidigOpties: ["SuccessFactors", "SAP HCM", "Workday", "SD Worx", "Securex", "Acerta",
+      "Attentia", "Partena", "AFAS", "Protime", "Andere", "Onbekend"],
+    doelLabel: "SuccessFactors?",
+    doelVraag: "gebruiken ze al SuccessFactors, en zo ja welke modules",
+    doelOpties: ["Ja", "Nee", "Onbekend"],
+    triggerOpties: ["Verouderd HR-systeem", "War for talent", "Payroll-migratie", "Groei",
+      "Fusie/overname", "Internationalisering", "Compliance", "Herstructurering",
+      "Employee experience", "Onbekend"],
+    sapWaarden: ["SuccessFactors", "SAP HCM"],
+  },
+};
+
+function scanConfig_(topic) {
+  return SCAN_CONFIG[topic] || SCAN_CONFIG["S/4HANA"];
+}
+
+// De prompt wordt per topic opgebouwd: dezelfde regels, andere velden.
+function buildColdSystemPrompt_(topic) {
+  const cfg = scanConfig_(topic);
+  const lijst = function(arr) { return arr.map(function(o) { return '"' + o + '"'; }).join(" | "); };
+
+  // Komende Flexso-events meegeven, zodat de AI er een KAN voorstellen. Enkel als
+  // er echt een agenda is ingelezen — anders mag hij er niet over beginnen.
+  const events = komendeEvents_();
+  let eventBlok = "";
+  if (events.length > 0) {
+    eventBlok = "\n\nKOMENDE FLEXSO-EVENTS — je mag hier een uitnodiging uit voorstellen:\n" +
+      events.map(function(e) {
+        return "* " + e.titel + " — " + (e.datum || "datum onbekend") +
+          (e.locatie ? ", " + e.locatie : "") +
+          ((e.themas || []).length ? " | thema's: " + e.themas.join(", ") : "") +
+          (e.voorWie ? " | voor: " + e.voorWie : "") +
+          (e.omschrijving ? " | " + e.omschrijving : "");
+      }).join("\n") + "\n\n" +
+      "EVENT-REGELS — dit is geen standaard afsluiter:\n" +
+      "Een uitnodiging is alleen waardevol als ze PAST. Beoordeel per bedrijf of een van bovenstaande " +
+      "events echt aansluit bij hun situatie, en zet je keuze in 'eventVoorstel'.\n" +
+      "- Past er een event: geef 'titel' (exact zoals hierboven) en 'reden' — EEN zin (max 20 woorden) " +
+      "die het event koppelt aan HUN pijnpunt. Niet 'interessant voor u', maar bv. " +
+      "'ze zitten nog op ECC on-prem en twijfelen over de businesscase — dit event gaat net over die TCO-afweging'.\n" +
+      "- Past er GEEN event: zet 'titel' op null en leg in 'reden' kort uit waarom niet " +
+      "(bv. 'zitten al midden in een RISE-migratie; de sessies gaan over de beslissing die zij al namen'). " +
+      "Dat is een VOLWAARDIG antwoord — een event dat er altijd bij staat, is ruis. Forceer nooit een match.\n" +
+      "- Verzin NOOIT een event dat niet in de lijst staat, en verander nooit een datum of locatie.\n";
+  }
+
+  // Voor S/4HANA hebben we een echt ICP: harde criteria, echte klanten, en de
+  // pijnpunten waarop we kwalificeren. Dat blok voegen we alleen dan toe.
+  let icpBlok = "";
+  if (heeftIcp_(topic)) {
+    const p = ICP_ERP;
+    icpBlok = "\n\nONS ICP (IDEAL CUSTOMER PROFILE) VOOR S/4HANA — dit is de maatstaf:\n" +
+      "- Bedrijfstype: " + p.bedrijfstype + "\n" +
+      "- Omzet: sweet spot " + p.omzet.sweetSpot + "; minimum " + p.omzet.minimum + "; " +
+      "voor Public Cloud " + p.omzet.publicCloud + ".\n" +
+      "- Doelsectoren: " + p.sectoren.join("; ") + ".\n" +
+      "- Beslissers: " + p.contactpersonen.join(", ") + ".\n" +
+      "- Typische pijnpunten waarop we kwalificeren:\n" +
+      "  * Business: " + p.pijnpunten.business.join("; ") + ".\n" +
+      "  * IT: " + p.pijnpunten.it.join("; ") + ".\n" +
+      "  * ECC-specifiek: " + p.pijnpunten.ecc.join("; ") + ".\n" +
+      "  * On-prem naar cloud (Move2Cloud): " + p.pijnpunten.move2cloud.join("; ") + ".\n" +
+      "- Bezwaren die je zal horen: " + p.bezwaren.join("; ") + ".\n\n" +
+      "ONZE ECHTE KLANTEN — enkel deze namen mag je noemen als bewijs:\n" +
+      Object.keys(p.referenties).map(function(prod) {
+        return "* " + prod + ": " + p.referenties[prod].map(function(naam) {
+          const notitie = p.referentieNotities[naam];
+          return naam + (notitie ? " (" + notitie + ")" : "");
+        }).join(", ");
+      }).join("\n") + "\n\n" +
+      "!!! ABSOLUUT VERBOD: gebruik NOOIT een referentie of case uit de meegeleverde interne data " +
+      "('eigenReferentie', 'sectorVoorbeelden', 'relevanteCases'). Die zijn FICTIEF (demodata) en bestaan niet. " +
+      "Een verkoper die zo'n verzonnen klant aan de telefoon noemt, maakt zichzelf belachelijk. " +
+      "In 'gebruikteReferenties' zet je UITSLUITEND namen uit de echte klantenlijst hierboven.\n\n" +
+      "REFERENTIES KIEZEN — een zwakke match is beter dan geen match:\n" +
+      "Geef ALTIJD 2 tot 3 referenties. Ook als geen enkele klant exact in dezelfde sector zit: " +
+      "kies dan de best vergelijkbare op een ANDERE as. Zeg altijd op welke as ze lijken.\n" +
+      "Vergelijkbaarheid kan liggen in:\n" +
+      "- Sector (zelfde branche) — de sterkste match\n" +
+      "- Migratiepad (ook van ECC naar RISE, ook van on-prem naar cloud)\n" +
+      "- Grootte / profiel (ook een groeibedrijf van 50-100 mln, ook een multisite-speler)\n" +
+      "- Operationeel model (ook productie met meerdere sites, ook internationale distributie)\n" +
+      "Per referentie geef je:\n" +
+      "- naam: exact zoals in de klantenlijst\n" +
+      "- gelijkenis: \"Sector\" | \"Migratiepad\" | \"Grootte\" | \"Operationeel model\"\n" +
+      "- sterkte: \"Sterk\" (echt vergelijkbaar, breng dit met vertrouwen) | " +
+      "\"Redelijk\" (lijkt op een belangrijke as) | \"Zwak\" (enkel losjes vergelijkbaar — noem dit voorzichtig)\n" +
+      "- punten: 2 tot 3 steekwoorden (elk max 5 woorden) die de gelijkenis concreet maken\n" +
+      "Wees EERLIJK over de sterkte. Een 'Zwak' gelabelde referentie is bruikbaar — de verkoper weet dan " +
+      "dat hij ze losjes moet brengen ('we deden iets gelijkaardigs bij...') in plaats van als hard bewijs.\n\n" +
+      "PRODUCTKEUZE — kies het juiste smaakje:\n" +
+      "- S/4HANA Public Cloud: groeibedrijven vanaf 40-50 mln, minder maatwerk, snelle go-live.\n" +
+      "- S/4HANA RISE: middelgrote tot grote bedrijven die van ECC of on-prem naar de cloud willen.\n" +
+      "- S/4HANA on premise: grote bedrijven met veel maatwerk, of chemie/farma waar private cloud speelt.\n" +
+      "Zet je keuze in 'aanbevolenProduct' en motiveer ze in 'productReden' (max 15 woorden).\n";
+  }
+
+  return "Je bereidt een cold call voor bij een SAP-consultingbedrijf (Flexso). " +
+  "Deze belronde draait uitsluitend rond ÉÉN specifieke SAP-oplossing: " + topic + ". " +
   "Andere oplossingen mag je niet voorstellen, ook al zou dat logisch lijken.\n\n" +
   "Je krijgt drie soorten context mee: (1) onze eigen referenties en klantencases uit vergelijkbare " +
   "sectoren, (2) ons productportfolio, en (3) de resultaten van een websearch naar dit specifieke bedrijf. " +
-  "Gebruik ze alle drie. Dit moet SCHERP en CONCREET zijn — geen generieke SAP-marketingtaal.\n\n" +
+  "Gebruik ze alle drie. Dit moet SCHERP en CONCREET zijn — geen generieke SAP-marketingtaal." +
+  icpBlok + eventBlok + "\n\n" +
   "ALLERBELANGRIJKSTE REGEL — LENGTE:\n" +
   "Dit wordt gelezen terwijl de telefoon overgaat. Een verkoper scant dit in 30 seconden, hij leest geen rapport. " +
   "Lange, volgeschreven bullets zijn ONBRUIKBAAR, ook al staat er correcte informatie in. " +
   "Schrap alles wat niet nodig is om het gesprek te openen. Kort is beter dan volledig.\n\n" +
   "TWEEDE REGEL — NIET GOKKEN:\n" +
-  "De quickscan hieronder is een KWALIFICATIE-fiche. Welk ERP een bedrijf draait, of ze al op S/4HANA zitten, " +
-  "waar beslissingen vallen: dat staat zelden publiek online. Vind je het niet met zekerheid in de websearch, " +
-  "dan vul je \"Onbekend\" in. Dat is een NUTTIG antwoord — het zegt de verkoper wat hij moet uitvragen. " +
+  "De quickscan hieronder is een KWALIFICATIE-fiche. Welke systemen een bedrijf draait, of ze al op " + topic +
+  " zitten, waar beslissingen vallen: dat staat zelden publiek online. Vind je het niet met zekerheid in de " +
+  "websearch, dan vul je \"Onbekend\" in. Dat is een NUTTIG antwoord — het zegt de verkoper wat hij moet uitvragen. " +
   "Een gegokte waarde die stellig oogt is veel schadelijker dan \"Onbekend\", want daar handelt hij naar.\n\n" +
+  "VIERDE REGEL — WEBSITEBEZOEK IS HET STERKSTE SIGNAAL:\n" +
+  "Staat er een 'websiteBezoek' in de context, dan was dit bedrijf ECHT op onze website. Dat is geen " +
+  "afgeleid signaal (zoals een vacature) maar harde intentie — ze zijn zich aan het orienteren, NU. " +
+  "Laat je opening daar dan uit vertrekken en verwijs naar wat ze bekeken, als dat bekend is. " +
+  "Wees wel discreet: zeg NOOIT letterlijk 'ik zie dat u op onze website was' — dat is opdringerig en eng. " +
+  "Gebruik het als reden om te bellen, niet als iets dat je vermeldt. " +
+  "Bekeken ze een specifieke pagina (bv. /s4hana-migratie), stem je pijnpunten en vragen daarop af.\n\n" +
+  "DERDE REGEL — IDENTIFICEER EERST HET JUISTE BEDRIJF:\n" +  "De naam die je krijgt is ingetypt door een verkoper en kan onvolledig of slordig geschreven zijn " +
+  "(bv. \"meat&more\" voor \"Meat & More\", of een merknaam i.p.v. de juridische naam). " +
+  "Zoek dus EERST uit over welk bedrijf het gaat: de officiele naam, de sector, het hoofdkantoor. " +
+  "Zet dat in 'geidentificeerdAls'. " +
+  "Vind je meerdere bedrijven met een gelijkaardige naam, kies dan het meest waarschijnlijke " +
+  "(een Belgisch bedrijf is waarschijnlijker, want dit is een Belgische verkoper) en zeg in 'identificatieTwijfel' " +
+  "welk ander bedrijf het ook zou kunnen zijn. " +
+  "Ben je er helemaal niet uit, of vind je niets: zet 'geidentificeerdAls' op null. " +
+  "Verzin dan GEEN fiche op basis van de naam alleen — vul alles in als \"Onbekend\" en laat de verkoper het uitvragen.\n\n" +
   "Regels:\n" +
   "- ZOEK ACTIEF NAAR HET SAP-LANDSCHAP. Dit is het waardevolste veld van de hele fiche, dus doe hier moeite voor. " +
   "Bedrijven zetten dit zelden op hun website, maar het lekt op voorspelbare plaatsen: " +
   "(a) VACATURES — een job voor \"SAP FICO consultant\" of \"SuccessFactors key user\" bewijst welke modules draaien; " +
-  "(b) LINKEDIN-PROFIELEN van hun IT- en finance-medewerkers, waar systemen in functietitels staan; " +
+  "(b) LINKEDIN-PROFIELEN van hun IT- en HR-medewerkers, waar systemen in functietitels staan; " +
   "(c) PERSBERICHTEN van SAP of implementatiepartners over dit bedrijf; " +
-  "(d) CASE STUDIES en klantenreferenties op partnerwebsites; " +
-  "(e) hun eigen jaarverslag of IT-nieuws. " +
-  "Gebruik hier gerust een van je zoekopdrachten expliciet voor (bv. bedrijfsnaam + \"SAP\", of bedrijfsnaam + \"vacature SAP\").\n" +
-  "- quickscan: een vaste fiche met deze velden. Gebruik EXACT deze toegelaten waarden, niets anders:\n" +
-  "  * erpVandaag: \"SAP\" | \"Oracle\" | \"Dynamics\" | \"Infor\" | \"Andere\" | \"Onbekend\"\n" +
-  "  * sapKlant: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
+  "(d) CASE STUDIES op partnerwebsites; (e) hun jaarverslag of IT-nieuws. " +
+  "Gebruik hier gerust een zoekopdracht expliciet voor (bv. bedrijfsnaam + \"SAP\", of bedrijfsnaam + \"vacature\").\n" +
+  "- quickscan: een vaste fiche. Gebruik EXACT deze toegelaten waarden, niets anders:\n" +
+  "  * huidigSysteem (" + cfg.huidigVeld + "): " + lijst(cfg.huidigOpties) + "\n" +
+  "  * sapKlant: \"Ja\" | \"Nee\" | \"Onbekend\" — zijn ze vandaag al SAP-klant, in eender welke module?\n" +
   "  * sapLandschap: lijst van de CONCRETE SAP-producten/modules die je met bewijs hebt gevonden. " +
-  "Gebruik de gangbare productnamen: \"SAP ECC\", \"S/4HANA\", \"SuccessFactors\", \"Ariba\", \"Concur\", \"SAP BW\", " +
-  "\"SAC\", \"Fieldglass\", \"BTP\", \"IBP\", \"SAP CX\", enz. Lege lijst als je niets hard kan maken — dat is een " +
-  "geldig antwoord. Vermeld hier alleen wat je ECHT gevonden hebt, nooit wat je vermoedt.\n" +
+  "Gebruik gangbare productnamen: \"SAP ECC\", \"S/4HANA\", \"SuccessFactors\", \"SAP HCM\", \"Ariba\", \"Concur\", " +
+  "\"SAP BW\", \"SAC\", \"Fieldglass\", \"BTP\", \"IBP\", enz. Lege lijst als je niets hard kan maken — dat is een " +
+  "geldig antwoord. Alleen wat je ECHT gevonden hebt, nooit wat je vermoedt.\n" +
   "  * sapLandschapBron: EEN korte zin (max 12 woorden) die zegt WAARUIT je dat afleidt " +
   "(bv. \"vacature SAP FICO consultant, maart 2026\"). Leeg als sapLandschap leeg is.\n" +
-  "  * s4hana: \"Ja\" | \"Nee\" | \"Onbekend\"\n" +
-  "  * productFit: \"Hoog\" | \"Gemiddeld\" | \"Laag\" — jouw inschatting of het topic hier past. " +
+  "  * doelSysteem (" + cfg.doelVraag + "): " + lijst(cfg.doelOpties) + "\n" +
+  "  * productFit: \"Hoog\" | \"Gemiddeld\" | \"Laag\" — jouw inschatting of " + topic + " hier past. " +
   "Dit MAG je inschatten (het is een oordeel, geen feit), maar baseer het op de pijnpunten die je vond.\n" +
-  "  * beslissingBelgie: \"Ja\" | \"Nee\" | \"Gedeeld\" | \"Onbekend\" — valt de IT-beslissing in Belgie, " +
+  "  * beslissingBelgie: \"Ja\" | \"Nee\" | \"Gedeeld\" | \"Onbekend\" — valt de beslissing in Belgie, " +
   "of bij een buitenlandse moeder/groep?\n" +
   "  * omzet: bedrag met eenheid (bv. \"€ 1,4 mld\", \"€ 71M\") of \"Onbekend\"\n" +
   "  * werknemers: aantal (bv. \"2.000\", \"~500\") of \"Onbekend\"\n" +
-  "  * trigger: de belangrijkste aanleiding om NU te bellen. Kies er EEN: \"Legacy ERP\" | \"Groei\" | " +
-  "\"Overname\" | \"Compliance\" | \"Carve-out\" | \"Private equity\" | \"Herstructurering\" | " +
-  "\"Internationalisering\" | \"Duurzaamheid/CSRD\" | \"Onbekend\"\n" +
+  "  * trigger: de belangrijkste aanleiding om NU te bellen. Kies er EEN: " + lijst(cfg.triggerOpties) + "\n" +
   "  * triggerToelichting: EEN korte zin (max 12 woorden) die de trigger onderbouwt met een concreet feit.\n" +
-  "- pijnpunten: MAXIMAAL 4, en elk pijnpunt is EEN KORTE ZIN van hooguit 12 woorden. Geen toelichting, geen " +
-  "bronvermelding, geen cijfers-met-uitleg erachter — die context staat al in de quickscan. " +
-  "Goed: \"Complexe financiele consolidatie over 27 sites wereldwijd.\" " +
-  "Fout: een bullet van drie regels met cijfers, bronnen en een redenering.\n" +
-  "- gebruikteReferenties: MAXIMAAL 2 referenties. Per referentie geef je 2 tot 3 steekwoorden (elk max 5 woorden), " +
-  "geen lopende tekst. Denk: [\"Food & Beverage\", \"SAC dashboards\", \"Real-time marges\"].\n" +
+  (heeftIcp_(topic) ?
+  "  * icpFit: \"Ja\" | \"Nee\" | \"Twijfel\" — past dit bedrijf in ons ICP hierboven? Kijk naar omzet, " +
+  "sector en of de beslissing in Belgie valt. Wees hier STRENG: een bedrijf van 15 mln in een sector " +
+  "die er niet in staat, is gewoon \"Nee\". Dat is nuttige informatie — dan bel je niet.\n" +
+  "  * icpReden: EEN zin (max 15 woorden) die je icpFit-oordeel motiveert met de concrete cijfers " +
+  "(bv. \"Voeding, 180 mln omzet, HQ Gent — zit in de sweet spot\").\n" +
+  "  * productReden: EEN zin (max 15 woorden) waarom dit product (Public Cloud / RISE / on premise) " +
+  "past bij dit bedrijf.\n" : "") +
+  "- pijnpunten: MAXIMAAL 4, elk EEN KORTE ZIN van hooguit 12 woorden. Geen toelichting, geen bronvermelding, " +
+  "geen cijfers-met-uitleg erachter — die context staat al in de quickscan. " +
+  "Ze moeten specifiek gaan over het domein van " + topic + ".\n" +
+  "- gebruikteReferenties: 2 tot 3 referenties. Per referentie 2 tot 3 steekwoorden (elk max 5 woorden), " +
+  "geen lopende tekst. Denk: [\"Multisite productie\", \"ECC naar RISE\", \"Real-time marges\"].\n" +
   "- aanbevolenProduct: welk concreet product/oplossing uit ons portfolio het beste past, met de naam exact " +
   "zoals in de meegeleverde productenlijst.\n" +
   "- opening: MAXIMAAL 2 zinnen, samen hooguit 45 woorden. Vertrekt vanuit een pijnpunt van DIT bedrijf, " +
   "niet vanuit het product.\n" +
-  "- vragen: PRECIES 3 open vragen, elk een zin van hooguit 20 woorden. Niet meer dan 3.\n" +
+  "- vragen: PRECIES 3 open vragen, elk een zin van hooguit 20 woorden.\n" +
   "- bronnen: kort, enkel de bron zelf (bv. \"jaarverslag 2025\"). Geen zinnen.\n" +
   "- Verzin NOOIT feiten.\n" +
   "- Antwoord uitsluitend met geldige JSON, exact volgens dit schema, zonder markdown en zonder tekst ervoor of erna:\n" +
-  "{\"quickscan\": {\"erpVandaag\": string, \"sapKlant\": string, \"sapLandschap\": [string], " +
-  "\"sapLandschapBron\": string, \"s4hana\": string, \"productFit\": string, " +
+  "{\"geidentificeerdAls\": string|null, \"identificatieTwijfel\": string|null, " +
+  "\"quickscan\": {\"huidigSysteem\": string, \"sapKlant\": string, \"sapLandschap\": [string], " +
+  "\"sapLandschapBron\": string, \"doelSysteem\": string, \"productFit\": string, " +
   "\"beslissingBelgie\": string, \"omzet\": string, \"werknemers\": string, \"trigger\": string, " +
-  "\"triggerToelichting\": string}, " +
-  "\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]}], " +
-  "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]}";
+  "\"triggerToelichting\": string" +
+  (heeftIcp_(topic) ? ", \"icpFit\": string, \"icpReden\": string, \"productReden\": string" : "") + "}, " +
+  "\"pijnpunten\": [string], \"gebruikteReferenties\": [{\"naam\": string, \"punten\": [string]" +
+  (heeftIcp_(topic) ? ", \"gelijkenis\": string, \"sterkte\": string" : "") + "}], " +
+  "\"aanbevolenProduct\": string|null, \"opening\": string, \"vragen\": [string], \"bronnen\": [string]" +
+  (events.length > 0 ? ", \"eventVoorstel\": {\"titel\": string|null, \"reden\": string}" : "") + "}";
+}
 
-// Toegelaten waarden per quickscan-veld. Alles wat het model hierbuiten verzint,
-// wordt "Onbekend" — een onverwachte waarde stilzwijgend tonen zou de fiche juist
-// weer onbetrouwbaar maken.
+// Toegelaten waarden die voor ELK topic gelden. De topic-specifieke velden
+// (huidigSysteem, doelSysteem, trigger) komen uit SCAN_CONFIG.
 const QS_ENUMS = {
-  erpVandaag: ["SAP", "Oracle", "Dynamics", "Infor", "Andere", "Onbekend"],
   sapKlant: ["Ja", "Nee", "Onbekend"],
-  s4hana: ["Ja", "Nee", "Onbekend"],
+  doelSysteem: ["Ja", "Nee", "Onbekend"],
   productFit: ["Hoog", "Gemiddeld", "Laag"],
   beslissingBelgie: ["Ja", "Nee", "Gedeeld", "Onbekend"],
-  trigger: ["Legacy ERP", "Groei", "Overname", "Compliance", "Carve-out", "Private equity",
-    "Herstructurering", "Internationalisering", "Duurzaamheid/CSRD", "Onbekend"],
 };
 
-function qsWaarde_(veld, waarde) {
-  const toegelaten = QS_ENUMS[veld];
+function qsWaarde_(veld, waarde, toegelatenOverride) {
+  const toegelaten = toegelatenOverride || QS_ENUMS[veld];
   const w = String(waarde == null ? "" : waarde).trim();
   if (!toegelaten) return w || "Onbekend";       // vrije velden: omzet, werknemers
   const treffer = toegelaten.find(function(t) { return t.toLowerCase() === w.toLowerCase(); });
@@ -7083,46 +7587,139 @@ function qsWaarde_(veld, waarde) {
   return veld === "productFit" ? "Gemiddeld" : "Onbekend";
 }
 
-function normaliseerQuickscan_(q) {
+function normaliseerQuickscan_(q, topic) {
   q = q || {};
+  const cfg = scanConfig_(topic);
   const landschap = (Array.isArray(q.sapLandschap) ? q.sapLandschap : [])
     .map(function(s) { return String(s || "").trim(); })
     .filter(Boolean)
     .slice(0, 8);
   return {
-    erpVandaag: qsWaarde_("erpVandaag", q.erpVandaag),
+    // Het topic mee opslaan: een fiche die met de SuccessFactors-velden is
+    // opgebouwd, mag later niet met de S/4HANA-labels getoond worden.
+    topic: topic,
+    huidigSysteem: qsWaarde_("huidigSysteem", q.huidigSysteem, cfg.huidigOpties),
     sapKlant: qsWaarde_("sapKlant", q.sapKlant),
     sapLandschap: landschap,
     // Zonder gevonden modules is een "bron" betekenisloos — dan hoort er niets te staan.
     sapLandschapBron: landschap.length ? String(q.sapLandschapBron || "").trim() : "",
-    s4hana: qsWaarde_("s4hana", q.s4hana),
+    doelSysteem: qsWaarde_("doelSysteem", q.doelSysteem),
     productFit: qsWaarde_("productFit", q.productFit),
     beslissingBelgie: qsWaarde_("beslissingBelgie", q.beslissingBelgie),
     omzet: qsWaarde_("omzet", q.omzet),
     werknemers: qsWaarde_("werknemers", q.werknemers),
-    trigger: qsWaarde_("trigger", q.trigger),
+    trigger: qsWaarde_("trigger", q.trigger, cfg.triggerOpties),
     triggerToelichting: String(q.triggerToelichting || "").trim(),
+    icpFit: heeftIcp_(topic) ? qsWaarde_("icpFit", q.icpFit, ["Ja", "Nee", "Twijfel"]) : null,
+    icpReden: String(q.icpReden || "").trim(),
+    productReden: String(q.productReden || "").trim(),
   };
 }
 
 // De prompt vráágt om max 4 pijnpunten en precies 3 vragen, maar een model houdt
 // zich daar niet altijd aan. Dat mag de kaart niet opnieuw laten dichtslibben —
 // dus knippen we hier hard af. De prompt stuurt, de code garandeert.
-function normaliseerColdAnalyse_(a) {
+// Alle ECHTE klantnamen, plat. Gebruikt als vangnet: een verzonnen referentie
+// mag NOOIT op het scherm komen.
+function alleEchteReferenties_() {
+  const namen = [];
+  Object.keys(ICP_ERP.referenties).forEach(function(prod) {
+    ICP_ERP.referenties[prod].forEach(function(n) { namen.push(n); });
+  });
+  return namen;
+}
+
+// Welk producttype hoort bij deze klant? Zodat de kaart kan tonen waarom je hem noemt.
+function refProductType_(naam) {
+  const doel = normBedrijf_(naam);
+  const producten = Object.keys(ICP_ERP.referenties);
+  for (let i = 0; i < producten.length; i++) {
+    const treffer = ICP_ERP.referenties[producten[i]].some(function(n) { return normBedrijf_(n) === doel; });
+    if (treffer) return producten[i];
+  }
+  return null;
+}
+
+function normaliseerColdAnalyse_(a, topic) {
   a = a || {};
   const lijst = function(x) { return Array.isArray(x) ? x.filter(Boolean) : []; };
 
+  // VANGNET voor verzonnen referenties. De prompt verbiedt de fictieve demodata
+  // (AgroFresh, GreenPack Solutions…), maar op een prompt alleen mag je dit niet
+  // laten rusten: één verzonnen klantnaam die een verkoper aan de telefoon citeert,
+  // is erger dan geen referentie. Dus filteren we hier hard tegen de echte lijst.
+  let refs = lijst(a.gebruikteReferenties);
+  if (heeftIcp_(topic)) {
+    const echt = alleEchteReferenties_().map(normBedrijf_);
+    refs = refs.filter(function(g) {
+      return g && g.naam && echt.indexOf(normBedrijf_(g.naam)) !== -1;
+    });
+
+    // Bleef er niets over (of gaf het model er geen), dan tonen we niet NIETS:
+    // een zwakke referentie is bruikbaar, een leeg blok niet. Val terug op echte
+    // klanten met hetzelfde producttype als aanbevolen, expliciet gelabeld als
+    // "Zwak" — zodat de verkoper weet dat hij ze losjes moet brengen.
+    if (refs.length === 0) {
+      const prod = String(a.aanbevolenProduct || "");
+      const passend = Object.keys(ICP_ERP.referenties).find(function(p) {
+        return prod && (p.toLowerCase().indexOf(prod.toLowerCase()) !== -1 ||
+                        prod.toLowerCase().indexOf(p.toLowerCase()) !== -1);
+      }) || "S/4HANA RISE";
+      refs = ICP_ERP.referenties[passend].slice(0, 2).map(function(naam) {
+        const notitie = ICP_ERP.referentieNotities[naam];
+        return {
+          naam: naam,
+          gelijkenis: "Migratiepad",
+          sterkte: "Zwak",
+          punten: [passend.replace("S/4HANA ", "")].concat(notitie ? [notitie] : []),
+        };
+      });
+    }
+  }
+
+  // VANGNET voor verzonnen events. Net als bij de referenties: de prompt verbiedt
+  // het, maar een uitnodiging voor een sessie die niet bestaat is te schadelijk om
+  // op een instructie te laten rusten. Enkel een titel die ECHT in de agenda staat,
+  // mag door — en we halen de datum/locatie uit de agenda zelf, niet uit het model.
+  let ev = null;
+  const voorstel = a.eventVoorstel;
+  if (voorstel && voorstel.titel) {
+    const agenda = komendeEvents_();
+    const treffer = agenda.find(function(e) {
+      return e.titel.toLowerCase().trim() === String(voorstel.titel).toLowerCase().trim();
+    });
+    if (treffer) {
+      ev = {
+        titel: treffer.titel,
+        datum: treffer.datum || "",
+        locatie: treffer.locatie || "",
+        reden: String(voorstel.reden || "").trim(),
+      };
+    }
+  } else if (voorstel && voorstel.reden) {
+    // Bewust GEEN passend event — dat is een geldig antwoord, met een reden.
+    ev = { titel: null, reden: String(voorstel.reden).trim() };
+  }
+
   return {
-    quickscan: normaliseerQuickscan_(a.quickscan),
+    geidentificeerdAls: a.geidentificeerdAls || null,
+    identificatieTwijfel: a.identificatieTwijfel || null,
+    eventVoorstel: ev,
+    quickscan: normaliseerQuickscan_(a.quickscan, topic),
     pijnpunten: lijst(a.pijnpunten).slice(0, 4),
-    gebruikteReferenties: lijst(a.gebruikteReferenties).slice(0, 2).map(function(g) {
+    gebruikteReferenties: refs.slice(0, 3).map(function(g) {
       // Oudere, al opgeslagen analyses hebben nog "reden" (lopende tekst) i.p.v.
       // "punten" (steekwoorden). Die mogen niet stukgaan: val terug op reden.
       const punten = lijst(g.punten).slice(0, 3);
+      const STERKTES = ["Sterk", "Redelijk", "Zwak"];
+      const ASSEN = ["Sector", "Migratiepad", "Grootte", "Operationeel model"];
       return {
         naam: g.naam || "",
         punten: punten,
         reden: punten.length === 0 ? (g.reden || "") : "",
+        product: refProductType_(g.naam),
+        gelijkenis: ASSEN.indexOf(g.gelijkenis) !== -1 ? g.gelijkenis : null,
+        sterkte: STERKTES.indexOf(g.sterkte) !== -1 ? g.sterkte : null,
       };
     }),
     aanbevolenProduct: a.aanbevolenProduct || null,
@@ -7145,13 +7742,26 @@ function qsCel_(waarde, extraKlasse) {
 }
 
 function renderQuickScan(q, topic) {
+  const cfg = scanConfig_(topic);
   const fitIcoon = FIT_KLEUR[q.productFit] || "🟡";
 
   let html = '<div class="qs-block">';
   html += '<div class="qs-titel">⚡ ' + esc(topic) + ' Quick Scan</div>';
+
+  // ICP-oordeel bovenaan: past dit bedrijf überhaupt bij ons? Dat is de eerste
+  // vraag ("moet ik hier wel bellen?"), nog vóór welk systeem ze draaien.
+  if (q.icpFit) {
+    const icpKleur = { "Ja": "icp-ja", "Twijfel": "icp-twijfel", "Nee": "icp-nee" }[q.icpFit] || "icp-twijfel";
+    const icpIcoon = { "Ja": "✅", "Twijfel": "🟡", "Nee": "⛔" }[q.icpFit] || "🟡";
+    html += '<div class="qs-icp ' + icpKleur + '">' +
+      '<span class="qs-icp-verdict">' + icpIcoon + ' Past in ICP: ' + esc(q.icpFit) + '</span>' +
+      (q.icpReden ? '<span class="qs-icp-reden">' + esc(q.icpReden) + '</span>' : '') +
+      '</div>';
+  }
+
   html += '<table class="qs-tabel"><tbody>';
 
-  html += '<tr><td class="qs-label">ERP vandaag</td>' + qsCel_(q.erpVandaag) + '</tr>';
+  html += '<tr><td class="qs-label">' + esc(cfg.huidigLabel) + '</td>' + qsCel_(q.huidigSysteem) + '</tr>';
   html += '<tr><td class="qs-label">SAP-klant?</td>' + qsCel_(q.sapKlant) + '</tr>';
 
   // Welke SAP-producten draaien ze? Dit is het veld waar de verkoper het meest
@@ -7169,7 +7779,7 @@ function renderQuickScan(q, topic) {
   }
   html += '</td></tr>';
 
-  html += '<tr><td class="qs-label">S/4HANA?</td>' + qsCel_(q.s4hana) + '</tr>';
+  html += '<tr><td class="qs-label">' + esc(cfg.doelLabel) + '</td>' + qsCel_(q.doelSysteem) + '</tr>';
   html += '<tr><td class="qs-label">Product fit</td>' +
     '<td class="qs-waarde qs-fit"><strong>' + fitIcoon + ' ' + esc(q.productFit) + '</strong></td></tr>';
   html += '<tr><td class="qs-label">Beslissing België?</td>' + qsCel_(q.beslissingBelgie) + '</tr>';
@@ -7218,6 +7828,803 @@ window.deleteCallRow = function(id) {
   render();
 };
 
+// ─── LEADINFO: WIE WAS ER OP ONZE WEBSITE? ─────────────────────────────────
+// Het sterkste signaal dat er bestaat: geen afgeleide (een vacature, een
+// persbericht) maar echte intentie — dit bedrijf zat op je S/4HANA-pagina.
+//
+// Voorlopig via een CSV-export. De opslag en de weergave staan bewust LOS van
+// die bron: schakel je later om naar de Leadinfo-API (via je server, want een
+// API-sleutel hoort niet in een HTML-bestand en CORS blokkeert het toch), dan
+// hoeft enkel setLeadinfo_() gevoed te worden. De rest blijft ongewijzigd.
+const LEADINFO_KEY = "lewis_leadinfo";
+
+function getLeadinfo_() {
+  try {
+    const raw = localStorage.getItem(LEADINFO_KEY);
+    const d = raw ? JSON.parse(raw) : null;
+    if (!d || !Array.isArray(d.bezoekers)) return null;
+    return d;
+  } catch (e) { return null; }
+}
+
+function setLeadinfo_(bezoekers) {
+  try {
+    localStorage.setItem(LEADINFO_KEY, JSON.stringify({
+      bezoekers: bezoekers,
+      bijgewerkt: new Date().toISOString(),
+    }));
+  } catch (e) { /* opslag vol */ }
+}
+
+// Bezoekdata voor één bedrijf opzoeken. Zelfde normalisatie als elders, zodat
+// "Meat&More" uit Leadinfo matcht met "meat & more" in je bellijst.
+function leadinfoVoor_(bedrijf) {
+  const d = getLeadinfo_();
+  if (!d) return null;
+  const doel = normBedrijf_(bedrijf);
+  if (!doel) return null;
+  return d.bezoekers.find(function(b) { return normBedrijf_(b.bedrijf) === doel; }) || null;
+}
+
+// CSV-parser die overweg kan met komma's én puntkomma's (Excel in NL/BE
+// exporteert vaak met puntkomma), en met velden tussen aanhalingstekens.
+function parseCsv_(tekst) {
+  const regels = [];
+  let veld = "", rij = [], inQuote = false;
+  // Scheidingsteken raden uit de kopregel: welke komt vaker voor?
+  const kop = tekst.split(/\r?\n/)[0] || "";
+  const sep = (kop.split(";").length > kop.split(",").length) ? ";" : ",";
+
+  for (let i = 0; i < tekst.length; i++) {
+    const c = tekst[i];
+    if (inQuote) {
+      if (c === '"') {
+        if (tekst[i + 1] === '"') { veld += '"'; i++; }   // ontsnapt aanhalingsteken
+        else inQuote = false;
+      } else veld += c;
+    } else if (c === '"') {
+      inQuote = true;
+    } else if (c === sep) {
+      rij.push(veld); veld = "";
+    } else if (c === "\n") {
+      rij.push(veld); regels.push(rij); rij = []; veld = "";
+    } else if (c !== "\r") {
+      veld += c;
+    }
+  }
+  if (veld || rij.length) { rij.push(veld); regels.push(rij); }
+  return regels.filter(function(r) { return r.some(function(v) { return v.trim(); }); });
+}
+
+// Welke kolom is wat? Leadinfo-exports verschillen per account en per taal, dus
+// we herkennen meerdere varianten in plaats van één vaste kolomnaam te eisen.
+const LEADINFO_KOLOMMEN = {
+  bedrijf: ["company", "company name", "bedrijf", "bedrijfsnaam", "naam", "organisation", "organization"],
+  bezoeken: ["visits", "bezoeken", "aantal bezoeken", "sessions", "sessies", "pageviews", "paginaweergaves"],
+  laatste: ["last visit", "laatste bezoek", "last seen", "date", "datum", "laatst gezien", "visit date"],
+  paginas: ["pages", "pagina's", "paginas", "visited pages", "bezochte pagina's", "url", "urls", "landing page"],
+  sector: ["industry", "sector", "branche", "industrie"],
+  grootte: ["employees", "company size", "grootte", "werknemers", "medewerkers", "size"],
+  land: ["country", "land"],
+};
+
+function vindKolom_(kop, soort) {
+  const varianten = LEADINFO_KOLOMMEN[soort];
+  for (let i = 0; i < kop.length; i++) {
+    const k = String(kop[i] || "").toLowerCase().trim();
+    if (varianten.indexOf(k) !== -1) return i;
+  }
+  // Geen exacte treffer: dan een kolom die de variant bevat.
+  for (let i = 0; i < kop.length; i++) {
+    const k = String(kop[i] || "").toLowerCase().trim();
+    if (varianten.some(function(v) { return k.indexOf(v) !== -1; })) return i;
+  }
+  return -1;
+}
+
+window.verwerkLeadinfo = function() {
+  const el = document.getElementById("leadinfoInput");
+  if (!el || !el.value.trim()) return;
+
+  state.leadinfoFout = null;
+  const regels = parseCsv_(el.value);
+  if (regels.length < 2) {
+    state.leadinfoFout = "Geen bruikbare rijen gevonden. Plak de volledige CSV, inclusief de kopregel.";
+    render();
+    return;
+  }
+
+  const kop = regels[0];
+  const iBedrijf = vindKolom_(kop, "bedrijf");
+  if (iBedrijf === -1) {
+    state.leadinfoFout = "Geen bedrijfskolom gevonden. Verwachte kop: 'Company', 'Bedrijf' of 'Bedrijfsnaam'. " +
+      "Gevonden kolommen: " + kop.join(", ");
+    render();
+    return;
+  }
+
+  const iBezoeken = vindKolom_(kop, "bezoeken");
+  const iLaatste = vindKolom_(kop, "laatste");
+  const iPaginas = vindKolom_(kop, "paginas");
+  const iSector = vindKolom_(kop, "sector");
+  const iGrootte = vindKolom_(kop, "grootte");
+
+  const bezoekers = [];
+  regels.slice(1).forEach(function(r) {
+    const naam = String(r[iBedrijf] || "").trim();
+    if (!naam) return;
+    bezoekers.push({
+      bedrijf: naam,
+      bezoeken: iBezoeken !== -1 ? String(r[iBezoeken] || "").trim() : "",
+      laatste: iLaatste !== -1 ? String(r[iLaatste] || "").trim() : "",
+      paginas: iPaginas !== -1 ? String(r[iPaginas] || "").trim() : "",
+      sector: iSector !== -1 ? String(r[iSector] || "").trim() : "",
+      grootte: iGrootte !== -1 ? String(r[iGrootte] || "").trim() : "",
+    });
+  });
+
+  if (bezoekers.length === 0) {
+    state.leadinfoFout = "Geen bedrijven gevonden in de CSV.";
+    render();
+    return;
+  }
+
+  setLeadinfo_(bezoekers);
+  state.leadinfoPaneelOpen = false;
+  state.callSavedListsMsg = bezoekers.length + " websitebezoekers ingelezen.";
+  render();
+  setTimeout(function() { state.callSavedListsMsg = null; render(); }, 3000);
+};
+
+// Alle bezoekers die nog NIET in je bellijst staan — die kan je in één klik toevoegen.
+function nieuweLeadinfoBezoekers_() {
+  const d = getLeadinfo_();
+  if (!d) return [];
+  return d.bezoekers.filter(function(b) {
+    return !state.callRows.some(function(r) { return normBedrijf_(r.bedrijf) === normBedrijf_(b.bedrijf); });
+  });
+}
+
+window.voegLeadinfoToe = function() {
+  const nieuwe = nieuweLeadinfoBezoekers_();
+  if (nieuwe.length === 0) return;
+
+  nieuwe.forEach(function(b) {
+    state.callRows.push({
+      _id: callRowIdCounter++,
+      raw: { Bedrijf: b.bedrijf, Sector: b.sector || "", Werknemers: b.grootte || "" },
+      bedrijf: b.bedrijf,
+      contact: "", functie: "", telefoon: "", email: "",
+      // De campagne volgt de werkruimte waarin je ze toevoegt, niet altijd cold calling.
+      campagne: state.activeWorkspace === "coldcall" ? "Cold calling" : "Websitebezoeker",
+      notities: "Website: " + (b.bezoeken ? b.bezoeken + " bezoeken" : "bezocht") +
+        (b.laatste ? ", laatst " + b.laatste : "") + (b.paginas ? " — " + b.paginas : ""),
+      accountmanager: "",
+      status: "ok", reden: null, gebeld: false, outcome: null,
+      liveNotes: "", historiek: [], blindAnswers: {},
+    });
+  });
+
+  state.callSavedListsMsg = nieuwe.length + " bedrijf" + (nieuwe.length === 1 ? "" : "ven") + " toegevoegd.";
+  autosaveCallState_();
+  render();
+  setTimeout(function() { state.callSavedListsMsg = null; render(); }, 3000);
+};
+
+window.wisLeadinfo = function() {
+  if (!confirm("De ingelezen websitebezoekers wissen?")) return;
+  try { localStorage.removeItem(LEADINFO_KEY); } catch (e) {}
+  render();
+};
+
+window.toggleLeadinfoPaneel = function() {
+  state.leadinfoPaneelOpen = !state.leadinfoPaneelOpen;
+  render();
+};
+
+function renderLeadinfoPaneel() {
+  // Werkruimte-onafhankelijk: dat een bedrijf op je site was, is een feit over
+  // dat bedrijf. Dat verandert niet omdat je toevallig over HR belt i.p.v. ERP,
+  // of omdat je een evenement opvolgt. Dus tonen in ALLE werkruimtes.
+  const d = getLeadinfo_();
+  const nieuwe = nieuweLeadinfoBezoekers_();
+
+  let html = '<div class="leadinfo-blok">';
+  html += '<button class="leadinfo-toggle" onclick="toggleLeadinfoPaneel()">' +
+    (state.leadinfoPaneelOpen ? '▲' : '👀') + ' Websitebezoekers' +
+    (d ? ' (' + d.bezoekers.length + ')' : ' — nog niet ingelezen') + '</button>';
+
+  if (!state.leadinfoPaneelOpen) return html + '</div>';
+
+  html += '<div class="leadinfo-paneel">';
+  html += '<div class="leadinfo-uitleg">Exporteer je bezoekers uit Leadinfo als CSV en plak de inhoud hieronder. ' +
+    'Bedrijven die op je website waren, zie je daarna bij elk bedrijf in de bellijst — dat is intentie, ' +
+    'geen afgeleid signaal.</div>';
+
+  html += '<textarea id="leadinfoInput" placeholder="Plak hier de inhoud van je Leadinfo-CSV (inclusief kopregel)..." rows="4"></textarea>';
+  html += '<button class="leadinfo-btn" onclick="verwerkLeadinfo()">📥 Inlezen</button>';
+  if (d) html += '<button class="agenda-wis-btn" onclick="wisLeadinfo()">✕ Wissen</button>';
+
+  if (state.leadinfoFout) {
+    html += '<div class="cold-fout">' + esc(state.leadinfoFout) + '</div>';
+  }
+
+  if (d) {
+    html += '<div class="leadinfo-status">' + d.bezoekers.length + ' bezoekers ingelezen' +
+      (d.bijgewerkt ? ' — ' + new Date(d.bijgewerkt).toLocaleDateString("nl-BE") : '') + '</div>';
+    if (nieuwe.length > 0) {
+      html += '<button class="leadinfo-voeg-btn" onclick="voegLeadinfoToe()">+ ' + nieuwe.length +
+        ' nieuwe toevoegen aan bellijst</button>';
+    } else {
+      html += '<div class="leadinfo-status">Alle bezoekers staan al in je lijst.</div>';
+    }
+  }
+
+  html += '</div></div>';
+  return html;
+}
+
+// ─── AGENDA VAN KOMENDE FLEXSO-EVENTS ──────────────────────────────────────
+// Je plakt hier de eventpagina van Flexso in; de app haalt er de events uit en
+// bewaart ze blijvend. Bij elke cold call krijgt de AI deze agenda mee.
+//
+// Bewust NIET de AI zelf laten zoeken op flexso.com: websearch geeft vaak
+// verouderde of half-geindexeerde pagina's terug, en een verkoper die iemand
+// uitnodigt voor een sessie die niet (meer) bestaat, doet meer schade dan een
+// verkoper die geen event vermeldt. Wat jij plakt, is per definitie juist.
+const EVENT_AGENDA_KEY = "lewis_event_agenda";
+
+function getEventAgenda_() {
+  try {
+    const raw = localStorage.getItem(EVENT_AGENDA_KEY);
+    const a = raw ? JSON.parse(raw) : null;
+    if (!a || !Array.isArray(a.events)) return null;
+    return a;
+  } catch (e) { return null; }
+}
+
+function saveEventAgenda_(agenda) {
+  try {
+    localStorage.setItem(EVENT_AGENDA_KEY, JSON.stringify(agenda));
+  } catch (e) { /* opslag vol */ }
+}
+
+// Enkel events die nog MOETEN plaatsvinden. Een verstreken event voorstellen is
+// erger dan geen event voorstellen.
+function komendeEvents_() {
+  const agenda = getEventAgenda_();
+  if (!agenda) return [];
+  const vandaag = new Date();
+  vandaag.setHours(0, 0, 0, 0);
+  return agenda.events.filter(function(e) {
+    if (!e.datumISO) return true;   // datum onbekend: laten staan, AI oordeelt
+    const d = new Date(e.datumISO);
+    return isNaN(d.getTime()) || d >= vandaag;
+  });
+}
+
+const AGENDA_SYSTEM_PROMPT =
+  "Je krijgt de ruwe tekst van de evenementenpagina van Flexso (een SAP-consultingbedrijf). " +
+  "Haal daar de KOMENDE evenementen uit.\n\n" +
+  "Per evenement:\n" +
+  "- titel: de naam van het event\n" +
+  "- datum: zoals het er staat (bv. '24 september 2026')\n" +
+  "- datumISO: dezelfde datum als YYYY-MM-DD, of null als je ze niet kan bepalen\n" +
+  "- locatie: waar het doorgaat, of 'Online'\n" +
+  "- themas: 2 tot 5 steekwoorden over de INHOUD (bv. ['S/4HANA', 'Move2Cloud', 'TCO', 'migratie'])\n" +
+  "- voorWie: voor welk profiel dit bedoeld is (bv. 'CIO en IT-managers van productiebedrijven')\n" +
+  "- omschrijving: EEN zin (max 20 woorden) over waar het over gaat\n\n" +
+  "Verzin NOOIT een event, datum of locatie. Staat het niet in de tekst, neem het dan niet op. " +
+  "Vind je geen enkel event, geef dan een lege lijst.\n\n" +
+  "Antwoord uitsluitend met geldige JSON, zonder markdown:\n" +
+  "{\"events\": [{\"titel\": string, \"datum\": string, \"datumISO\": string|null, \"locatie\": string, " +
+  "\"themas\": [string], \"voorWie\": string, \"omschrijving\": string}]}";
+
+window.verwerkEventAgenda = function() {
+  const el = document.getElementById("agendaInput");
+  if (!el || !el.value.trim()) return;
+
+  state.agendaBezig = true;
+  state.agendaFout = null;
+  render();
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 60000);
+
+  fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 2000,
+      system: AGENDA_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: el.value.slice(0, 30000) }]
+    })
+  })
+  .then(function(r) {
+    if (!r.ok) { const e = new Error("http"); e.status = r.status; throw e; }
+    return r.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).filter(function(b) { return b.type === "text"; })
+      .map(function(b) { return b.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (e) {
+      const mm = clean.match(/\{[\s\S]*\}/);
+      if (!mm) { const err = new Error("parse"); err.code = "parse"; throw err; }
+      parsed = JSON.parse(mm[0]);
+    }
+    const events = (Array.isArray(parsed.events) ? parsed.events : []).filter(function(e) {
+      return e && e.titel;
+    });
+    saveEventAgenda_({ events: events, bijgewerkt: new Date().toISOString() });
+    state.agendaPaneelOpen = events.length === 0;   // leeg? paneel open laten om te corrigeren
+    if (events.length === 0) state.agendaFout = "Geen evenementen gevonden in deze tekst. Klopt wat je geplakt hebt?";
+  })
+  .catch(function(e) {
+    state.agendaFout = coldFoutTekst_(e);
+  })
+  .finally(function() {
+    clearTimeout(timeoutId);
+    state.agendaBezig = false;
+    render();
+  });
+};
+
+window.wisEventAgenda = function() {
+  if (!confirm("De opgeslagen evenementenagenda wissen?")) return;
+  try { localStorage.removeItem(EVENT_AGENDA_KEY); } catch (e) {}
+  render();
+};
+
+window.toggleAgendaPaneel = function() {
+  state.agendaPaneelOpen = !state.agendaPaneelOpen;
+  render();
+};
+
+function renderAgendaPaneel() {
+  // Ook werkruimte-breed: bel je iemand na een evenement, dan is een uitnodiging
+  // voor de VOLGENDE sessie minstens even relevant als bij een koude call.
+  const agenda = getEventAgenda_();
+  const komend = komendeEvents_();
+
+  let html = '<div class="agenda-blok">';
+  html += '<button class="agenda-toggle" onclick="toggleAgendaPaneel()">' +
+    (state.agendaPaneelOpen ? '▲' : '🎟️') + ' Evenementenagenda' +
+    (komend.length ? ' (' + komend.length + ' komend)' : ' — nog niet ingesteld') + '</button>';
+
+  if (!state.agendaPaneelOpen) return html + '</div>';
+
+  html += '<div class="agenda-paneel">';
+  html += '<div class="agenda-uitleg">' +
+    '<strong>1.</strong> Open de <a href="https://www.flexso.com/nl/evenementen" target="_blank" rel="noopener">Flexso-evenementen ↗</a>. ' +
+    '<strong>2.</strong> Selecteer de pagina (Ctrl+A, Ctrl+C). <strong>3.</strong> Plak hieronder.<br>' +
+    'Lewis stelt daarna bij elk bedrijf zélf voor of er een passend event is — en zegt het ook als er géén past.' +
+    '</div>';
+
+  html += '<textarea id="agendaInput" placeholder="Plak hier de tekst van de evenementenpagina..." rows="4"></textarea>';
+  html += '<button class="agenda-btn" onclick="verwerkEventAgenda()"' + (state.agendaBezig ? ' disabled' : '') + '>' +
+    (state.agendaBezig ? '⏳ Bezig…' : '📥 Agenda inlezen') + '</button>';
+
+  if (agenda) {
+    html += '<button class="agenda-wis-btn" onclick="wisEventAgenda()">✕ Wissen</button>';
+  }
+
+  if (state.agendaFout) {
+    html += '<div class="cold-fout">' + esc(state.agendaFout) + '</div>';
+  }
+
+  if (agenda && agenda.events.length > 0) {
+    const verstreken = agenda.events.length - komend.length;
+    html += '<div class="agenda-lijst">';
+    komend.forEach(function(e) {
+      html += '<div class="agenda-event">' +
+        '<div class="agenda-event-top"><strong>' + esc(e.titel) + '</strong>' +
+        '<span class="agenda-event-datum">' + esc(e.datum || "") +
+        (e.locatie ? ' · ' + esc(e.locatie) : '') + '</span></div>' +
+        ((e.themas || []).length ? '<div class="agenda-themas">' +
+          e.themas.map(function(t) { return '<span class="agenda-thema">' + esc(t) + '</span>'; }).join('') +
+          '</div>' : '') +
+        '</div>';
+    });
+    html += '</div>';
+    if (verstreken > 0) {
+      html += '<div class="agenda-verstreken">' + verstreken + ' verstreken event' + (verstreken === 1 ? '' : 's') +
+        ' wordt niet meer voorgesteld.</div>';
+    }
+  }
+
+  html += '</div></div>';
+  return html;
+}
+
+// ─── PROSPECTS VINDEN ──────────────────────────────────────────────────────
+// Jij kiest de sector; de app zoekt zélf naar alle triggers uit het ICP
+// (ECC-maintenance, carve-outs, groei, Excel-als-ERP, tijdslijnen richting 2027…).
+// Bewust GEEN triggerkeuze in de UI: je weet vooraf niet welk signaal er te
+// vinden valt, en je wil ze allemaal zien — niet één ervan hoeven raden.
+const PROSPECT_SECTOREN = [
+  "Alle ICP-sectoren",
+  "Voeding",
+  "Chemie",
+  "Farma",
+  "Wholesale & distribution",
+  "Logistiek",
+  "Energy & utilities",
+  "Professional services",
+];
+
+const PROSPECT_SYSTEM_PROMPT =
+  "Je bent een prospectie-analist voor Flexso, een Belgisch SAP-consultingbedrijf. " +
+  "Je zoekt bedrijven in Vlaanderen die NU een aanleiding hebben voor een S/4HANA-gesprek.\n\n" +
+  "WERKWIJZE — zoek naar SIGNALEN, niet naar bekende namen:\n" +
+  "Je mag NIET zomaar bekende Vlaamse bedrijven opsommen uit je eigen kennis. Dat levert de " +
+  "BEKENDSTE bedrijven op, niet de HOTSTE prospects — en dat is waardeloos. " +
+  "Elk bedrijf dat je noemt moet je in de WEBSEARCH gevonden hebben, met een concreet, recent bewijsstuk.\n\n" +
+  "Zoek gericht naar deze signalen (doe hiervoor meerdere searches):\n" +
+  "- Vacatures: 'SAP S/4HANA consultant', 'ERP-projectleider', 'SAP key user' bij Vlaamse bedrijven\n" +
+  "- Bedrijven die nog op SAP ECC draaien (ECC-support loopt af, tijdslijnen richting 2027)\n" +
+  "- Aangekondigde ERP-selecties of digitaliseringsprojecten\n" +
+  "- Overnames, fusies, carve-outs (nieuw ERP-landschap nodig)\n" +
+  "- Sterke groei, internationale expansie, nieuwe vestigingen\n" +
+  "- Private-equity-investeringen (drukken op professionalisering)\n" +
+  "- Nieuwe CIO/CFO (nieuwe beslisser, nieuwe plannen)\n\n" +
+  "TOETS ELK BEDRIJF AAN ONS ICP. Valt het buiten het ICP, LAAT HET WEG:\n" +
+  "- Omzet: minimaal 50 mln EUR (sweet spot vanaf 100 mln). Groeibedrijven vanaf 40-50 mln mogen, " +
+  "die passen bij S/4HANA Public Cloud.\n" +
+  "- HQ in Belgie (waar de beslissing valt), of een Belgische vestiging met eigen beslissingsruimte.\n" +
+  "- Sector: process manufacturing (voeding/chemie/farma), wholesale & distribution, logistiek, " +
+  "energy & utilities, professional services.\n\n" +
+  "EERLIJKHEID BOVEN AANTAL:\n" +
+  "Geef alleen bedrijven waarvoor je een ECHT signaal hebt gevonden. Vind je er maar 5, geef er dan 5. " +
+  "Een lijst aanvullen met bekende namen zonder signaal is de ERGSTE fout die je kan maken: " +
+  "daar verliest een verkoper een dag mee. Verzin NOOIT een bedrijf, een cijfer of een bron. " +
+  "Liever 5 bedrijven met bewijs dan 10 waarvan er 5 gegokt zijn.\n\n" +
+  "Per bedrijf geef je:\n" +
+  "- naam: de bedrijfsnaam zoals hij echt heet\n" +
+  "- sector: welke ICP-sector\n" +
+  "- omzet: geschat of gevonden bedrag met eenheid (bv. '120 mln EUR'), of 'Onbekend'\n" +
+  "- signaal: WAT er speelt, in EEN zin van max 15 woorden\n" +
+  "- bewijs: WAAR je dat vond, kort en concreet (bv. 'vacature SAP-projectleider, mei 2026' of " +
+  "'persbericht overname Bakkerij X, feb 2026'). Dit is het belangrijkste veld: zonder bewijs geen bedrijf.\n" +
+  "- hitte: 'Heet' (concreet signaal, bel nu) | 'Warm' (relevante beweging) | 'Lauw' (past in ICP, zwak signaal)\n" +
+  "- product: welk S/4HANA-smaakje past — 'Public Cloud' | 'RISE' | 'on premise'\n\n" +
+  "Antwoord uitsluitend met geldige JSON, zonder markdown en zonder tekst ervoor of erna:\n" +
+  "{\"bedrijven\": [{\"naam\": string, \"sector\": string, \"omzet\": string, \"signaal\": string, " +
+  "\"bewijs\": string, \"hitte\": string, \"product\": string}], \"toelichting\": string}\n" +
+  "In 'toelichting' zet je EEN zin over hoe grondig je kon zoeken (bv. 'Weinig recente signalen gevonden " +
+  "in de chemiesector; de meeste treffers waren te oud').";
+
+window.setProspectSector = function(s) {
+  state.prospectSector = s;
+  render();
+};
+
+window.zoekProspects = function() {
+  if (state.prospectBezig) return;
+  state.prospectBezig = true;
+  state.prospectFout = null;
+  state.prospectResultaat = null;
+  render();
+
+  const sector = state.prospectSector || "Alle ICP-sectoren";
+  const sectorZin = sector === "Alle ICP-sectoren"
+    ? "Zoek over alle ICP-sectoren heen."
+    : "Focus uitsluitend op de sector: " + sector + ".";
+
+  // Bedrijven die al in de lijst staan of al klant zijn, hoeven niet opnieuw.
+  const reedsInLijst = state.callRows.map(function(r) { return r.bedrijf; });
+  const bestaandeKlanten = alleEchteReferenties_();
+
+  const controller = new AbortController();
+  // Ruim: dit doet veel searches achter elkaar.
+  const timeoutId = setTimeout(function() { controller.abort(); }, 180000);
+
+  fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 3000,
+      system: PROSPECT_SYSTEM_PROMPT,
+      // Veel zoekruimte: elk signaal vraagt zijn eigen zoekopdracht.
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 12 }],
+      messages: [{ role: "user", content:
+        "Zoek prospects in Vlaanderen voor S/4HANA. " + sectorZin + "\n\n" +
+        "Sla deze bedrijven over — ze staan al in mijn lijst of zijn al klant:\n" +
+        JSON.stringify(reedsInLijst.concat(bestaandeKlanten))
+      }]
+    })
+  })
+  .then(function(r) {
+    if (!r.ok) { const e = new Error("http"); e.status = r.status; throw e; }
+    return r.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).filter(function(b) { return b.type === "text"; })
+      .map(function(b) { return b.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (e) {
+      const mm = clean.match(/\{[\s\S]*\}/);
+      if (!mm) { const err = new Error("parse"); err.code = "parse"; throw err; }
+      parsed = JSON.parse(mm[0]);
+    }
+    const bedrijven = (Array.isArray(parsed.bedrijven) ? parsed.bedrijven : [])
+      // Zonder bewijs geen bedrijf. Dit is het hele punt van deze functie:
+      // een naam zonder vindplaats is een gok, en die willen we niet tonen.
+      .filter(function(b) { return b && b.naam && b.bewijs; });
+
+    state.prospectResultaat = {
+      bedrijven: bedrijven,
+      toelichting: parsed.toelichting || "",
+      sector: sector,
+    };
+  })
+  .catch(function(e) {
+    state.prospectFout = coldFoutTekst_(e);
+  })
+  .finally(function() {
+    clearTimeout(timeoutId);
+    state.prospectBezig = false;
+    render();
+  });
+};
+
+// Gevonden prospects overzetten naar de bellijst, waar de Quick Scan er
+// vervolgens overheen kan gaan.
+window.voegProspectsToe = function() {
+  const res = state.prospectResultaat;
+  if (!res || !res.bedrijven.length) return;
+
+  let toegevoegd = 0;
+  res.bedrijven.forEach(function(b) {
+    const bestaat = state.callRows.some(function(r) {
+      return normBedrijf_(r.bedrijf) === normBedrijf_(b.naam);
+    });
+    if (bestaat) return;
+    state.callRows.push({
+      _id: callRowIdCounter++,
+      raw: { Bedrijf: b.naam, Sector: b.sector || "", Omzet: b.omzet || "" },
+      bedrijf: b.naam,
+      contact: "",
+      functie: "",
+      telefoon: "",
+      email: "",
+      campagne: "Cold calling",
+      // Het signaal meenemen als notitie: dat is de reden dat dit bedrijf hier staat.
+      notities: (b.signaal || "") + (b.bewijs ? " [" + b.bewijs + "]" : ""),
+      accountmanager: "",
+      status: "ok",
+      reden: null,
+      gebeld: false,
+      outcome: null,
+      liveNotes: "",
+      historiek: [],
+      blindAnswers: {},
+    });
+    toegevoegd++;
+  });
+
+  state.prospectResultaat = null;
+  state.prospectPaneelOpen = false;
+  state.callSavedListsMsg = toegevoegd + " bedrijf" + (toegevoegd === 1 ? "" : "ven") + " toegevoegd aan de lijst.";
+  autosaveCallState_();
+  render();
+  setTimeout(function() { state.callSavedListsMsg = null; render(); }, 3000);
+};
+
+window.toggleProspectPaneel = function() {
+  state.prospectPaneelOpen = !state.prospectPaneelOpen;
+  render();
+};
+
+const HITTE_ICOON = { "Heet": "🔥", "Warm": "🌤️", "Lauw": "❄️" };
+
+function renderProspectPaneel() {
+  if (state.activeWorkspace !== "coldcall" || !heeftIcp_(state.coldTopic)) return "";
+
+  let html = '<div class="prospect-blok">';
+  html += '<button class="prospect-toggle" onclick="toggleProspectPaneel()">' +
+    (state.prospectPaneelOpen ? '▲' : '🔥') + ' Vind prospects (Vlaanderen)</button>';
+
+  if (!state.prospectPaneelOpen) return html + '</div>';
+
+  html += '<div class="prospect-paneel">';
+  html += '<div class="prospect-uitleg">Lewis zoekt Vlaamse bedrijven met een <strong>concreet signaal</strong> ' +
+    '(ECC-migratie, overname, groei, vacatures, nieuwe CIO…) die passen in ons ERP-ICP. ' +
+    'Enkel bedrijven met een vindbaar bewijsstuk — reken op 5 à 10 resultaten, geen top 10.</div>';
+
+  html += '<div class="prospect-sectoren">';
+  PROSPECT_SECTOREN.forEach(function(s) {
+    const actief = (state.prospectSector || "Alle ICP-sectoren") === s;
+    html += '<button class="prospect-sector' + (actief ? ' actief' : '') + '" ' +
+      'onclick="setProspectSector(\'' + s.replace(/'/g, "\\'") + '\')">' + esc(s) + '</button>';
+  });
+  html += '</div>';
+
+  html += '<button class="prospect-zoek-btn" onclick="zoekProspects()"' + (state.prospectBezig ? ' disabled' : '') + '>' +
+    (state.prospectBezig ? '⏳ Lewis zoekt… (kan 1-2 min duren)' : '🔍 Zoek prospects') + '</button>';
+
+  if (state.prospectFout) {
+    html += '<div class="cold-fout">' + esc(state.prospectFout) + '</div>';
+  }
+
+  const res = state.prospectResultaat;
+  if (res) {
+    if (res.bedrijven.length === 0) {
+      html += '<div class="prospect-leeg">Geen bedrijven met een concreet signaal gevonden in deze sector. ' +
+        'Dat gebeurt — probeer een andere sector of later opnieuw.' +
+        (res.toelichting ? '<div class="prospect-toelichting">' + esc(res.toelichting) + '</div>' : '') + '</div>';
+    } else {
+      html += '<div class="prospect-kop">' + res.bedrijven.length + ' bedrijven gevonden · ' + esc(res.sector) + '</div>';
+      if (res.toelichting) {
+        html += '<div class="prospect-toelichting">' + esc(res.toelichting) + '</div>';
+      }
+      html += '<div class="prospect-lijst">';
+      res.bedrijven.forEach(function(b) {
+        html += '<div class="prospect-kaart">' +
+          '<div class="prospect-kaart-top">' +
+            '<span class="prospect-naam">' + (HITTE_ICOON[b.hitte] || "") + ' ' + esc(b.naam) + '</span>' +
+            '<span class="prospect-meta">' + esc(b.sector || "") +
+              (b.omzet && b.omzet !== "Onbekend" ? ' · ' + esc(b.omzet) : '') + '</span>' +
+          '</div>' +
+          '<div class="prospect-signaal">' + esc(b.signaal || "") + '</div>' +
+          '<div class="prospect-bewijs">📎 ' + esc(b.bewijs || "") + '</div>' +
+          (b.product ? '<div class="prospect-product">→ S/4HANA ' + esc(b.product) + '</div>' : '') +
+          '</div>';
+      });
+      html += '</div>';
+      html += '<button class="prospect-voeg-btn" onclick="voegProspectsToe()">+ Alle ' + res.bedrijven.length +
+        ' toevoegen aan bellijst</button>';
+    }
+  }
+
+  html += '</div></div>';
+  return html;
+}
+
+// ─── FILTEREN OP HUIDIG SYSTEEM ────────────────────────────────────────────
+// Na een bulk-analyse wil je niet door 50 bedrijven scrollen om te zien wie er
+// al SAP draait. We delen de lijst in vier emmers. "Onbekend" en "Niet geanalyseerd"
+// zijn bewust GESCHEIDEN: het eerste betekent "gezocht, niets gevonden — bel en
+// vraag het", het tweede betekent "we hebben nog niet eens gekeken".
+//
+// Wat als "SAP" telt, hangt af van het topic: bij S/4HANA is dat het ERP-veld,
+// bij SuccessFactors betekent het dat ze al SuccessFactors of SAP HCM draaien.
+// Dat staat per topic in SCAN_CONFIG.sapWaarden.
+function erpBucket_(row) {
+  const cold = state.coldScripts[row._id] || getColdAnalyse_(row.bedrijf, state.coldTopic);
+  if (!cold || cold.fout || !cold.quickscan) return "niet";
+
+  const cfg = scanConfig_(state.coldTopic);
+  const huidig = cold.quickscan.huidigSysteem;
+  if (!huidig || huidig === "Onbekend") return "onbekend";
+  if (cfg.sapWaarden.indexOf(huidig) !== -1) return "sap";
+  return "nonsap";
+}
+
+function telErpBuckets_(rows) {
+  const tel = { alle: rows.length, sap: 0, nonsap: 0, onbekend: 0, niet: 0 };
+  rows.forEach(function(r) { tel[erpBucket_(r)]++; });
+  return tel;
+}
+
+function pasErpFilterToe_(rows) {
+  if (state.erpFilter === "alle") return rows;
+  return rows.filter(function(r) { return erpBucket_(r) === state.erpFilter; });
+}
+
+window.setErpFilter = function(f) {
+  state.erpFilter = f;
+  render();
+};
+
+const ERP_FILTER_LABELS = {
+  alle: "Alle",
+  sap: "🔵 SAP",
+  nonsap: "🔴 Non-SAP",
+  onbekend: "⚪ Onbekend",
+  niet: "⏳ Niet geanalyseerd",
+};
+
+function renderErpFilter(rows) {
+  const tel = telErpBuckets_(rows);
+  // Geen enkele analyse gedraaid? Dan zegt dit filter niets — verberg het,
+  // anders staat er een balk die alles in één emmer duwt.
+  if (tel.niet === tel.alle) return "";
+
+  let html = '<div class="erp-filter">';
+  html += '<span class="erp-filter-label">' + esc(scanConfig_(state.coldTopic).huidigLabel) + ':</span>';
+  ["alle", "sap", "nonsap", "onbekend", "niet"].forEach(function(f) {
+    // Lege emmers tonen we niet, behalve "Alle" en de actieve filter zelf.
+    if (tel[f] === 0 && f !== "alle" && f !== state.erpFilter) return;
+    html += '<button class="erp-pill' + (state.erpFilter === f ? ' actief' : '') + '" ' +
+      'onclick="setErpFilter(\'' + f + '\')">' + ERP_FILTER_LABELS[f] + ' (' + tel[f] + ')</button>';
+  });
+  html += '<button class="erp-csv-btn" onclick="exportErpCsv()">⬇ Download CSV</button>';
+  html += '</div>';
+  return html;
+}
+
+// ─── CSV-EXPORT ────────────────────────────────────────────────────────────
+// Exporteert wat je NU ziet: dezelfde werkruimte, dezelfde zoekterm, hetzelfde
+// ERP-filter. Wat op het scherm staat, staat in het bestand — geen verrassingen.
+function csvVeld_(v) {
+  const s = String(v == null ? "" : v);
+  // Aanhalingstekens verdubbelen, en alles quoten: bedrijfsnamen bevatten
+  // komma's ("Colruyt Group, NV") en dat zou de kolommen anders verschuiven.
+  return '"' + s.replace(/"/g, '""') + '"';
+}
+
+window.exportErpCsv = function() {
+  const rows = pasErpFilterToe_(getFilteredCallRows("ok"));
+  if (rows.length === 0) {
+    alert("Geen bedrijven om te exporteren met de huidige filters.");
+    return;
+  }
+
+  const cfg = scanConfig_(state.coldTopic);
+  const kop = ["Bedrijf", "Contact", "Functie", "Past in ICP", "ICP-reden", cfg.huidigLabel,
+    "SAP-klant", "SAP-landschap", "SAP-landschap bron", cfg.doelLabel, "Product fit",
+    "Beslissing Belgie", "Omzet", "Werknemers", "Trigger", "Trigger toelichting",
+    "Voorgesteld event", "Uitkomst", "Notities"];
+
+  const lijnen = [kop.map(csvVeld_).join(",")];
+
+  rows.forEach(function(r) {
+    const cold = state.coldScripts[r._id] || getColdAnalyse_(r.bedrijf, state.coldTopic);
+    const q = (cold && !cold.fout && cold.quickscan) ? cold.quickscan : null;
+    lijnen.push([
+      r.bedrijf || "",
+      r.contact || "",
+      r.functie || "",
+      q ? (q.icpFit || "") : "",
+      q ? (q.icpReden || "") : "",
+      q ? q.huidigSysteem : "Niet geanalyseerd",
+      q ? q.sapKlant : "",
+      q ? (q.sapLandschap || []).join(" / ") : "",
+      q ? q.sapLandschapBron : "",
+      q ? q.doelSysteem : "",
+      q ? q.productFit : "",
+      q ? q.beslissingBelgie : "",
+      q ? q.omzet : "",
+      q ? q.werknemers : "",
+      q ? q.trigger : "",
+      q ? q.triggerToelichting : "",
+      (cold && cold.eventVoorstel && cold.eventVoorstel.titel)
+        ? cold.eventVoorstel.titel + (cold.eventVoorstel.datum ? " (" + cold.eventVoorstel.datum + ")" : "")
+        : "",
+      r.outcome || "",
+      [r.notities, r.liveNotes].filter(Boolean).join(" | "),
+    ].map(csvVeld_).join(","));
+  });
+
+  // BOM vooraan: zonder dit toont Excel "Vinçotte" als "VinÃ§otte".
+  const csv = "\uFEFF" + lijnen.join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+  const naam = "bellijst-" + state.coldTopic.replace(/[^a-z0-9]/gi, "-").toLowerCase() +
+    (state.erpFilter === "alle" ? "" : "-" + state.erpFilter) +
+    "-" + new Date().toISOString().slice(0, 10) + ".csv";
+
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = naam;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 window.analyseColdCall = function(id, forceer) {
   // Nooit twee analyses tegelijk op dezelfde rij, en nooit een losse analyse
   // bovenop een lopende bulk-run: dat vuurt dezelfde (betaalde) AI-aanroep dubbel af.
@@ -7264,6 +8671,9 @@ function analyseColdCallCore_(id, forceer) {
     functie: row.functie || null,
     sector: row.sector || null,
     topic: topic,
+    // Websitebezoek: harde intentie, geen afgeleid signaal. Als dit er is, moet
+    // de opening daaruit vertrekken — niet uit een vacature van vorig jaar.
+    websiteBezoek: leadinfoVoor_(row.bedrijf),
     eigenReferentie: eigenRef ? { industrie: eigenRef.industrie, beschrijving: eigenRef.beschrijving, verhaal: eigenRef.verhaal } : null,
     vergelijkbareReferenties: sectorVoorbeelden,
     cases: relevanteCases.map(function(c) { return { titel: c.titel, url: c.url }; }),
@@ -7288,7 +8698,7 @@ function analyseColdCallCore_(id, forceer) {
     body: JSON.stringify({
       model: "claude-sonnet-4-5",
       max_tokens: 2000,
-      system: COLD_SYSTEM_PROMPT,
+      system: buildColdSystemPrompt_(topic),
       // Meer zoekruimte dan de oorspronkelijke 3: het SAP-landschap achterhalen
       // vraagt vaak een aparte zoekopdracht (vacatures, partner-persberichten),
       // bovenop het gewone bedrijfsonderzoek.
@@ -7321,7 +8731,7 @@ function analyseColdCallCore_(id, forceer) {
       if (!m) { const err = new Error("parse"); err.code = "parse"; throw err; }
       parsed = JSON.parse(m[0]);
     }
-    state.coldScripts[id] = normaliseerColdAnalyse_(parsed);
+    state.coldScripts[id] = normaliseerColdAnalyse_(parsed, topic);
     saveColdAnalyse_(row.bedrijf, topic, state.coldScripts[id]);
   })
   .catch(function(e) {
@@ -7472,7 +8882,7 @@ function renderColdCallInput() {
   const teDoen = coldTeAnalyseren_().length;
 
   let html = '<div class="cold-manual-input">';
-  html += '<textarea id="coldManualInput" placeholder="Of typ bedrijfsnamen in, één per regel..." rows="3"></textarea>';
+  html += '<textarea id="coldManualInput" placeholder="Of typ bedrijfsnamen in — één per regel, of gescheiden door komma&#39;s..." rows="3"></textarea>';
   html += '<button class="cold-manual-btn" onclick="addColdCallCompanies()">+ Toevoegen aan lijst</button>';
 
   // Hoofdknop: alle nog niet geanalyseerde bedrijven in één keer doen, i.p.v.
@@ -7509,10 +8919,69 @@ function renderColdCallInput() {
   return html;
 }
 
+// Schoont een ingetypte bedrijfsnaam op VOOR hij de lijst in gaat.
+//
+// Waarom dit nodig is: de naam die je typt wordt letterlijk naar de AI gestuurd,
+// die er websearches mee doet. "meat&more" en "Meat&More" leveren dan verschillende
+// zoekresultaten op — de tweede herkent een zoekmachine als merknaam, de eerste
+// als losse woorden. De kwaliteit van je analyse hing dus af van je typstijl.
+// Intern zijn ze allang hetzelfde (normBedrijf_ maakt van beide "meatmore"), dus
+// het verschil zat enkel in wat we doorgaven.
+//
+// We doen dit bewust CONSERVATIEF: enkel spaties opruimen en, bij namen die
+// volledig in kleine letters of volledig in hoofdletters staan, elk woord een
+// hoofdletter geven. Namen met een bewuste eigen schrijfwijze (iText, eBay,
+// Meat&More) laten we ongemoeid — die weet de gebruiker beter dan wij.
+function opschonenBedrijfsnaam_(naam) {
+  let n = String(naam || "").trim().replace(/\s+/g, " ");
+  if (!n) return "";
+
+  const heeftKleine = /[a-z]/.test(n);
+  const heeftHoofd = /[A-Z]/.test(n);
+  // Gemengd geschreven (Meat&More, iText) → met rust laten: dat is een keuze.
+  if (heeftKleine && heeftHoofd) return n;
+
+  // Volledig lowercase of volledig UPPERCASE → elk woorddeel kapitaliseren.
+  // Ook na & en - , zodat "meat&more" → "Meat&More" en niet "Meat&more".
+  //
+  // Korte ALL-CAPS woorden zijn bijna altijd afkortingen (SD Worx, KBC, AB InBev)
+  // en die mogen we niet verhaspelen tot "Sd" of "Kbc". Daarom: was het hele woord
+  // in hoofdletters én hoogstens 3 tekens lang, dan blijft het zoals het was.
+  const woorden = n.split(" ");
+  return woorden.map(function(w) {
+    if (heeftHoofd && !heeftKleine && w.length <= 3 && /^[A-Z0-9]+$/.test(w)) return w; // afkorting
+    return w.toLowerCase().replace(/(^|[&\-/.])([a-z0-9])/g, function(_, sep, teken) {
+      return sep + teken.toUpperCase();
+    });
+  }).join(" ");
+}
+
+// Bedrijfsnamen uit het invoervak halen. Nieuwe regels zijn de bedoelde manier,
+// maar mensen plakken net zo goed "Boortmalt, Colruyt, Vinçotte" op één lijn —
+// en dat gaf vroeger één rij met die hele string als bedrijfsnaam.
+//
+// De komma splitst daarom ALLEEN als er geen nieuwe regels zijn. Reden: namen
+// bevatten zelf komma's ("Colruyt Group, NV", "Deloitte Belgium, BV"). Staat elk
+// bedrijf netjes op zijn eigen regel, dan is een komma binnen die regel dus deel
+// van de naam en mogen we er niet op splitsen. Is er maar één regel, dan is de
+// komma juist wél het scheidingsteken. Zo werken beide manieren zonder elkaar te bijten.
+function parseBedrijfsnamen_(tekst) {
+  const regels = String(tekst || "").split(/\r?\n/).map(function(n) { return n.trim(); }).filter(Boolean);
+  if (regels.length === 0) return [];
+
+  if (regels.length === 1) {
+    // Eén regel: komma's en puntkomma's zijn hier scheidingstekens.
+    return regels[0].split(/[,;]/).map(function(n) { return opschonenBedrijfsnaam_(n); }).filter(Boolean);
+  }
+
+  // Meerdere regels: elke regel is één bedrijf, komma's horen bij de naam.
+  return regels.map(function(n) { return opschonenBedrijfsnaam_(n); }).filter(Boolean);
+}
+
 window.addColdCallCompanies = function() {
   const el = document.getElementById("coldManualInput");
   if (!el) return;
-  const namen = el.value.split("\n").map(function(n) { return n.trim(); }).filter(Boolean);
+  const namen = parseBedrijfsnamen_(el.value);
   if (namen.length === 0) return;
 
   namen.forEach(function(naam) {
@@ -7583,6 +9052,19 @@ function renderScriptPanel() {
       html += '<button class="reason-btn' + (state.coldTopic === sol ? ' actief' : '') + '" onclick="setColdTopic(\'' + sol + '\')">' + esc(sol) + '</button>';
     });
     html += '</div>';
+  }
+
+  // GEDEELDE DATABRONNEN — in ELKE werkruimte.
+  // Wie op je website was en welke events eraan komen, zijn feiten over bedrijven.
+  // Die staan los van de reden waarom je belt: je wil dat even goed weten bij het
+  // opvolgen van een evenement of bij blind spots als bij een koude call.
+  html += renderLeadinfoPaneel();
+  html += renderAgendaPaneel();
+
+  // Prospects zoeken blijft wél cold-call-specifiek: het vindt NIEUWE bedrijven,
+  // terwijl je bij Evenementen en Blind spots met een bestaande lijst werkt.
+  if (state.activeWorkspace === "coldcall") {
+    html += renderProspectPaneel();
     html += renderColdCallInput();
   }
 
@@ -7839,6 +9321,23 @@ function renderBellijstPanel() {
       });
     }
     savedListsHtml += '</div>';
+
+    // Het archief is wat cold calling voedt: hoe meer evenementen erin zitten,
+    // hoe vaker je een warm haakje vindt. Maar de ruimte is niet oneindig, en
+    // localStorage waarschuwt zelf niet — dus tonen we het hier.
+    const gebruik = lsGebruik_();
+    const contacten = telGearchiveerdeContacten_();
+    if (gebruik) {
+      const vol = gebruik.pct >= 80;
+      savedListsHtml += '<div class="ls-meter' + (vol ? ' vol' : '') + '">' +
+        '<div class="ls-meter-balk"><div class="ls-meter-vul' + (vol ? ' vol' : '') + '" style="width:' + Math.min(gebruik.pct, 100) + '%"></div></div>' +
+        '<div class="ls-meter-tekst">' +
+          '<strong>' + contacten + '</strong> contacten gearchiveerd over alle werkruimtes · ' +
+          'browseropslag ' + gebruik.pct + '% vol' +
+        '</div>' +
+        (vol ? '<div class="ls-meter-waarschuwing">⚠️ Bijna vol. Verwijder oude lijsten die je niet meer nodig hebt — anders kan het opslaan van notities stilzwijgend mislukken.</div>' : '') +
+        '</div>';
+    }
   }
   document.getElementById("callSavedListsPanel").innerHTML = savedListsHtml;
   document.getElementById("callSavedListsMsg").innerHTML = state.callSavedListsMsg ? '<div class="call-saved-msg">' + ICONS.check + ' ' + esc(state.callSavedListsMsg) + '</div>' : "";
@@ -7893,19 +9392,29 @@ function renderBellijstPanel() {
 
   let listHtml = "";
   if (state.callView === "bestaande") {
-    listHtml = bestaandeKlanten.length === 0
+    const zichtbaar = pasErpFilterToe_(bestaandeKlanten);
+    listHtml = zichtbaar.length === 0
       ? '<div class="empty-state">Geen bestaande klanten gevonden voor deze zoekopdracht.</div>'
-      : bestaandeKlanten.map(function(r) { return callRowHtml(r, false); }).join("");
+      : zichtbaar.map(function(r) { return callRowHtml(r, false); }).join("");
   } else if (state.callView === "prospects") {
-    listHtml = prospects.length === 0
+    const zichtbaar = pasErpFilterToe_(prospects);
+    listHtml = zichtbaar.length === 0
       ? '<div class="empty-state">Geen prospects gevonden voor deze zoekopdracht.</div>'
-      : prospects.map(function(r) { return callRowHtml(r, false); }).join("");
+      : zichtbaar.map(function(r) { return callRowHtml(r, false); }).join("");
   } else {
+    // "Ter controle" gaat over uitgesloten rijen (concurrenten, interne mensen);
+    // een ERP-filter zegt daar niets zinnigs over, dus die laten we ongemoeid.
     listHtml = controleFiltered.length === 0
       ? '<div class="empty-state">Niets uitgesloten voor deze zoekopdracht.</div>'
       : controleFiltered.map(function(r) { return callRowHtml(r, true); }).join("");
   }
-  document.getElementById("callListBlock").innerHTML = renderCallProgress() + listHtml;
+
+  // Filterbalk enkel bij de belbare lijsten, niet bij "Ter controle".
+  const filterHtml = state.callView === "controle" ? "" : renderErpFilter(
+    state.callView === "bestaande" ? bestaandeKlanten : prospects
+  );
+
+  document.getElementById("callListBlock").innerHTML = renderCallProgress() + filterHtml + listHtml;
   autosaveCallState_();
 }
 
@@ -8136,6 +9645,32 @@ function normPersoon_(naam) {
 // Geeft twee groepen terug:
 //   persoon  = dezelfde persoon, op andere evenementen
 //   collegas = andere mensen van hetzelfde bedrijf
+// Alle opgeslagen lijsten, uit ALLE werkruimtes. getSavedLists_() kijkt bewust
+// alleen in de huidige werkruimte, maar voor contacthistoriek is dat net verkeerd:
+// bel je een bedrijf koud voor HR, dan wil je juist weten dat hun CFO vorig jaar
+// op een S/4HANA-event zat. Die info staat in de Evenementen-werkruimte.
+const ALLE_WERKRUIMTES = ["event", "blindspots", "coldcall"];
+let _alleLijstenCache = null;
+
+function invalidateAlleLijstenCache_() { _alleLijstenCache = null; }
+
+function getAlleSavedLists_() {
+  if (_alleLijstenCache) return _alleLijstenCache;
+  const alles = [];
+  ALLE_WERKRUIMTES.forEach(function(ws) {
+    try {
+      const raw = localStorage.getItem("lewis_bellijst_opgeslagen_" + ws);
+      const lijsten = raw ? JSON.parse(raw) : [];
+      lijsten.forEach(function(l) {
+        l._werkruimte = ws;   // onthouden waar hij vandaan komt, voor de weergave
+        alles.push(l);
+      });
+    } catch (e) { /* stuk of leeg: overslaan */ }
+  });
+  _alleLijstenCache = alles;
+  return alles;
+}
+
 function findCrossListHistory(row) {
   const doelBedrijf = normBedrijf_(row.bedrijf);
   const doelPersoon = normPersoon_(row.contact);
@@ -8144,25 +9679,33 @@ function findCrossListHistory(row) {
   const persoon = [];
   const collegas = [];
 
-  // Alle opgeslagen lijsten doorlopen. De huidige lijst slaan we over: die staat
-  // al op het scherm, en het contact zelf hoeft niet in zijn eigen historiek.
-  getSavedLists_().forEach(function(lijst) {
+  // Alle opgeslagen lijsten doorlopen — uit ELKE werkruimte, niet enkel de huidige.
+  // De huidige lijst slaan we over: die staat al op het scherm.
+  getAlleSavedLists_().forEach(function(lijst) {
     const snap = lijst.snapshot || {};
     const rows = snap.callRows || [];
     // Naam van het evenement: liefst uit de eventcontext, anders de lijstnaam.
     const ev = snap.eventStructured || {};
     const evNaam = ev.titel || lijst.naam;
     const evDatum = ev.datum || null;
+    const isEvent = lijst._werkruimte === "event";
 
     rows.forEach(function(r) {
       if (normBedrijf_(r.bedrijf) !== doelBedrijf) return;
-      // Alleen tonen als er iets te vertellen valt: een uitkomst of een notitie.
+
+      // Wat telt als "iets te vertellen"? Een uitkomst of een notitie, ZOALS VOORHEEN.
+      // Maar bij een evenementenlijst is de aanwezigheid zélf het nieuws: dat Sara
+      // (CFO) op ons S/4HANA-event stond, is precies het haakje waarmee je Dirk van
+      // HR belt — ook al is ze daarna nooit opgebeld en staat er geen notitie bij.
       const heeftInfo = r.outcome || (r.liveNotes && r.liveNotes.trim()) || (r.historiek || []).length > 0;
-      if (!heeftInfo) return;
+      if (!isEvent && !heeftInfo) return;
 
       const item = {
         lijstId: lijst.id,
         lijstNaam: lijst.naam,
+        werkruimte: lijst._werkruimte,
+        // Bij een evenementenlijst zonder opvolging is het feit "was aanwezig".
+        aanwezigheid: isEvent && !r.outcome,
         evenement: evNaam,
         datum: evDatum,
         opgeslagen: lijst.savedAt,
@@ -8185,9 +9728,9 @@ function findCrossListHistory(row) {
 // Eén eerder contact: welk evenement, wie, welke uitkomst, en wat er gezegd is.
 function renderHistItem_(h) {
   const oc = outcomeById(h.outcome);
-  let out = '<div class="hist-item">';
+  let out = '<div class="hist-item' + (h.aanwezigheid ? ' hist-aanwezig' : '') + '">';
   out += '<div class="hist-top">';
-  out += '<span class="hist-event">' + esc(h.evenement) + '</span>';
+  out += '<span class="hist-event">' + (h.aanwezigheid ? '🎟️ ' : '') + esc(h.evenement) + '</span>';
   if (h.datum) out += '<span class="hist-datum">' + esc(h.datum) + '</span>';
   out += '</div>';
 
@@ -8198,6 +9741,10 @@ function renderHistItem_(h) {
 
   if (oc) {
     out += '<div class="hist-outcome"><span class="hist-dot" style="background:' + oc.kleur + '"></span>' + esc(oc.kort) + '</div>';
+  } else if (h.aanwezigheid) {
+    // Geen belresultaat, maar wél aanwezig geweest. Dat is het hele punt: dit is
+    // je opening ("uw collega was bij ons op het event"), geen ontbrekende data.
+    out += '<div class="hist-outcome hist-outcome-aanwezig">Was aanwezig op dit evenement</div>';
   }
   // De feedback van toen — dit is waar het echt om draait.
   if (h.notities) {
@@ -8214,7 +9761,12 @@ function renderHistItem_(h) {
 // uitlezen en parsen. Per werkruimte apart, anders zie je bij "Cold calling"
 // nog de cache van "Evenementen".
 let _savedListsCache = {};
-function invalidateSavedListsCache_() { _savedListsCache[state.activeWorkspace] = null; }
+function invalidateSavedListsCache_() {
+  _savedListsCache[state.activeWorkspace] = null;
+  // Ook de cross-werkruimte cache: die bevat dezelfde lijst en zou anders
+  // verouderde historiek blijven tonen na een opslag of verwijdering.
+  invalidateAlleLijstenCache_();
+}
 
 function getSavedLists_() {
   const ws = state.activeWorkspace;
@@ -8226,6 +9778,34 @@ function getSavedLists_() {
     _savedListsCache[ws] = [];
   }
   return _savedListsCache[ws];
+}
+
+// ─── HOEVEEL PAST ER IN? ───────────────────────────────────────────────────
+// Alles zit in localStorage: ~5 MB per browser, gedeeld door je opgeslagen lijsten,
+// je belnotities én je AI-analyses. Het addertje: localStorage waarschuwt niet.
+// Zit je vol, dan faalt het opslaan STILZWIJGEND — en verlies je notities zonder
+// het te merken. Daarom meten we het gebruik en waarschuwen we ruim op voorhand.
+const LS_LIMIET_BYTES = 5 * 1024 * 1024;
+
+function lsGebruik_() {
+  let bytes = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.indexOf("lewis_") === 0) {
+        bytes += k.length + (localStorage.getItem(k) || "").length;
+      }
+    }
+  } catch (e) { return null; }
+  // UTF-16: ~2 bytes per teken.
+  bytes = bytes * 2;
+  return { bytes: bytes, pct: Math.round((bytes / LS_LIMIET_BYTES) * 100) };
+}
+
+function telGearchiveerdeContacten_() {
+  return getAlleSavedLists_().reduce(function(n, l) {
+    return n + ((l.snapshot && l.snapshot.callRows) ? l.snapshot.callRows.length : 0);
+  }, 0);
 }
 
 window.saveNamedList = function() {

@@ -290,6 +290,30 @@
   .script-situatie { font-size: 12.5px; font-weight: 800; color: var(--c-navy); margin-bottom: 3px; }
   /* Blind spots */
   .blind-spots { margin-top: 8px; }
+  /* Huidig landschap als nette tabel: systeem links, waarde rechts (zoals in Excel) */
+  .ls-tabel { margin-top: 10px; border: 1px solid var(--c-slate-200); border-radius: 10px; overflow: hidden; }
+  .ls-tabel-kop { padding: 8px 12px; background: var(--c-slate-50); border-bottom: 1px solid var(--c-slate-200); font-size: 12px; font-weight: 800; color: var(--c-navy); }
+  .ls-gaten-teller { color: #d97706; font-weight: 700; }
+  .ls-compleet { color: #16a34a; font-weight: 700; }
+  .ls-tabel-body { display: flex; flex-direction: column; }
+  .ls-rij { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-bottom: 1px solid var(--c-slate-100); border-left: 3px solid transparent; }
+  .ls-rij:last-child { border-bottom: none; }
+  .ls-rij.ls-gat { border-left-color: #f59e0b; background: #fffdf7; }
+  .ls-rij.ls-beantwoord { border-left-color: #16a34a; background: #f7fdf9; }
+  .ls-rij.ls-gecorrigeerd { border-left-color: #2563eb; }
+  .ls-systeem { flex: 0 0 40%; font-size: 12.5px; font-weight: 700; color: var(--c-ink); }
+  .ls-waarde { flex: 1; display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .ls-tekst { font-size: 12.5px; color: var(--c-ink); }
+  .ls-nieuw { font-weight: 700; color: #15803d; }
+  .ls-nieuw-badge { font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; color: #15803d; background: #dcfce7; border-radius: var(--radius-pill); padding: 1px 7px; }
+  .ls-input { flex: 1; min-width: 0; padding: 5px 9px; border: 1px solid #f59e0b; border-radius: 7px; font-family: inherit; font-size: 12.5px; background: #fff; }
+  .ls-input::placeholder { color: #d97706; font-style: italic; }
+  .ls-input-inline { flex: 1; min-width: 0; padding: 4px 8px; border: 1px solid transparent; border-radius: 7px; font-family: inherit; font-size: 12.5px; background: transparent; color: var(--c-ink); }
+  .ls-input-inline:hover, .ls-input-inline:focus { border-color: var(--c-slate-200); background: #fff; }
+  .ls-input-inline.aangepast { color: #1d4ed8; font-weight: 600; }
+  .ls-save { flex-shrink: 0; padding: 5px 10px; border-radius: 7px; border: none; background: #16a34a; color: #fff; font-size: 12px; font-weight: 800; cursor: pointer; }
+  .ls-was { font-size: 10.5px; color: var(--c-slate-400); font-style: italic; white-space: nowrap; }
+  .ls-wijzig { font-size: 11px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; white-space: nowrap; }
   .blind-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: #d97706; margin-bottom: 5px; }
   .blind-meer { margin-top: 4px; padding: 4px 10px; border-radius: var(--radius-pill); border: 1px dashed var(--c-slate-200); background: none; color: var(--c-slate-400); font-size: 11px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .blind-meer:hover { border-color: var(--c-navy); color: var(--c-navy); }
@@ -376,6 +400,21 @@
   .taak.taak-open { border-left-style: dashed; border-left-color: var(--c-slate-400); }
   .taak-tag.taak-tag-nieuw { background: #f0fdf4; border-color: #16a34a; color: #15803d; }
 
+  /* Klantomschrijvingen: opzoeken, bewerken, exporteren */
+  .oms-tellers { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .oms-teller { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 11.5px; font-weight: 700; color: var(--c-slate-500); }
+  .oms-voortgang { margin: 10px 0; }
+  .oms-voortgang-tekst { font-size: 11.5px; color: var(--c-slate-500); margin-top: 5px; }
+  .oms-lijst { display: flex; flex-direction: column; gap: 5px; margin-top: 12px; max-height: 420px; overflow-y: auto; }
+  .oms-rij { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); padding: 8px 11px; }
+  .oms-naam { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 12.5px; font-weight: 800; color: var(--c-navy); }
+  .oms-sector { font-size: 10.5px; font-weight: 600; color: var(--c-slate-400); white-space: nowrap; }
+  .oms-tekst { font-size: 12px; color: var(--c-ink); line-height: 1.5; margin-top: 3px; }
+  .oms-bron { font-size: 10.5px; color: var(--c-slate-400); margin-top: 3px; }
+  .oms-leeg { font-size: 11.5px; color: var(--c-slate-400); font-style: italic; margin-top: 3px; }
+  .oms-link { background: none; border: none; padding: 0; color: var(--c-primary-darker); font-size: inherit; font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: underline; }
+  .oms-btn { margin-top: 5px; padding: 5px 12px; border-radius: var(--radius-btn); border: 1px solid var(--c-navy); background: var(--c-navy); color: #fff; font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+
   /* Databronnen-lade: al het instelwerk achter één knop */
   .db-toggle { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; padding: 8px 14px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-500); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .db-toggle:hover { border-color: var(--c-navy); color: var(--c-navy); }
@@ -405,6 +444,14 @@
   .script-modal-kop { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; background: var(--c-navy); color: #fff; font-size: 13px; font-weight: 800; flex-shrink: 0; }
   .script-modal-sluit { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; padding: 0 2px; line-height: 1; }
   .script-modal-body { padding: 14px; overflow-y: auto; }
+  .script-knoppen { display: flex; gap: 8px; flex-wrap: wrap; }
+  .script-knoppen-top { margin-bottom: 12px; }
+  .script-mini-btn { padding: 5px 12px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-navy); font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .script-mini-btn:hover { border-color: var(--c-navy); }
+  .script-bewerk-uitleg { font-size: 12px; color: var(--c-slate-500); line-height: 1.5; margin-bottom: 8px; }
+  .script-edit { width: 100%; min-height: 320px; padding: 11px 13px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-family: inherit; font-size: 13px; line-height: 1.6; resize: vertical; margin-bottom: 10px; }
+  .script-eigen-badge { display: inline-block; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--c-navy); background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: var(--radius-pill); padding: 3px 10px; margin-bottom: 10px; }
+  .script-eigen-tekst { font-size: 13.5px; color: var(--c-ink); line-height: 1.65; white-space: pre-wrap; }
   @media (max-width: 900px) {
     .script-modal { right: 12px; left: 12px; width: auto; bottom: 76px; max-height: 60vh; }
   }
@@ -2730,6 +2777,126 @@ function renderHrStartPath(p) {
   return '<div class="hr-startpath-row"><span class="hr-startpath-label">' + esc(p.label) + '</span><div class="hr-startpath-chips">' + chips + '</div></div>';
 }
 
+// ─── LOGO'S: WELK DOMEIN HOORT BIJ WELKE KLANT? ────────────────────────────
+// Het logo wordt opgehaald via Google's favicon-dienst, en die heeft een DOMEIN
+// nodig. Dat domein werd voorheen geraden door de woorden aan elkaar te plakken
+// + ".com" — wat vaak misgaat: "De Lijn" -> lijn.com (bestaat niet, het is
+// delijn.be), "MIVB / STIB" -> mivbstib.com (is stib-mivb.be). Belgische
+// bedrijven staan bovendien meestal op .be, niet .com.
+//
+// Vandaar deze tabel voor de gevallen waar raden niet werkt. Staat een klant er
+// niet in, dan valt de code terug op een gok — en probeert ze zowel .be als .com.
+const KLANT_DOMEINEN = {
+  // Belgische bedrijven staan meestal op .be, en veel namen laten zich niet raden.
+  "de lijn": "delijn.be",
+  "mivb / stib": "stib-mivb.be",
+  "port of antwerp bruges": "portofantwerpbruges.com",
+  "meat&more": "meatandmore.be",
+  "zol": "zol.be",
+  "jessa ziekenhuis": "jessazh.be",
+  "crelem bakeries": "crelem.be",
+  "carrefour belgium": "carrefour.eu",
+  "colruyt": "colruytgroup.com",
+  "mohawk / unilin": "unilin.com",
+  "dieteren": "dieteren.com",
+  "sck cen": "sckcen.be",
+  "sck-cen": "sckcen.be",
+  "kongsberg pcs": "kongsbergpcs.com",
+  "creos/encevo": "encevo.eu",
+  "gewestelijke overheidsdienst brussel": "gob.brussels",
+  "be.brussels": "be.brussels",
+  "politie antwerpen": "lokalepolitie.be",
+  "the belgian chocolate group": "belgianchocolategroup.com",
+  "bank degroof petercam": "degroofpetercam.com",
+  "beaulieu international group": "bintg.com",
+  "ku leuven": "kuleuven.be",
+  "ugent": "ugent.be",
+  "imec": "imec-int.com",
+  "nbb": "nbb.be",
+  "kbc": "kbc.com",
+  "wageningen university & research": "wur.nl",
+  "universiteit maastricht": "maastrichtuniversity.nl",
+  "universiteit luxemburg": "uni.lu",
+  "kees smit tuinmeubelen": "keessmit.nl",
+  "dura vermeer": "duravermeer.nl",
+  "stedin": "stedin.net",
+  "fmo": "fmo.nl",
+  "dyka group": "dyka.com",
+  "maxeda diy group": "maxeda.com",
+  "drylock": "drylocktechnologies.com",
+  "biobest": "biobestgroup.com",
+  "arteco": "arteco-coolants.com",
+  "ajinomoto omnichem": "omnichem.be",
+  "ajinomoto biopharma": "ajibio-pharma.com",
+  "elia": "elia.be",
+  "tessenderlo group": "tessenderlo.com",
+  "domo chemicals": "domochemicals.com",
+  "bru-textiles": "bru-textiles.com",
+  "eco3": "eco3.com",
+  "ineos": "ineos.com",
+  "porr": "porr-group.com",
+  "vigo": "vigo.be",
+  "ivago": "ivago.be",
+  "resa": "resa.be",
+  "swde": "swde.be",
+  "farys": "farys.be",
+  "fluvius": "fluvius.be",
+  "luminus": "luminus.be",
+  "odth": "odth.be",
+  "sd worx": "sdworx.com",
+  "usg people": "usgpeople.com",
+  "ucb pharma": "ucb.com",
+  "redcare pharmacy": "redcare-pharmacy.com",
+  "erste group": "erstegroup.com",
+  "rbi bank": "rbinternational.com",
+  "greiner ag": "greiner.com",
+  "gebauer & griller": "gg-group.com",
+  "avl list": "avl.com",
+  "adb safegate": "adbsafegate.com",
+  "asl airlines": "aslairlines.com",
+  "ag real estate": "agrealestate.eu",
+  "bia group": "biagroup.com",
+  "bmt aerospace": "bmtaerospace.com",
+  "seb professional": "seb.com",
+  "vaillant group": "vaillant-group.com",
+  "septentrio": "septentrio.com",
+  "studio plopsa": "plopsa.be",
+  "medi-market": "medi-market.be",
+  "gourmand pastries": "gourmand.be",
+  "seris security": "seris.be",
+  "district09": "district09.gent",
+  "stroom maatwerk": "stroommaatwerk.nl",
+};
+
+// Het domein voor een klant. Geeft een LIJST terug: eerst het zekere domein uit
+// de tabel, anders meerdere gokken (.be en .com) die de loader een voor een
+// probeert. Zo krijg je toch een logo voor de klanten die niet in de tabel staan.
+function klantDomeinen_(naam) {
+  const sleutel = String(naam || "").toLowerCase().trim();
+  if (KLANT_DOMEINEN[sleutel]) return [KLANT_DOMEINEN[sleutel]];
+
+  // Woorden die niets met het domein te maken hebben eruit: "Groep", "Holding",
+  // "NV", "Group"… staan zelden in de URL.
+  const RUIS = ["group", "groep", "holding", "international", "belgium", "belgie",
+    "nederland", "europe", "the", "van", "de", "een"];
+  const woorden = sleutel
+    .split(/[\s&,.\/\-]+/)
+    .filter(function(w) { return w.length > 1 && RUIS.indexOf(w) === -1; })
+    .map(function(w) { return w.replace(/[^a-z0-9]/g, ""); })
+    .filter(Boolean);
+
+  if (woorden.length === 0) return [];
+
+  const kaal = woorden.join("");
+  const kandidaten = [kaal + ".be", kaal + ".com"];
+  // Bij meerdere woorden is het eerste woord vaak al het domein (TVH Parts
+  // Holding -> tvh.com), dus dat proberen we ook.
+  if (woorden.length > 1) {
+    kandidaten.push(woorden[0] + ".be", woorden[0] + ".com");
+  }
+  return kandidaten;
+}
+
 // ─── SECTORBADGES ──────────────────────────────────────────────────────────
 const SECTOR_GROUPS = [
   { id: "voeding", label: "Voeding & Agro", icoon: "🌾", kleur: { bg: "#FBEFE3", tx: "#8A5524" } },
@@ -3221,6 +3388,58 @@ const dedupedRaw = ERP.concat(SF, CPI, BDC_REFS, EXTRA_REFS).filter(function(r) 
 
 const REFS = groupByClient(dedupedRaw);
 
+// ─── HERSTELD ─────────────────────────────────────────────────────────────
+// Deze twee constanten waren per ongeluk mee verwijderd toen de demo-referenties
+// werden vervangen (ze stonden tussen de arrays in). Gevolg: de Producten-tab
+// crashte met 'PRODUCT_CHALLENGE_GROUPS is not defined'.
+const PRODUCT_LOBS = ["ERP", "End-to-end", "Integration", "Logistics/Supply Chain", "Finance", "Customer Experience", "HR", "Research"];
+
+// Veelvoorkomende uitdagingen die een prospect letterlijk uitspreekt aan de
+// telefoon — één tik vult de zoekbalk in met een term die al bewezen goed
+// werkt tegen de signalen/Ideaal-voor-data van de producten. Hergebruikt
+// dus dezelfde matching, geen apart systeem.
+const PRODUCT_CHALLENGE_GROUPS = [
+  {
+    label: "Financieel & rapportering",
+    items: [
+      { titel: "Werkt nog veel met Excel", zoekterm: "excel" },
+      { titel: "Manuele facturen verwerken", zoekterm: "facturen" },
+      { titel: "Onkosten manueel boeken", zoekterm: "onkosten" },
+      { titel: "CSRD/ESG-rapportering", zoekterm: "CSRD" },
+      { titel: "Multibanking is omslachtig", zoekterm: "multibanking" },
+      { titel: "Projectfacturatie bij dienstverlening", zoekterm: "professional services" },
+    ],
+  },
+  {
+    label: "Data, proces & IT",
+    items: [
+      { titel: "Wil starten met AI", zoekterm: "AI" },
+      { titel: "Data klopt niet", zoekterm: "data klopt niet" },
+      { titel: "Master data-problemen", zoekterm: "master data" },
+      { titel: "Verouderde integraties (PI/PO)", zoekterm: "PI/PO" },
+      { titel: "BTP-licenties onderbenut", zoekterm: "BTP" },
+      { titel: "Webshop niet gekoppeld aan SAP", zoekterm: "webshop" },
+    ],
+  },
+  {
+    label: "HR & mensen",
+    items: [
+      { titel: "Opleidingen moeilijk op te volgen", zoekterm: "opleiding" },
+      { titel: "Tijdsregistratie niet gesynchroniseerd", zoekterm: "tijdsregistratie" },
+      { titel: "Verloning niet transparant", zoekterm: "verloning" },
+    ],
+  },
+  {
+    label: "Operations, e-commerce & onderzoek",
+    items: [
+      { titel: "Processen nooit in kaart", zoekterm: "procesknelpunten" },
+      { titel: "Papieren werkorders op de vloer", zoekterm: "werkorders" },
+      { titel: "Onderzoeksbeheer / subsidies", zoekterm: "onderzoek" },
+    ],
+  },
+];
+
+
 const CASES = [
   { titel: "Indaver brengt complexe logistiek onder controle met SAP S/4HANA en SAP TM", url: "https://www.meetlewis.io", sector: "utilities", bedrijf: "Indaver", categorieen: ["Digitale supply chain", "SAP ERP Services"] },
   { titel: "Hoe Wageningen University & Research onderzoeksprojecten slimmer beheert: 7 inzichten", url: "https://www.meetlewis.io", bedrijf: "Wageningen University & Research", sector: "public", categorieen: ["Research Management"] },
@@ -3572,6 +3791,10 @@ const state = {
   // achter één knop, i.p.v. vijf losse knoppen die het scherm dichtslibden.
   databronnenOpen: false,
   databronTab: "leadinfo",
+  // Klantomschrijvingen opzoeken (eenmalig, daarna exporteerbaar)
+  omschrijvingBezig: false,
+  omschrijvingVoortgang: null,
+  omschrijvingBewerkt: null,
   // Nurture: flows plannen en de takenlijst van vandaag.
   nurtureRowId: null,
   nurtureDatum: "",
@@ -3593,6 +3816,7 @@ const state = {
   openHistoryId: null,     // welk contact toont zijn belhistoriek
   callReason: "event_opvolgen", // waarom bellen we? stuurt het script
   scriptOpen: false,       // het algemene script bovenaan open/dicht
+  scriptBewerkt: false,    // bewerkmodus van het eigen belscript
   coldScripts: {},         // per rij-id: AI-analyse voor cold calling
   coldLoadingId: null,     // welk bedrijf wordt nu geanalyseerd
   // Filter op ERP-landschap uit de quickscan: "alle" | "sap" | "nonsap" | "onbekend" | "niet"
@@ -3797,7 +4021,9 @@ function getFiltered() {
     return matchF1 && matchF2 && matchMw && matchOmzet &&
       (state.ind === 'Alles' || r.industrie === state.ind) &&
       (state.land === 'Alles' || r.land === state.land) &&
-      r.referentie &&
+      // Hier stond "r.referentie &&", wat 93 van de 178 klanten volledig verborg
+      // op het Referenties-tabblad — onzichtbaar, zonder filter om ze te tonen.
+      // Alle klanten mogen genoemd worden, dus horen ze er allemaal te staan.
       (!q || haystackNorm.indexOf(qNorm) !== -1);
   });
 }
@@ -4043,9 +4269,38 @@ const ASK_SYSTEM_PROMPT = "Je bent een interne sales-assistent voor een SAP-cons
   "omzet, of een combinatie daarvan. Ze kan ook over een concreet probleem gaan.\n" +
   "- Begrijp synoniemen en taalvarianten. 'transportation', 'transport', 'logistiek' en 'vervoer' betekenen hetzelfde. " +
   "Zo ook 'bouw'/'construction', 'zorg'/'healthcare', 'voeding'/'food', 'productie'/'manufacturing'. " +
-  "Match op de betekenis, niet op de exacte letters.\n" +
-  "- Vraagt de verkoper naar een sector of industrie, geef dan ALLE referenties uit die sector terug — niet alleen de 'beste'. " +
-  "Het is een bibliotheekvraag, geen aanbeveling.\n" +
+  "Match op de betekenis, niet op de exacte letters.\n\n" +
+
+  "!!! NOEMT DE VERKOPER EEN OPLOSSING, DAN IS DAT EEN HARDE EIS:\n" +
+  "Vraagt hij naar 'transport + ERP', dan mag je ALLEEN klanten teruggeven die ook echt " +
+  "S/4HANA of ERP draaien. Een transportklant die enkel SAP BTP of Business Data Cloud gebruikt, " +
+  "past NIET — ook al klopt de sector. Dat is de meest gemaakte fout: sector matcht, oplossing niet, " +
+  "en de verkoper krijgt een referentie die niets bewijst over ERP.\n" +
+  "Vertaling van wat de verkoper zegt naar het 'oplossingen'-veld in de data:\n" +
+  "  ERP / S/4 / S4HANA / SAP ERP -> \"S/4HANA\"\n" +
+  "  BW / BI / rapportering / analytics / datawarehouse -> \"SAP Business Data Cloud\"\n" +
+  "  HR / HCM / personeel -> \"SuccessFactors\"\n" +
+  "  CRM / klantbeheer -> \"SAP CX (CRM)\"\n" +
+  "  integratie / koppelingen / platform -> \"SAP BTP\"\n" +
+  "  onkosten / expenses -> \"SAP Concur\"\n" +
+  "  planning / supply chain -> \"SAP IBP\"\n" +
+  "Vindt geen enkele klant met de gevraagde COMBINATIE (sector + oplossing), zeg dat dan eerlijk: " +
+  "zet geenGoedeMatch op true en leg in 'suggestie' uit wat er wel is (bv. 'Geen ERP-klanten in transport. " +
+  "Wel: ODTH en Van Marcke draaien SAP BTP; voor ERP heb je wel Indaver (milieu) en Sibelco (mijnbouw).'). " +
+  "Geef dan GEEN half passende matches — dat is misleidend.\n\n" +
+
+  "!!! VRAAGT DE VERKOPER NAAR EEN 'GELIJKAARDIGE' KLANT (bv. 'iets zoals ODTH'):\n" +
+  "Zoek dat bedrijf eerst op in de data. Geef dan klanten terug die op MINSTENS EEN van deze assen " +
+  "op dat bedrijf lijken, en zeg per referentie EXPLICIET op welke as:\n" +
+  "  - dezelfde sector (industrie-veld)\n" +
+  "  - dezelfde oplossing(en)\n" +
+  "  - vergelijkbare grootte (medewerkers/omzet, ordegrootte)\n" +
+  "Het genoemde bedrijf zelf laat je WEG uit de resultaten. Zet de sterkste gelijkenis eerst. " +
+  "In 'redenen' schrijf je concreet waarom, bijvoorbeeld: [\"Ook logistiek\", \"Ook SAP BTP\"]. " +
+  "Staat het genoemde bedrijf NIET in de data, zeg dat dan in 'suggestie' i.p.v. te gokken.\n\n" +
+
+  "- Vraagt de verkoper enkel naar een sector of industrie (zonder oplossing), geef dan ALLE referenties " +
+  "uit die sector terug — niet alleen de 'beste'. Het is een bibliotheekvraag, geen aanbeveling.\n" +
   "- Gebruik uitsluitend de meegeleverde lijst. Verzin nooit een bedrijf dat er niet in staat.\n" +
   "- Gebruik voor elke referentie exact de waarde van het 'naam'-veld zoals die in de data staat.\n" +
   "- Geef per referentie een korte, feitelijke beschrijving (max 1 zin) en 1 tot 2 korte redenen waarom ze op de vraag past.\n" +
@@ -4097,8 +4352,24 @@ const OFFLINE_SOLUTION_PHRASES = [
   ["successfactors", "successfactors"], ["talent management", "successfactors"], ["recruitment", "successfactors"], ["onboarding", "successfactors"],
   ["concur", "concur"], ["reiskosten", "concur"], ["onkosten", "concur"],
   ["business technology platform", "btp"], ["signavio", "btp"], ["leanix", "btp"],
+  // Deze ontbraken, en dat was de oorzaak van het probleem: vroeg je "transport ERP",
+  // dan werd "erp" NERGENS herkend als oplossing (alleen "sap erp" en "erp-systeem"
+  // stonden er). Er werd dus enkel op sector gematcht, en je kreeg BW-klanten terug
+  // op een ERP-vraag.
+  ["business data cloud", "bdc"], ["datasphere", "bdc"], ["datawarehouse", "bdc"],
+  ["data warehouse", "bdc"], ["rapportering", "bdc"], ["analytics", "bdc"],
+  ["sap cx", "cx"], ["customer experience", "cx"], ["klantbeheer", "cx"],
+  ["supply chain", "ibp"], ["integrated business planning", "ibp"],
 ];
-const OFFLINE_SOLUTION_WORDS = [["ecc", "s4hana"], ["rise", "s4hana"], ["hcm", "successfactors"], ["btp", "btp"], ["expense", "concur"]];
+// Losse woorden. "erp", "bw", "bi", "crm" en "hr" ontbraken hier volledig.
+const OFFLINE_SOLUTION_WORDS = [
+  ["ecc", "s4hana"], ["rise", "s4hana"], ["erp", "s4hana"], ["s4", "s4hana"],
+  ["hcm", "successfactors"], ["successfactors", "successfactors"],
+  ["btp", "btp"], ["expense", "concur"], ["concur", "concur"],
+  ["bw", "bdc"], ["bi", "bdc"], ["bdc", "bdc"], ["sac", "bdc"],
+  ["cx", "cx"],
+  ["ibp", "ibp"],
+];
 
 const OFFLINE_NEED_EXTRA_PHRASES = [
   ["planning", "supplychain"], ["productieplanning", "supplychain"], ["voorspelling", "supplychain"], ["voorraad", "supplychain"], ["productie", "supplychain"],
@@ -4196,6 +4467,22 @@ function offlineMatchReferenties(query) {
       return s ? s.label : oId;
     });
 
+    // HARDE EISEN, GEEN SCOREBONUS. Noemt de verkoper een sector EN een oplossing,
+    // dan moeten ze ALLEBEI kloppen. Vroeger waren het scorebonussen (+5 sector,
+    // +4 oplossing), zodat een sterke treffer op de ene as een ontbrekende andere as
+    // kon overstemmen. Dat gaf twee soorten onzin:
+    //   "transport ERP" -> BW-klanten in transport (sector ok, oplossing niet)
+    //   "voeding ERP"   -> chemieklanten met ERP   (oplossing ok, sector niet)
+    const gevraagdeOplossingen = new Set(impliedSolutions);
+    impliedNeeds.forEach(function(needId) {
+      (NEED_TO_SOLUTIONS[needId] || []).forEach(function(sId) { gevraagdeOplossingen.add(sId); });
+    });
+    if (gevraagdeOplossingen.size > 0) {
+      const heeftPassende = r.oplossingen.some(function(oId) { return gevraagdeOplossingen.has(oId); });
+      if (!heeftPassende) return null;
+    }
+    if (impliedSectors.size > 0 && !impliedSectors.has(sector.id)) return null;
+
     if (impliedSectors.has(sector.id)) {
       score += 5;
       reasons.push("Actief in de sector " + sector.label.toLowerCase());
@@ -4250,10 +4537,40 @@ function offlineMatchReferenties(query) {
     return { r: r, score: score, reasons: uniqueReasons, relatedCases: relatedCases };
   });
 
-  const matched = scored.filter(function(s) { return s.score >= 3; }).sort(function(a, b) { return b.score - a.score; }).slice(0, 6);
+  const matched = scored
+    .filter(function(s) { return s && s.score >= 3; })
+    .sort(function(a, b) { return b.score - a.score; })
+    .slice(0, 6);
 
   if (matched.length === 0) {
-    return { matches: [], geenGoedeMatch: true, suggestie: null };
+    // Zeg WAAROM er niets is. "Geen resultaten" laat de verkoper in het ongewisse;
+    // "geen ERP-klanten in transport, wel BTP" is bruikbaar.
+    let uitleg = null;
+    const gevraagd = new Set(impliedSolutions);
+    impliedNeeds.forEach(function(needId) {
+      (NEED_TO_SOLUTIONS[needId] || []).forEach(function(sId) { gevraagd.add(sId); });
+    });
+
+    if (gevraagd.size > 0 && impliedSectors.size > 0) {
+      const solNamen = Array.from(gevraagd).map(function(id) {
+        const s = SOLUTIONS.find(function(x) { return x.id === id; });
+        return s ? s.label : id;
+      }).join(" of ");
+      // Wat draaien die sectorklanten dan WEL?
+      const inSector = REFS.filter(function(r) { return impliedSectors.has(sectorFor(r.industrie).id); });
+      const andere = Array.from(new Set(inSector.flatMap(function(r) {
+        return r.oplossingen.map(function(id) {
+          const s = SOLUTIONS.find(function(x) { return x.id === id; });
+          return s ? s.label : id;
+        });
+      })));
+      uitleg = "Geen klanten met " + solNamen + " in deze sector.";
+      if (inSector.length > 0 && andere.length > 0) {
+        uitleg += " Wel " + inSector.length + " klant" + (inSector.length === 1 ? "" : "en") +
+          " in die sector, maar met: " + andere.join(", ") + ".";
+      }
+    }
+    return { matches: [], geenGoedeMatch: true, suggestie: uitleg };
   }
 
   return {
@@ -5257,7 +5574,24 @@ window.copyCallRowForCRM = function(id) {
     // notitie toevallig een woord als "wil" (bv. "wil er niets mee te maken hebben").
     opportuniteitLine = "Geen opportuniteit — prospect gaf aan geen interesse te hebben.";
   } else if (cleaned && cleaned.solutions.length > 0) {
-    opportuniteitLine = "Interesse in " + cleaned.solutions.join(", ") + ".";
+    // Een genoemde oplossing betekent NIET automatisch "interesse". Staat er ook
+    // een concurrent bij ("doen al SuccessFactors met Delaware"), of een "hebben
+    // al"-formulering, dan draaien ze het al — bij een ander. Dat is het
+    // tegenovergestelde van een nieuwe opportuniteit: het is een mogelijke
+    // OVERNAME, en een heel ander gesprek. Dat als "interesse" samenvatten is fout.
+    const lower = (row.liveNotes || "").toLowerCase();
+    const alHebben = /\b(al|reeds|gebruiken|draaien|hebben|werken met|via|door|geïmplementeerd|implementatie|bezig met)\b/.test(lower);
+    const bijConcurrent = (cleaned.competitors || []).length > 0;
+
+    if (bijConcurrent) {
+      opportuniteitLine = "Draait al " + cleaned.solutions.join(", ") + " via " +
+        cleaned.competitors.join(", ") + " (concurrent) — mogelijke overname bij ontevredenheid.";
+    } else if (alHebben) {
+      opportuniteitLine = "Draait al " + cleaned.solutions.join(", ") +
+        " — uitvragen of ze tevreden zijn en wie het implementeerde.";
+    } else {
+      opportuniteitLine = "Interesse in " + cleaned.solutions.join(", ") + ".";
+    }
   } else {
     opportuniteitLine = findBulletWithKeyword_(bullets, opportuniteitKeywords);
   }
@@ -6578,9 +6912,10 @@ function renderEchteReferenties() {
     ICP_ERP.referenties[prod].forEach(function(naam) {
       const d = refDetails_(naam);
       const notitie = ICP_ERP.referentieNotities[naam];
-      // Wie is dit bedrijf? Uit REFS als Flexso het zelf heeft opgeschreven,
-      // anders de sector — nooit een verzonnen omschrijving.
-      const wie = d && d.beschrijving ? d.beschrijving : (d && d.industrie ? d.industrie : "");
+      // Wie is dit bedrijf? Eerst wat Flexso zelf schreef, dan wat opgezocht is,
+      // anders de sector. Nooit een verzonnen omschrijving.
+      const o = omschrijvingVoor_(naam);
+      const wie = o ? o.tekst : (d && d.industrie ? d.industrie : "");
       const omvang = d && d.medewerkers ? d.medewerkers + " mw" : "";
 
       html += '<div class="echte-ref-kaart">' +
@@ -6658,25 +6993,39 @@ function renderReferentiesPanel() {
   }
   document.getElementById("resultsBlock").innerHTML = gridHtml;
 
-  // Laad Google favicon logo's asynchroon na render
+  // Laad de logo's asynchroon na render. Per klant staan er meerdere kandidaat-
+  // domeinen klaar (gescheiden door |); we proberen ze een voor een.
+  //
+  // Let op de groottecontrole: kent Google het domein niet, dan geeft het TOCH een
+  // afbeelding terug — een grijze wereldbol van 16x16. Die laadt netjes, dus
+  // img.onload vuurt en je zou denken dat het gelukt is. Vandaar dat we de
+  // breedte checken: is ze 16px of kleiner, dan is het de placeholder en gaan we
+  // door naar het volgende domein.
   setTimeout(function() {
     document.querySelectorAll('.avatar[data-logo]').forEach(function(el) {
-      var url = el.getAttribute('data-logo');
-      if (!url) return;
-      var img = new Image();
-      img.onload = function() {
-        el.innerHTML = '';
-        el.style.background = '#f8fafc';
-        el.style.border = '1px solid #e2e8f0';
-        el.style.padding = '0';
-        el.style.overflow = 'hidden';
-        el.style.display = 'flex';
-        el.style.alignItems = 'center';
-        el.style.justifyContent = 'center';
-        img.style.cssText = 'width:28px;height:28px;object-fit:contain';
-        el.appendChild(img);
+      const urls = (el.getAttribute('data-logo') || '').split('|').filter(Boolean);
+      if (urls.length === 0) return;
+
+      const probeer = function(i) {
+        if (i >= urls.length) return;              // niets gevonden: initialen blijven
+        const img = new Image();
+        img.onload = function() {
+          if (img.naturalWidth <= 16) { probeer(i + 1); return; }   // Google's lege bol
+          el.innerHTML = '';
+          el.style.background = '#f8fafc';
+          el.style.border = '1px solid #e2e8f0';
+          el.style.padding = '0';
+          el.style.overflow = 'hidden';
+          el.style.display = 'flex';
+          el.style.alignItems = 'center';
+          el.style.justifyContent = 'center';
+          img.style.cssText = 'width:28px;height:28px;object-fit:contain';
+          el.appendChild(img);
+        };
+        img.onerror = function() { probeer(i + 1); };
+        img.src = urls[i];
       };
-      img.src = url;
+      probeer(0);
     });
   }, 100);
 }
@@ -6992,55 +7341,7 @@ function callRowHtml(r, showRestore) {
     // in hun eigen werkruimte: bel je koud over S/4HANA, dan is een ontbrekende
     // payroll-kolom niet je gesprek.
     if (state.activeWorkspace === "blindspots") {
-      const gaten = findBlindSpots(r);
-      const beantwoord = r.blindAnswers || {};
-      const openGaten = gaten.filter(function(k) { return !beantwoord[k]; });
-
-      if (gaten.length > 0) {
-        html += '<div class="blind-spots">';
-        if (openGaten.length > 0) {
-          // MAX 3 TEGELIJK. Sinds lege cellen ook als gat tellen, kan een Excel met
-          // 15 kolommen er zo 8 opleveren — per bedrijf. Dat leest niemand, en het
-          // échte gat verdrinkt in de ruis. In één telefoontje vraag je er toch geen
-          // acht uit. De rest staat één klik verder.
-          const uitgeklapt = state.blindExpanded === r._id;
-          const tonen = uitgeklapt ? openGaten : openGaten.slice(0, 3);
-          const rest = openGaten.length - tonen.length;
-
-          html += '<div class="blind-label">❓ Informeren (' + openGaten.length + ')</div>';
-          html += tonen.map(function(k) {
-            const veldId = "blindInput-" + r._id + "-" + k.replace(/[^a-z0-9]/gi, "_");
-            return '<div class="blind-row">' +
-              '<span class="blind-tag">' + esc(k) + '</span>' +
-              '<input type="text" id="' + veldId + '" class="blind-input" placeholder="Antwoord..." ' +
-              'onkeydown="if(event.key===\'Enter\'){saveBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\',this.value)}">' +
-              '<button class="blind-save" onclick="saveBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\',document.getElementById(\'' + veldId + '\').value)">✓</button>' +
-              '</div>';
-          }).join('');
-
-          if (rest > 0) {
-            html += '<button class="blind-meer" onclick="toonMeerBlindSpots(' + r._id + ')">+ ' + rest +
-              ' ander' + (rest === 1 ? '' : 'e') + ' tonen</button>';
-          } else if (uitgeklapt && openGaten.length > 3) {
-            html += '<button class="blind-meer" onclick="toonMeerBlindSpots(' + r._id + ')">− Minder tonen</button>';
-          }
-        }
-        // Al beantwoorde kolommen tonen als afgevinkt, met de kans om te corrigeren.
-        const beantwoordeKeys = gaten.filter(function(k) { return beantwoord[k]; });
-        if (beantwoordeKeys.length > 0) {
-          html += '<div class="blind-done-list">' + beantwoordeKeys.map(function(k) {
-            return '<div class="blind-done-item">✓ <strong>' + esc(k) + ':</strong> ' + esc(beantwoord[k]) +
-              ' <span class="blind-undo" onclick="undoBlindAnswer(' + r._id + ',\'' + esc(k).replace(/'/g, "\\'") + '\')">wijzig</span></div>';
-          }).join('') + '</div>';
-        }
-        html += '</div>';
-      } else {
-        html += '<div class="blind-ok">✓ Geen ontbrekende velden</div>';
-      }
-
-      // Wat we al weten: de kolommen waar WEL een waarde in staat. Die info kan
-      // verouderd of fout zijn, dus elk veld is ter plekke corrigeerbaar.
-      html += renderKnownFields(r);
+      html += renderLandschapTabel(r);
     }
 
     if (state.activeWorkspace === "coldcall") {
@@ -7467,6 +7768,79 @@ function findKnownFields(row) {
     });
   });
   return velden;
+}
+
+// ─── HUIDIG LANDSCHAP ALS ÉÉN TABEL ────────────────────────────────────────
+// De vroegere weergave had twee losse blokken ("Informeren" + "Huidig landschap")
+// die visueel rommelig waren. Dit is één nette tabel, zoals in de Excel: elk
+// systeem een rij, de waarde ernaast. Bekend = ingevuld (corrigeerbaar), onbekend
+// = een invulveld. Zo zie je in één oogopslag wat je al weet en wat nog een gat is.
+function renderLandschapTabel(r) {
+  const raw = r.raw || {};
+  const beantwoord = r.blindAnswers || {};
+  const correcties = r.knownCorrections || {};
+
+  // Alle systeem-/landschapskolommen (firmografie zoals sector/omzet valt weg).
+  const kolommen = Object.keys(raw).filter(function(k) { return !isKnownSkipKolom_(k); });
+  if (kolommen.length === 0) return "";
+
+  // Sorteren op belang: ERP/CRM/HR eerst, randtools achteraan — zelfde logica als
+  // de blind-spot-prioriteit, zodat het gesprek bovenaan begint.
+  kolommen.sort(function(a, b) { return blindPrioriteit_(a) - blindPrioriteit_(b); });
+
+  // Per kolom bepalen: is het bekend, gecorrigeerd, net beantwoord, of nog een gat?
+  const rijen = kolommen.map(function(k) {
+    if (beantwoord[k]) return { kolom: k, status: "beantwoord", waarde: beantwoord[k] };
+    if (Object.prototype.hasOwnProperty.call(correcties, k)) {
+      return { kolom: k, status: "gecorrigeerd", waarde: correcties[k], origineel: String(raw[k] || "").trim() };
+    }
+    if (isOnbekendeWaarde_(raw[k])) return { kolom: k, status: "gat" };
+    return { kolom: k, status: "bekend", waarde: String(raw[k]).trim() };
+  });
+
+  const gaten = rijen.filter(function(x) { return x.status === "gat"; });
+  const ingevuld = rijen.filter(function(x) { return x.status !== "gat"; });
+
+  let html = '<div class="ls-tabel">';
+  html += '<div class="ls-tabel-kop">🗂️ Huidig landschap' +
+    (gaten.length ? ' · <span class="ls-gaten-teller">' + gaten.length + ' nog uit te vragen</span>' : ' · <span class="ls-compleet">compleet</span>') +
+    '</div>';
+
+  html += '<div class="ls-tabel-body">';
+  rijen.forEach(function(x) {
+    const veldId = "ls-" + r._id + "-" + x.kolom.replace(/[^a-z0-9]/gi, "_");
+    const kolomArg = "'" + esc(x.kolom).replace(/'/g, "\\'") + "'";
+
+    html += '<div class="ls-rij ls-' + x.status + '">';
+    html += '<div class="ls-systeem">' + esc(x.kolom) + '</div>';
+    html += '<div class="ls-waarde">';
+
+    if (x.status === "gat") {
+      // Nog onbekend: invulveld. Enter of ✓ slaat op.
+      html += '<input type="text" id="' + veldId + '" class="ls-input" placeholder="? — uitvragen" ' +
+        'onkeydown="if(event.key===\'Enter\'){saveBlindAnswer(' + r._id + ',' + kolomArg + ',this.value)}">' +
+        '<button class="ls-save" onclick="saveBlindAnswer(' + r._id + ',' + kolomArg + ',document.getElementById(\'' + veldId + '\').value)">✓</button>';
+    } else if (x.status === "beantwoord") {
+      html += '<span class="ls-tekst ls-nieuw">' + esc(x.waarde) + '</span>' +
+        '<span class="ls-nieuw-badge">tijdens gesprek</span>' +
+        '<span class="ls-wijzig" onclick="undoBlindAnswer(' + r._id + ',' + kolomArg + ')">wijzig</span>';
+    } else if (x.status === "gecorrigeerd") {
+      html += '<input type="text" id="' + veldId + '" class="ls-input-inline aangepast" value="' + esc(x.waarde) + '" ' +
+        'onkeydown="if(event.key===\'Enter\'){saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)}" ' +
+        'onblur="saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)">' +
+        '<span class="ls-was" title="Stond in het bestand">was: ' + esc(x.origineel || "leeg") + '</span>' +
+        '<span class="ls-wijzig" onclick="undoKnownCorrection(' + r._id + ',' + kolomArg + ')">herstel</span>';
+    } else {
+      // Bekend: toon de waarde, maar corrigeerbaar (data kan verouderd zijn).
+      html += '<input type="text" id="' + veldId + '" class="ls-input-inline" value="' + esc(x.waarde) + '" ' +
+        'onkeydown="if(event.key===\'Enter\'){saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)}" ' +
+        'onblur="saveKnownCorrection(' + r._id + ',' + kolomArg + ',this.value)">';
+    }
+
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+  return html;
 }
 
 function renderKnownFields(r) {
@@ -8701,6 +9075,292 @@ function renderCallSettingsHtml() {
 // Bewust GEEN mails versturen: deze app draait in een browsertab, er is geen
 // server die kan mailen of pushen. Wat we wél kunnen: een takenlijst die zegt
 // wat er vandaag moet gebeuren. Jij voert het uit, Lewis vergeet het niet.
+// ─── OMSCHRIJVINGEN VAN KLANTEN AANVULLEN ──────────────────────────────────
+// Van de 178 echte klanten heeft Flexso er maar 35 zelf omschreven. Voor de rest
+// weten we wel de sector en de omvang, maar niet WIE het bedrijf is — en dat is
+// net wat je aan de telefoon nodig hebt ("Serax? Dat is die designservies-speler").
+//
+// Ik vul die NIET uit mijn eigen kennis in: voor bekende namen zou dat lukken,
+// maar voor de kleinere zou ik vlot klinkende onzin schrijven die een verkoper
+// vervolgens uitspreekt. Daarom zoekt de app het op, mét bronvermelding, en blijft
+// elk veld bewerkbaar zodat een collega kan corrigeren.
+const OMSCHRIJVING_KEY = "lewis_omschrijvingen";
+
+function getOmschrijvingen_() {
+  try {
+    const raw = localStorage.getItem(OMSCHRIJVING_KEY);
+    const d = raw ? JSON.parse(raw) : null;
+    return (d && d.items) ? d.items : {};
+  } catch (e) { return {}; }
+}
+
+function saveOmschrijvingen_(items) {
+  try { localStorage.setItem(OMSCHRIJVING_KEY, JSON.stringify({ items: items })); } catch (e) {}
+}
+
+// De omschrijving van een klant: eerst wat Flexso zelf schreef (REFS), dan wat
+// opgezocht/gecorrigeerd is, anders leeg.
+function omschrijvingVoor_(naam) {
+  const d = refDetails_(naam);
+  if (d && d.beschrijving) return { tekst: d.beschrijving, bron: "Flexso", vast: true };
+  const items = getOmschrijvingen_();
+  const eigen = items[normBedrijf_(naam)];
+  if (eigen && eigen.tekst) return eigen;
+  return null;
+}
+
+function ontbrekendeOmschrijvingen_() {
+  const items = getOmschrijvingen_();
+  return REFS.filter(function(r) {
+    if (r.beschrijving) return false;               // Flexso heeft er al een
+    const e = items[normBedrijf_(r.naam)];
+    return !(e && e.tekst);                          // nog niet opgezocht
+  });
+}
+
+const OMSCHRIJVING_PROMPT =
+  "Je zoekt op wat een bedrijf DOET, zodat een verkoper het in één zin kan plaatsen.\n\n" +
+  "REGELS:\n" +
+  "- Zoek op het web. Baseer je UITSLUITEND op wat je vindt.\n" +
+  "- Eén zin, maximaal 20 woorden. Wat maakt of verkoopt dit bedrijf, aan wie?\n" +
+  "- Geen marketingtaal ('toonaangevende speler', 'innovatieve oplossingen'). Gewoon: wat doen ze.\n" +
+  "- Vind je het bedrijf NIET met zekerheid, of twijfel je of het om hetzelfde bedrijf gaat? " +
+  "Zet dan gevonden op false. Dat is een NUTTIG antwoord — een verkoper die een verzonnen " +
+  "omschrijving uitspreekt aan de telefoon, staat voor schut. Liever leeg dan fout.\n" +
+  "- Geef altijd de bron (de website of pagina waar je het vond).\n\n" +
+  "Antwoord uitsluitend met geldige JSON, zonder markdown:\n" +
+  "{\"gevonden\": boolean, \"omschrijving\": string, \"bron\": string}";
+
+window.startOmschrijvingen = function() {
+  const teDoen = ontbrekendeOmschrijvingen_();
+  if (teDoen.length === 0) return;
+  if (!confirm("Lewis zoekt nu " + teDoen.length + " bedrijfsomschrijvingen op.\n\n" +
+    "Dit kost ongeveer " + teDoen.length + " API-aanroepen en duurt enkele minuten. " +
+    "Je hoeft dit maar één keer te doen — daarna kan je het resultaat exporteren en delen.\n\nDoorgaan?")) return;
+
+  state.omschrijvingBezig = true;
+  state.omschrijvingVoortgang = { gedaan: 0, totaal: teDoen.length, huidig: "" };
+  render();
+  verwerkVolgendeOmschrijving_(teDoen, 0);
+};
+
+function verwerkVolgendeOmschrijving_(lijst, i) {
+  if (!state.omschrijvingBezig || i >= lijst.length) {
+    state.omschrijvingBezig = false;
+    state.callSavedListsMsg = "Klaar: " + i + " bedrijven opgezocht.";
+    render();
+    setTimeout(function() { state.callSavedListsMsg = null; render(); }, 4000);
+    return;
+  }
+
+  const r = lijst[i];
+  state.omschrijvingVoortgang = { gedaan: i, totaal: lijst.length, huidig: r.naam };
+  render();
+
+  const context = {
+    bedrijf: r.naam,
+    // Sector en land meegeven zodat het model het JUISTE bedrijf vindt: er zijn
+    // meerdere bedrijven die "Delta" heten.
+    sector: r.industrie || null,
+    land: r.land || null,
+    medewerkers: r.medewerkers || null,
+  };
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function() { controller.abort(); }, 60000);
+
+  fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal: controller.signal,
+    body: JSON.stringify({
+      model: "claude-sonnet-4-5",
+      max_tokens: 600,
+      system: OMSCHRIJVING_PROMPT,
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+      messages: [{ role: "user", content: JSON.stringify(context) }]
+    })
+  })
+  .then(function(res) {
+    if (!res.ok) { const e = new Error("http"); e.status = res.status; throw e; }
+    return res.json();
+  })
+  .then(function(data) {
+    const text = (data.content || []).filter(function(b) { return b.type === "text"; })
+      .map(function(b) { return b.text || ""; }).join("");
+    const clean = text.replace(/```json|```/g, "").trim();
+    let p;
+    try { p = JSON.parse(clean); }
+    catch (e) {
+      const mm = clean.match(/\{[\s\S]*\}/);
+      p = mm ? JSON.parse(mm[0]) : null;
+    }
+
+    const items = getOmschrijvingen_();
+    if (p && p.gevonden && p.omschrijving) {
+      items[normBedrijf_(r.naam)] = {
+        tekst: String(p.omschrijving).trim(),
+        bron: String(p.bron || "").trim(),
+        opgezocht: true,
+      };
+    } else {
+      // Expliciet vastleggen dat er GEZOCHT is en niets gevonden. Anders zoekt
+      // een volgende ronde dit bedrijf eindeloos opnieuw op.
+      items[normBedrijf_(r.naam)] = { tekst: "", bron: "", nietGevonden: true };
+    }
+    saveOmschrijvingen_(items);
+  })
+  .catch(function(e) {
+    // Eén mislukking mag de hele reeks niet stoppen: gewoon door.
+    console.warn("omschrijving mislukt voor", r.naam, e);
+  })
+  .finally(function() {
+    clearTimeout(timeoutId);
+    setTimeout(function() { verwerkVolgendeOmschrijving_(lijst, i + 1); }, 900);
+  });
+}
+
+window.stopOmschrijvingen = function() {
+  state.omschrijvingBezig = false;
+  render();
+};
+
+window.bewerkOmschrijving = function(naam) {
+  state.omschrijvingBewerkt = naam;
+  render();
+};
+
+window.bewaarOmschrijving = function(naam) {
+  const el = document.getElementById("omschrijvingInput");
+  if (!el) return;
+  const items = getOmschrijvingen_();
+  const tekst = el.value.trim();
+  if (tekst) {
+    items[normBedrijf_(naam)] = { tekst: tekst, bron: "handmatig ingevuld", handmatig: true };
+  } else {
+    delete items[normBedrijf_(naam)];
+  }
+  saveOmschrijvingen_(items);
+  state.omschrijvingBewerkt = null;
+  render();
+};
+
+// EXPORT: localStorage is per browser, dus je collega's zien jouw opgezochte
+// omschrijvingen niet — ook niet als de app op Vercel staat. Met deze export kan
+// één iemand het werk doen en het resultaat delen.
+window.exporteerOmschrijvingen = function() {
+  const items = getOmschrijvingen_();
+  const rijen = [];
+  REFS.forEach(function(r) {
+    const o = omschrijvingVoor_(r.naam);
+    if (o && o.tekst) rijen.push({ naam: r.naam, omschrijving: o.tekst, bron: o.bron || "" });
+  });
+  const blob = new Blob([JSON.stringify(rijen, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "lewis-omschrijvingen.json";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+window.importeerOmschrijvingen = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const rijen = JSON.parse(e.target.result);
+      if (!Array.isArray(rijen)) throw new Error("geen lijst");
+      const items = getOmschrijvingen_();
+      let n = 0;
+      rijen.forEach(function(r) {
+        if (!r.naam || !r.omschrijving) return;
+        items[normBedrijf_(r.naam)] = { tekst: r.omschrijving, bron: r.bron || "geïmporteerd" };
+        n++;
+      });
+      saveOmschrijvingen_(items);
+      state.callSavedListsMsg = n + " omschrijvingen ingelezen.";
+      render();
+      setTimeout(function() { state.callSavedListsMsg = null; render(); }, 3000);
+    } catch (err) {
+      alert("Kon het bestand niet lezen: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+};
+
+function renderOmschrijvingenInhoud() {
+  const ontbreekt = ontbrekendeOmschrijvingen_();
+  const items = getOmschrijvingen_();
+  const opgezocht = Object.keys(items).filter(function(k) { return items[k].tekst; }).length;
+  const nietGevonden = Object.keys(items).filter(function(k) { return items[k].nietGevonden; }).length;
+  const vanFlexso = REFS.filter(function(r) { return r.beschrijving; }).length;
+
+  let html = '<div class="db-tekst">Wie is dit bedrijf? Bij ' + vanFlexso + ' klanten heeft Flexso dat zelf ' +
+    'opgeschreven. De rest zoekt Lewis op via het web, mét bronvermelding — en laat leeg wat hij niet ' +
+    'met zekerheid vindt.</div>';
+
+  html += '<div class="oms-tellers">' +
+    '<span class="oms-teller">✅ ' + (vanFlexso + opgezocht) + ' bekend</span>' +
+    '<span class="oms-teller">❔ ' + ontbreekt.length + ' te doen</span>' +
+    (nietGevonden ? '<span class="oms-teller">🔍 ' + nietGevonden + ' niet gevonden</span>' : '') +
+    '</div>';
+
+  if (state.omschrijvingBezig) {
+    const v = state.omschrijvingVoortgang || { gedaan: 0, totaal: 0, huidig: "" };
+    const pct = v.totaal ? Math.round((v.gedaan / v.totaal) * 100) : 0;
+    html += '<div class="oms-voortgang">' +
+      '<div class="ls-meter-balk"><div class="ls-meter-vul" style="width:' + pct + '%"></div></div>' +
+      '<div class="oms-voortgang-tekst">' + v.gedaan + ' / ' + v.totaal + ' — bezig met <strong>' +
+      esc(v.huidig) + '</strong></div></div>';
+    html += '<button class="db-actie db-gevaar" onclick="stopOmschrijvingen()">Stoppen</button>';
+    return html;
+  }
+
+  if (ontbreekt.length > 0) {
+    html += '<button class="db-actie" onclick="startOmschrijvingen()">🔍 Zoek ' + ontbreekt.length +
+      ' ontbrekende omschrijvingen op</button>';
+  }
+  html += '<button class="db-actie db-gevaar" onclick="exporteerOmschrijvingen()">⬇ Exporteren</button>';
+  html += '<label class="db-actie db-gevaar" style="cursor:pointer">⬆ Importeren' +
+    '<input type="file" accept=".json" onchange="importeerOmschrijvingen(event)" style="display:none"></label>';
+
+  // De lijst zelf, bewerkbaar — want de AI kan zich vergissen en een collega
+  // die de klant kent, moet dat kunnen rechtzetten.
+  html += '<div class="oms-lijst">';
+  REFS.slice().sort(function(a, b) { return a.naam.localeCompare(b.naam); }).forEach(function(r) {
+    const o = omschrijvingVoor_(r.naam);
+    const eigen = items[normBedrijf_(r.naam)];
+    const bezig = state.omschrijvingBewerkt === r.naam;
+
+    html += '<div class="oms-rij">';
+    html += '<div class="oms-naam">' + esc(r.naam) +
+      '<span class="oms-sector">' + esc(r.industrie || "") + '</span></div>';
+
+    if (bezig) {
+      html += '<textarea id="omschrijvingInput" class="db-textarea" rows="2">' +
+        esc(o ? o.tekst : "") + '</textarea>';
+      html += '<button class="oms-btn" onclick="bewaarOmschrijving(\'' + esc(r.naam).replace(/'/g, "\\'") + '\')">Bewaren</button>';
+    } else if (o && o.tekst) {
+      html += '<div class="oms-tekst">' + esc(o.tekst) + '</div>';
+      html += '<div class="oms-bron">' + (o.vast ? 'via Flexso' : 'bron: ' + esc(o.bron || "onbekend")) +
+        ' · <button class="oms-link" onclick="bewerkOmschrijving(\'' + esc(r.naam).replace(/'/g, "\\'") + '\')">bewerken</button></div>';
+    } else if (eigen && eigen.nietGevonden) {
+      html += '<div class="oms-leeg">Niet gevonden — ' +
+        '<button class="oms-link" onclick="bewerkOmschrijving(\'' + esc(r.naam).replace(/'/g, "\\'") + '\')">zelf invullen</button></div>';
+    } else {
+      html += '<div class="oms-leeg">Nog niet opgezocht — ' +
+        '<button class="oms-link" onclick="bewerkOmschrijving(\'' + esc(r.naam).replace(/'/g, "\\'") + '\')">zelf invullen</button></div>';
+    }
+    html += '</div>';
+  });
+  html += '</div>';
+
+  return html;
+}
+
 const NURTURE_KEY = "lewis_nurture";
 
 function getNurtures_() {
@@ -9141,19 +9801,23 @@ function renderNurtureDialog() {
 const DATABRONNEN = [
   { id: "leadinfo", label: "👀 Websitebezoekers", uitleg: "Wie was er op onze site?" },
   { id: "agenda", label: "🎟️ Evenementenagenda", uitleg: "Welke events kan je voorstellen?" },
+  { id: "omschrijvingen", label: "🏢 Klantomschrijvingen", uitleg: "Wie is elk van onze 178 referenties?" },
   { id: "lijsten", label: "📋 Opgeslagen lijsten", uitleg: "Bewaren en samenvoegen met collega's." },
   { id: "filters", label: "⚙️ Concurrenten & filters", uitleg: "Wie moet uit je lijst gefilterd worden?" },
 ];
 
 function databronStatus_() {
   const li = getLeadinfo_();
-  const ag = getEventAgenda_();
   const lijsten = getAlleSavedLists_();
+  const bekend = REFS.filter(function(r) {
+    return r.beschrijving || (omschrijvingVoor_(r.naam) || {}).tekst;
+  }).length;
   return {
     leadinfo: li ? li.bezoekers.length : 0,
     agenda: komendeEvents_().length,
+    omschrijvingen: bekend,
     lijsten: lijsten.length,
-    filters: 1,   // altijd ingesteld (defaults)
+    filters: 1,
   };
 }
 
@@ -9201,6 +9865,7 @@ function renderDatabronnen() {
   html += '<div class="db-inhoud">';
   if (tab === "leadinfo") html += renderLeadinfoInhoud();
   else if (tab === "agenda") html += renderAgendaInhoud();
+  else if (tab === "omschrijvingen") html += renderOmschrijvingenInhoud();
   else if (tab === "lijsten") html += renderLijstenInhoud();
   else if (tab === "filters") html += renderFiltersInhoud();
   html += '</div></div>';
@@ -10130,7 +10795,6 @@ function renderScriptModal() {
     return;
   }
 
-  const s = buildReasonScript();
   const ev = state.eventStructured;
   const isEvent = state.activeWorkspace === "event";
 
@@ -10139,6 +10803,45 @@ function renderScriptModal() {
     '<button class="script-modal-sluit" onclick="toggleScript()">✕</button>' +
     '</div>';
   html += '<div class="script-modal-body">';
+
+  const eigen = getEigenScript_();
+
+  // BEWERKMODUS: één groot tekstveld. Bewust simpel gehouden — je wil aan de
+  // telefoon snel iets kunnen aanpassen, geen formulier met tien velden.
+  if (state.scriptBewerkt) {
+    const huidig = eigen != null ? eigen : scriptAlsTekst_(buildReasonScript());
+    html += '<div class="script-bewerk-uitleg">Pas het script aan naar je eigen woorden. Dit wordt bewaard voor ' +
+      (isEvent ? "de evenementen-werkruimte" : state.coldTopic ? state.coldTopic : "deze werkruimte") + '.</div>';
+    html += '<textarea id="scriptEditInput" class="script-edit">' + esc(huidig) + '</textarea>';
+    html += '<div class="script-knoppen">' +
+      '<button class="db-actie" onclick="bewaarEigenScript()">✓ Opslaan</button>' +
+      '<button class="db-actie db-gevaar" onclick="annuleerScriptBewerk()">Annuleren</button>' +
+      '</div>';
+    html += '</div>';
+    el.innerHTML = html;
+    el.style.display = "flex";
+    return;
+  }
+
+  // WEERGAVE. Heb je een eigen versie opgeslagen? Toon die. Anders het gegenereerde.
+  html += '<div class="script-knoppen script-knoppen-top">';
+  html += '<button class="script-mini-btn" onclick="startScriptBewerk()">✎ Bewerken</button>';
+  if (eigen != null) {
+    html += '<button class="script-mini-btn" onclick="herstelScript()" title="Terug naar het automatische script">↻ Herstel automatisch</button>';
+  }
+  html += '</div>';
+
+  if (eigen != null) {
+    // Je eigen tekst, letterlijk zoals je ze schreef.
+    html += '<div class="script-eigen-badge">✎ Jouw eigen versie</div>';
+    html += '<div class="script-eigen-tekst">' + esc(eigen).replace(/\n/g, "<br>") + '</div>';
+    html += '</div>';
+    el.innerHTML = html;
+    el.style.display = "flex";
+    return;
+  }
+
+  const s = buildReasonScript();
 
   if (isEvent && !ev) {
     html += '<div class="script-warn">Nog geen evenement geladen — het script gebruikt algemene formuleringen.</div>';
@@ -10165,6 +10868,66 @@ function renderScriptModal() {
   el.innerHTML = html;
   el.style.display = "flex";
 }
+
+// Eigen scripts worden per werkruimte+topic bewaard: je S/4HANA-script is een
+// ander gesprek dan je SuccessFactors- of evenementenscript.
+const EIGEN_SCRIPT_KEY = "lewis_eigen_scripts";
+
+function scriptSleutel_() {
+  if (state.activeWorkspace === "event") return "event";
+  if (state.activeWorkspace === "coldcall") return "coldcall:" + (state.coldTopic || "algemeen");
+  return state.activeWorkspace || "algemeen";
+}
+
+function getEigenScript_() {
+  try {
+    const raw = localStorage.getItem(EIGEN_SCRIPT_KEY);
+    const d = raw ? JSON.parse(raw) : {};
+    const v = d[scriptSleutel_()];
+    return (typeof v === "string") ? v : null;
+  } catch (e) { return null; }
+}
+
+// Het gegenereerde script omzetten naar platte tekst als startpunt voor bewerken.
+function scriptAlsTekst_(s) {
+  let t = "OPENING\n" + s.opening + "\n\n";
+  s.blokken.forEach(function(b) {
+    t += b.label.toUpperCase() + "\n" + b.lijnen.map(function(l) { return "- " + l; }).join("\n") + "\n\n";
+  });
+  t += "AFHANKELIJK VAN HET ANTWOORD\n";
+  s.reacties.forEach(function(r) { t += "· " + r.situatie + ": " + r.antwoord + "\n"; });
+  t += "\nAFSLUITER\n" + s.afsluiter;
+  return t;
+}
+
+window.startScriptBewerk = function() { state.scriptBewerkt = true; render(); };
+window.annuleerScriptBewerk = function() { state.scriptBewerkt = false; render(); };
+
+window.bewaarEigenScript = function() {
+  const el = document.getElementById("scriptEditInput");
+  if (!el) return;
+  try {
+    const raw = localStorage.getItem(EIGEN_SCRIPT_KEY);
+    const d = raw ? JSON.parse(raw) : {};
+    const tekst = el.value.trim();
+    if (tekst) d[scriptSleutel_()] = tekst;
+    else delete d[scriptSleutel_()];
+    localStorage.setItem(EIGEN_SCRIPT_KEY, JSON.stringify(d));
+  } catch (e) {}
+  state.scriptBewerkt = false;
+  render();
+};
+
+window.herstelScript = function() {
+  if (!confirm("Je eigen versie verwijderen en terug naar het automatische script?")) return;
+  try {
+    const raw = localStorage.getItem(EIGEN_SCRIPT_KEY);
+    const d = raw ? JSON.parse(raw) : {};
+    delete d[scriptSleutel_()];
+    localStorage.setItem(EIGEN_SCRIPT_KEY, JSON.stringify(d));
+  } catch (e) {}
+  render();
+};
 
 function renderEventContext() {
   const ev = state.eventStructured;
@@ -10473,17 +11236,24 @@ function renderCard(r) {
   const sector = sectorFor(r.industrie);
 
   const safeId = 'av_' + (r._id || r.naam).replace(/[^a-z0-9]/gi, '_');
-  const _nameParts = r.naam.toLowerCase().split(/[\s&,.]+/).filter(function(w) { return w.length > 2; });
-  const domainGuess = (_nameParts.length > 1 ? _nameParts.join('') : _nameParts[0] || r.naam.toLowerCase().replace(/[^a-z0-9]/g,'')) + '.com';
+  // Meerdere kandidaat-domeinen: de loader probeert ze een voor een tot er een
+  // logo laadt. Lukt geen enkele, dan blijven de initialen staan.
+  const domeinen = klantDomeinen_(r.naam);
+  const logoUrls = domeinen.map(function(d) {
+    return 'https://www.google.com/s2/favicons?domain=' + d + '&sz=64';
+  }).join('|');
 
   let html = '<div class="card">';
 
   // Head
   html += '<div class="card-head">';
-  html += '<div class="avatar" id="' + safeId + '" style="background:' + lc.bg + ';color:' + lc.tx + '" data-logo="https://www.google.com/s2/favicons?domain=' + domainGuess + '&sz=64">' + esc(init) + '</div>';
+  html += '<div class="avatar" id="' + safeId + '" style="background:' + lc.bg + ';color:' + lc.tx + '" data-logo="' + esc(logoUrls) + '">' + esc(init) + '</div>';
   html += '<div style="flex:1;min-width:0"><div class="card-name-row">';
   html += '<span class="card-name">' + esc(r.naam) + '</span>';
-  if (r.referentie) html += ICONS.star;
+  // Hier stond een gouden ster bij klanten met 'referentie: true'. Die suggereerde
+  // dat de andere 93 klanten NIET genoemd mochten worden — dat klopt niet. Alle
+  // klanten mogen genoemd worden, dus een onderscheid maken was misleidend
+  // (en nergens uitgelegd, wat het erger maakte).
   html += '</div></div></div>';
 
   // Sector badge

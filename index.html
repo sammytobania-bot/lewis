@@ -11320,12 +11320,19 @@ function renderCard(r) {
   // Wat doet het bedrijf? Dit staat bewust vóór het SAP-verhaal: een verkoper
   // moet eerst weten wie hij voor zich heeft. De sector alleen ("Transportation")
   // zegt niets — vervoeren ze voeding of chemie?
-  if (r.beschrijving) {
-    html += '<div class="bedrijf-beschrijving">' + esc(r.beschrijving) + '</div>';
+  // omschrijvingVoor_ kijkt naar ALLE bronnen: Flexso's eigen tekst, de
+  // hardgecodeerde opgezochte set, en lokale correcties. Vroeger stond hier enkel
+  // r.beschrijving, waardoor de 140 opgezochte omschrijvingen niet verschenen.
+  const _oms = omschrijvingVoor_(r.naam);
+  if (_oms && _oms.tekst) {
+    html += '<div class="bedrijf-beschrijving">' + esc(_oms.tekst) + '</div>';
   }
 
-  // Verhaal (wat we bij hen gedaan hebben)
-  if (r.verhaal) {
+  // Verhaal (wat we bij hen gedaan hebben). Sommige entries hebben hier enkel een
+  // betekenisloze plekhouder ("S/4HANA on-premise referentie") staan — dat zegt
+  // de verkoper niets, dus die tonen we niet.
+  const _verhaalPlekhouder = /^s\/4hana .*referentie\.?$/i;
+  if (r.verhaal && !_verhaalPlekhouder.test(r.verhaal.trim())) {
     html += '<div class="verhaal">' + esc(r.verhaal) + '</div>';
   }
 

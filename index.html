@@ -71,7 +71,7 @@
   .modal-card { background: #fff; border-radius: 16px; padding: 28px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.15); }
   .modal-title { font-size: 18px; font-weight: 800; color: var(--c-navy); margin-bottom: 20px; }
   .modal-field { margin-bottom: 14px; }
-  .modal-field label { display: block; font-size: 12px; font-weight: 700; color: var(--c-slate-600); margin-bottom: 5px; }
+  .modal-field label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 5px; }
   .modal-field input, .modal-field select, .modal-field textarea { width: 100%; padding: 9px 12px; border: 1px solid var(--c-slate-200); border-radius: 8px; font-size: 13px; font-family: inherit; box-sizing: border-box; outline: none; }
   .modal-field input:focus, .modal-field select:focus, .modal-field textarea:focus { border-color: var(--c-primary); }
   .modal-field textarea { resize: vertical; min-height: 80px; }
@@ -80,7 +80,7 @@
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
   .modal-btn-primary { flex: 1; padding: 10px; background: var(--c-primary); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .modal-btn-primary:hover { background: var(--c-primary-darker); }
-  .modal-btn-secondary { padding: 10px 18px; background: none; border: 1px solid var(--c-slate-200); border-radius: 8px; font-size: 14px; font-family: inherit; cursor: pointer; color: var(--c-slate-600); }
+  .modal-btn-secondary { padding: 10px 18px; background: none; border: 1px solid var(--c-slate-200); border-radius: 8px; font-size: 14px; font-family: inherit; cursor: pointer; color: #475569; }
   .card-delete-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; color: var(--c-slate-300); font-size: 16px; cursor: pointer; padding: 4px; border-radius: 4px; line-height: 1; }
   .card-delete-btn:hover { color: #e53e3e; background: #fff5f5; }
   .card { position: relative; cursor: pointer; }
@@ -93,13 +93,13 @@
   .import-result-err { font-size: 12px; color: #e53e3e; margin-bottom: 8px; }
   /* PDF upload in verhalen */
   .verhalen-pdf-section { margin-top: 12px; padding: 12px 14px; background: var(--c-slate-50); border: 1px solid var(--c-slate-100); border-radius: 8px; }
-  .verhalen-pdf-title { font-size: 12px; font-weight: 700; color: var(--c-slate-600); margin-bottom: 8px; }
+  .verhalen-pdf-title { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 8px; }
   .pdf-link-item { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 6px; }
   .pdf-link-item a { color: var(--c-primary-darker); text-decoration: none; font-weight: 600; }
   .pdf-link-item a:hover { text-decoration: underline; }
   .pdf-remove-btn { background: none; border: none; color: var(--c-slate-400); cursor: pointer; font-size: 14px; padding: 0 4px; }
   .pdf-remove-btn:hover { color: #e53e3e; }
-  .pdf-upload-label { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: #fff; border: 1px dashed var(--c-slate-300); border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--c-slate-600); cursor: pointer; }
+  .pdf-upload-label { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: #fff; border: 1px dashed var(--c-slate-300); border-radius: 8px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; }
   .pdf-upload-label:hover { border-color: var(--c-primary); color: var(--c-primary); }
 
   /* Login screen */
@@ -110,7 +110,7 @@
   .login-title { font-size: 26px; font-weight: 800; color: var(--c-navy); text-align: center; margin-bottom: 6px; letter-spacing: -0.02em; }
   .login-sub { font-size: 14px; color: var(--c-slate-500); text-align: center; margin-bottom: 32px; }
   .login-field { margin-bottom: 16px; }
-  .login-field label { display: block; font-size: 12px; font-weight: 700; color: var(--c-slate-600); margin-bottom: 6px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .login-field label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; letter-spacing: 0.02em; text-transform: uppercase; }
   .login-field input { width: 100%; padding: 13px 14px; border: 1px solid var(--c-slate-200); border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; outline: none; background: #fafafa; transition: border-color 0.15s, background 0.15s; }
   .login-field input:focus { border-color: var(--c-primary); background: #fff; box-shadow: 0 0 0 3px rgba(0,168,216,0.1); }
   .login-btn { width: 100%; padding: 14px; background: var(--c-primary); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; letter-spacing: 0.01em; transition: background 0.15s, transform 0.1s; }
@@ -168,10 +168,10 @@
   .glossary-comp-card { background: #fff; border: 1px solid var(--c-slate-200); border-radius: 8px; padding: 10px 11px; }
   .glossary-comp-icon { font-size: 16px; display: block; margin-bottom: 4px; }
   .glossary-comp-naam { font-size: 12px; font-weight: 800; color: var(--c-navy); margin-bottom: 3px; line-height: 1.3; }
-  .glossary-comp-uitleg { font-size: 11.5px; color: var(--c-slate-600); line-height: 1.45; margin-bottom: 6px; }
+  .glossary-comp-uitleg { font-size: 11.5px; color: #475569; line-height: 1.45; margin-bottom: 6px; }
   .glossary-comp-voorbeeld { font-size: 10.5px; font-weight: 600; color: var(--c-primary-darker); background: var(--c-primary-50); border-radius: 6px; padding: 4px 8px; line-height: 1.4; }
   .competitor-chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-  .competitor-chip { background: var(--c-slate-100); color: var(--c-slate-600); border-radius: 999px; padding: 4px 11px; font-size: 12px; font-weight: 600; }
+  .competitor-chip { background: var(--c-slate-100); color: #475569; border-radius: 999px; padding: 4px 11px; font-size: 12px; font-weight: 600; }
   .bdc-overzicht-card { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 14px 16px; box-shadow: var(--shadow-card); }
   .bdc-overzicht-bestaatuit { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
   .bdc-overzicht-label { font-size: 11px; font-weight: 800; color: var(--c-slate-500); text-transform: uppercase; letter-spacing: .03em; margin-right: 2px; }
@@ -180,7 +180,7 @@
   .bdc-overzicht-quotes, .bdc-comp-quotes { margin: 0; padding-left: 18px; font-size: 12.5px; color: var(--c-slate-700); line-height: 1.55; }
   .bdc-overzicht-quotes li, .bdc-comp-quotes li { margin-bottom: 2px; }
   .bdc-overzicht-lostop, .bdc-comp-lostop { font-size: 12.5px; background: var(--c-primary-50); color: var(--c-primary-darker); border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
-  .bdc-overzicht-voorbeeld, .bdc-comp-voorbeeld { margin: 0; padding-left: 18px; font-size: 12px; color: var(--c-slate-600); line-height: 1.5; }
+  .bdc-overzicht-voorbeeld, .bdc-comp-voorbeeld { margin: 0; padding-left: 18px; font-size: 12px; color: #475569; line-height: 1.5; }
   .bdc-comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
   .bdc-comp-card { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 13px 15px; box-shadow: var(--shadow-card); }
   .bdc-comp-head { font-size: 13.5px; font-weight: 800; color: var(--c-navy); display: flex; align-items: center; gap: 6px; }
@@ -238,7 +238,7 @@
   .product-lob-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--c-primary-100); color: var(--c-primary-darker); }
   .product-sector-tag { font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: var(--radius-pill); background: var(--c-slate-100); color: var(--c-slate-500); }
   .product-naam { font-size: 15px; font-weight: 800; color: var(--c-navy); line-height: 1.3; }
-  .product-beschrijving { font-size: 13px; color: var(--c-slate-600); line-height: 1.5; flex: 1; }
+  .product-beschrijving { font-size: 13px; color: #475569; line-height: 1.5; flex: 1; }
   .product-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; color: var(--c-primary-darker); text-decoration: none; margin-top: 4px; }
   .product-link:hover { color: var(--c-navy); text-decoration: underline; }
   .product-link .icon { width: 11px; height: 11px; }
@@ -271,15 +271,52 @@
   .module-tag { font-size: 10.5px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--c-slate-100); color: var(--c-slate-700); font-weight: 500; }
   .module-tag.selected { background: var(--c-primary-100); color: var(--c-primary-darker); font-weight: 700; }
   .module-tag.empty { background: var(--c-slate-50); color: var(--c-slate-400); font-style: italic; }
+/* Native verhaallezer */
+  .story-reader-card { background: #f3f1ec; width: 92vw; max-width: 820px; height: 90vh; max-height: 90vh; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .story-reader-kop { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid var(--c-slate-200); background: #fff; flex-shrink: 0; font-size: 13px; font-weight: 800; color: var(--c-navy); }
+  .story-reader-sluit { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--c-slate-500); padding: 2px 8px; border-radius: 6px; }
+  .story-reader-body { flex: 1; overflow-y: auto; padding: 34px clamp(20px, 6vw, 64px) 60px; }
+  .story-hero { border-bottom: 2px solid var(--c-navy); padding-bottom: 26px; margin-bottom: 10px; }
+  .story-hero-thema { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--c-primary-darker); margin-bottom: 12px; }
+  .story-hero-titel { font-size: 40px; font-weight: 800; color: var(--c-navy); line-height: 1.05; margin: 0 0 8px; }
+  .story-hero-onder { font-size: 17px; font-weight: 700; color: var(--c-ink); margin-bottom: 14px; }
+  .story-hero-intro { font-size: 14.5px; color: #475569; line-height: 1.6; max-width: 60ch; }
+  .story-sectie { padding: 30px 0; border-bottom: 1px solid var(--c-slate-100); }
+  .story-sectie:last-child { border-bottom: none; }
+  .story-label { display: inline-block; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--c-slate-500); background: var(--c-slate-50); border: 1px solid var(--c-slate-200); border-radius: 5px; padding: 3px 9px; margin-bottom: 12px; }
+  .story-titel { font-size: 25px; font-weight: 800; color: var(--c-navy); line-height: 1.15; margin: 0 0 16px; }
+  .story-p { font-size: 14.5px; color: var(--c-ink); line-height: 1.7; margin: 0 0 14px; max-width: 66ch; }
+  .story-slot { color: #475569; font-style: italic; }
+  .story-stemmen { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 18px 0; }
+  .story-stem { background: #fff; border: 1px solid var(--c-slate-200); border-left: 3px solid var(--c-navy); border-radius: 8px; padding: 11px 13px; }
+  .story-stem-wie { font-size: 12.5px; font-weight: 800; color: var(--c-navy); margin-bottom: 4px; }
+  .story-stem-zegt { font-size: 12.5px; color: #475569; line-height: 1.5; }
+  .story-kernzin { font-size: 18px; font-weight: 800; color: var(--c-navy); background: var(--c-primary-50); border-radius: 10px; padding: 18px 22px; margin: 18px 0 4px; line-height: 1.4; }
+  .story-kaarten { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 18px 0; }
+  .story-kaart { background: #fff; border: 1px solid var(--c-slate-200); border-radius: 10px; padding: 16px; }
+  .story-kaart-titel { font-size: 14px; font-weight: 800; color: var(--c-navy); margin-bottom: 7px; line-height: 1.25; }
+  .story-kaart-tekst { font-size: 13px; color: #475569; line-height: 1.6; }
+  .story-stappen { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
+  .story-stap { display: flex; gap: 14px; align-items: flex-start; }
+  .story-stap-nr { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--c-navy); color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .story-stap-titel { font-size: 14px; font-weight: 800; color: var(--c-navy); margin-bottom: 2px; }
+  .story-stap-tekst { font-size: 13.5px; color: #475569; line-height: 1.6; }
+  .story-verg { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 18px 0; }
+  .story-verg-blok { background: #fff; border: 1px solid var(--c-slate-200); border-radius: 10px; padding: 16px; }
+  .story-verg-kop { font-size: 13px; font-weight: 800; color: var(--c-navy); margin-bottom: 6px; }
+  .story-verg-tekst { font-size: 13.5px; color: #475569; line-height: 1.6; }
+  .story-citaat { border-left: 3px solid var(--c-navy); margin: 20px 0 4px; padding: 4px 0 4px 18px; font-size: 16px; font-style: italic; color: var(--c-ink); line-height: 1.5; }
+  .story-citaat cite { display: block; margin-top: 8px; font-size: 12.5px; font-style: normal; font-weight: 700; color: var(--c-slate-500); }
+
   .bedrijf-beschrijving { font-size: 12.5px; color: var(--c-ink); line-height: 1.55; margin-bottom: 7px; }
   /* Belreden + script bovenaan */
   .reason-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .reason-btn { padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .reason-btn { padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: #475569; font-size: 12.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .reason-btn:hover { border-color: var(--c-slate-400); }
   .reason-btn.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
   .script-toggle { background: none; border: none; padding: 4px 0; font-size: 12.5px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; font-family: inherit; }
   .script-card { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 16px 18px; margin: 8px 0 14px; }
-  .script-event { font-size: 12px; color: var(--c-slate-600); background: var(--c-primary-50); border: 1px solid var(--c-primary-200); border-radius: var(--radius-btn); padding: 8px 12px; margin-bottom: 14px; }
+  .script-event { font-size: 12px; color: #475569; background: var(--c-primary-50); border: 1px solid var(--c-primary-200); border-radius: var(--radius-btn); padding: 8px 12px; margin-bottom: 14px; }
   .script-warn { font-size: 12px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-btn); padding: 8px 12px; margin-bottom: 14px; line-height: 1.5; }
   .script-block { margin-bottom: 16px; }
   .script-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--c-slate-400); margin: 10px 0 5px; }
@@ -323,7 +360,7 @@
   .blind-save { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-500); font-size: 13px; font-weight: 800; cursor: pointer; }
   .blind-save:hover { background: #16a34a; border-color: #16a34a; color: #fff; }
   .blind-done-list { margin-top: 6px; }
-  .blind-done-item { font-size: 12px; color: var(--c-slate-600); margin-bottom: 3px; }
+  .blind-done-item { font-size: 12px; color: #475569; margin-bottom: 3px; }
   .blind-undo { font-size: 11px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; margin-left: 4px; }
   .blind-ok { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: #16a34a; }
   /* Wat we al weten: bestaande (mogelijk verouderde) data, ter plekke corrigeerbaar */
@@ -611,7 +648,7 @@
 
   /* Werkruimtes: Evenementen / Blind spots / Cold calling — volledig gescheiden */
   .workspace-row { display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--c-slate-200); padding-bottom: 12px; }
-  .workspace-btn { padding: 9px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .workspace-btn { padding: 9px 16px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: #475569; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .workspace-btn:hover { border-color: var(--c-slate-400); }
   .workspace-btn.actief { background: var(--c-navy); border-color: var(--c-navy); color: #fff; }
   .cold-manual-input { margin: 8px 0 14px; }
@@ -637,8 +674,8 @@
   .hist-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .hist-event { font-size: 12.5px; font-weight: 800; color: var(--c-navy); }
   .hist-datum { font-size: 11.5px; color: var(--c-slate-400); }
-  .hist-wie { font-size: 12px; color: var(--c-slate-600); margin-top: 2px; }
-  .hist-outcome { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: var(--c-slate-600); margin-top: 4px; }
+  .hist-wie { font-size: 12px; color: #475569; margin-top: 2px; }
+  .hist-outcome { display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: #475569; margin-top: 4px; }
   .hist-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .hist-note { font-size: 12px; color: var(--c-ink); line-height: 1.5; margin-top: 4px; background: var(--c-slate-50); border-radius: 6px; padding: 6px 9px; }
   .verhaal { font-size: 12px; color: var(--c-slate-500); line-height: 1.55; }
@@ -754,7 +791,7 @@
   .ai-products-label .icon { width: 13px; height: 13px; }
   .ai-product-card { background: #fff; border-radius: var(--radius-card); padding: 13px 15px; margin-bottom: 8px; box-shadow: var(--shadow-card); }
   .ai-product-naam { font-size: 13px; font-weight: 700; color: var(--c-navy); }
-  .ai-product-desc { font-size: 12px; color: var(--c-slate-600); margin: 3px 0 7px; line-height: 1.4; }
+  .ai-product-desc { font-size: 12px; color: #475569; margin: 3px 0 7px; line-height: 1.4; }
   .ai-case-link { background: var(--c-primary); color: #fff; }
   .ai-case-link:hover { background: var(--c-primary-dark); }
   .ai-ref-link { background: var(--c-slate-100); color: var(--c-slate-700); }
@@ -857,10 +894,10 @@
   .event-shortcut-hint { font-size: 11px; color: var(--c-slate-500); line-height: 1.5; }
   /* ── Gespreksuitkomst, opvolging, historiek en voortgang ─────────────── */
   .call-outcome-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .call-outcome-btn { padding: 5px 11px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
+  .call-outcome-btn { padding: 5px 11px; border-radius: var(--radius-pill); border: 1px solid var(--c-slate-200); background: #fff; color: #475569; font-size: 11.5px; font-weight: 700; font-family: inherit; cursor: pointer; }
   .call-outcome-btn:hover { border-color: var(--c-slate-400); }
   .call-callback-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .call-callback-row label { font-size: 11.5px; font-weight: 700; color: var(--c-slate-600); }
+  .call-callback-row label { font-size: 11.5px; font-weight: 700; color: #475569; }
   .call-callback-row input { padding: 5px 9px; border: 1px solid var(--c-slate-200); border-radius: var(--radius-btn); font-size: 12px; font-family: inherit; color: var(--c-ink); }
   .call-callback-due { font-size: 11.5px; font-weight: 700; color: #d97706; }
   .call-history-toggle { margin-top: 8px; background: none; border: none; padding: 3px 0; font-size: 11.5px; font-weight: 700; color: var(--c-primary-darker); cursor: pointer; font-family: inherit; }
@@ -872,7 +909,7 @@
   .call-history-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
   .call-history-head { font-size: 12px; font-weight: 700; color: var(--c-navy); }
   .call-history-head span { font-weight: 500; color: var(--c-slate-400); }
-  .call-history-note { font-size: 12px; color: var(--c-slate-600); margin-top: 2px; line-height: 1.45; }
+  .call-history-note { font-size: 12px; color: #475569; margin-top: 2px; line-height: 1.45; }
   .call-progress { background: #fff; border: 1px solid var(--c-slate-200); border-radius: var(--radius-card); padding: 13px 16px; margin-bottom: 14px; }
   .call-progress-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 9px; flex-wrap: wrap; }
   .call-progress-count { font-size: 13.5px; font-weight: 800; color: var(--c-navy); }
@@ -880,7 +917,7 @@
   .call-progress-bar { height: 7px; border-radius: 999px; background: var(--c-slate-100); overflow: hidden; display: flex; }
   .call-progress-seg { height: 100%; }
   .call-progress-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 9px; }
-  .call-progress-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--c-slate-600); font-weight: 600; }
+  .call-progress-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: #475569; font-weight: 600; }
   .call-progress-dot { width: 8px; height: 8px; border-radius: 50%; }
 
   /* ── Call Brief modal ───────────────────────────────────────────────── */
@@ -924,7 +961,7 @@
   .clean-note-copy, .clean-note-close { font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: var(--radius-btn); cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; }
   .clean-note-copy { border: none; background: var(--c-primary); color: #fff; }
   .clean-note-copy .icon { width: 10px; height: 10px; }
-  .clean-note-close { border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-600); }
+  .clean-note-close { border: 1px solid var(--c-slate-200); background: #fff; color: #475569; }
   .call-live-note:focus { outline: none; border-color: var(--c-primary); }
   .call-row-actions-col { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
   .call-crm-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: var(--radius-btn); border: 1px solid var(--c-slate-200); background: #fff; color: var(--c-slate-700); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
@@ -981,7 +1018,9 @@
     .login-card { padding: 32px 20px; border-radius: 16px; }
     .login-title { font-size: 22px; }
 
-    /* Insights stories */
+
+    
+  /* Insights stories */
     .insights-story-grid { grid-template-columns: 1fr; }
 
     /* PDF viewer */
@@ -1003,14 +1042,14 @@
   /* Lead Generation Academy */
   .academy-intro { margin-bottom: 14px; }
   .academy-title { font-size: 19px; font-weight: 800; color: var(--c-navy); margin-bottom: 4px; }
-  .academy-sub { font-size: 13px; color: var(--c-slate-600); line-height: 1.5; }
+  .academy-sub { font-size: 13px; color: #475569; line-height: 1.5; }
   .academy-progress-bar { height: 8px; background: var(--c-slate-100); border-radius: 999px; overflow: hidden; margin-bottom: 6px; }
   .academy-progress-fill { height: 100%; background: var(--c-primary); border-radius: 999px; transition: width .2s; }
   .academy-progress-label { font-size: 12px; color: var(--c-slate-500); margin-bottom: 16px; }
   .academy-result { background: #fff; border: 1px solid var(--c-primary-200); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 20px; text-align: center; margin-bottom: 18px; }
   .academy-result-tier { font-size: 24px; font-weight: 800; color: var(--c-navy); margin-bottom: 4px; }
   .academy-result-score { font-size: 15px; font-weight: 700; color: var(--c-primary-darker); margin-bottom: 8px; }
-  .academy-result-tekst { font-size: 13.5px; color: var(--c-slate-600); margin-bottom: 14px; }
+  .academy-result-tekst { font-size: 13.5px; color: #475569; margin-bottom: 14px; }
   .academy-retry-btn { background: var(--c-primary); color: #fff; border: none; border-radius: var(--radius-btn); padding: 10px 18px; font-size: 13.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .academy-retry-btn:hover { background: var(--c-primary-darker); }
   .academy-q-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
@@ -1030,7 +1069,7 @@
   .academy-optie.selected { border-color: var(--c-primary); background: var(--c-primary-50); }
   .academy-optie.correct { border-color: #2E8B57; background: #EAF7EE; color: #1E5E38; }
   .academy-optie.incorrect { border-color: #D9534F; background: #FCEDEC; color: #8C2F2B; }
-  .academy-optie-letter { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--c-slate-100); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11.5px; color: var(--c-slate-600); }
+  .academy-optie-letter { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--c-slate-100); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11.5px; color: #475569; }
   .academy-optie.selected .academy-optie-letter { background: var(--c-primary); color: #fff; }
   .academy-optie.correct .academy-optie-letter { background: #2E8B57; color: #fff; }
   .academy-optie.incorrect .academy-optie-letter { background: #D9534F; color: #fff; }
@@ -1048,7 +1087,7 @@
   .academy-block-toggle-action { font-size: 12.5px; font-weight: 700; color: var(--c-primary-darker); flex-shrink: 0; white-space: nowrap; }
   .academy-block-badge { font-size: 12.5px; font-weight: 700; color: var(--c-primary-darker); background: var(--c-primary-50); border-radius: 999px; padding: 4px 11px; flex-shrink: 0; white-space: nowrap; }
   .academy-block-body { padding: 0 18px 18px; border-top: 1px solid var(--c-slate-100); padding-top: 14px; }
-  .academy-block-desc { font-size: 13px; color: var(--c-slate-600); line-height: 1.5; margin-bottom: 14px; }
+  .academy-block-desc { font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 14px; }
   .academy-pdf-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--c-primary-darker); background: var(--c-primary-50); border: 1px solid var(--c-primary-200); border-radius: var(--radius-card); padding: 9px 14px; margin-bottom: 14px; text-decoration: none; }
   .academy-pdf-link:hover { background: var(--c-primary-100); }
   .academy-verhalen { margin-bottom: 18px; padding: 14px 16px; background: var(--c-slate-50); border: 1px solid var(--c-slate-100); border-radius: var(--radius-card); }
@@ -1480,6 +1519,142 @@ const SOLUTION_BREAKDOWN = {
 // van de prospect — string voor één quote, array voor een lijstje) en
 // daarna de eigenlijke meerkeuzevraag. correct verwijst naar de letter van
 // het juiste antwoord.
+
+// ─── INGEBOUWDE VERHALEN (native, geen externe PDF) ────────────────────────
+// Rechtstreeks in de app ingebouwd i.p.v. als los PDF-bestand. Reden: de app
+// draait als één HTML-bestand op Vercel — een externe .pdf zou daar niet
+// meestaan. Als HTML werkt het overal, is het doorzoekbaar, en leest een
+// scrollbaar verhaal prettiger dan een PDF in een iframe.
+const INGEBOUWDE_VERHALEN = [
+  {
+    id: "sweetdelight",
+    titel: "Analytics",
+    thema: "SweetDelight",
+    ondertitel: "Van data naar betere beslissingen",
+    intro: "Een Belgische snoepjesfabrikant ontdekt dat het echte probleem niet de cijfers zijn — maar de manier waarop ze naar die cijfers keken.",
+    secties: [
+      {
+        label: "Deel 1", titel: "Maandagochtend. 8u30.",
+        paragrafen: [
+          "De geur van vers geproduceerde winegums hangt nog in de fabriek wanneer de directie van SweetDelight samenkomt. SweetDelight is een Belgische snoepjesfabrikant met 350 medewerkers. Het bedrijf groeit al jaren — nieuwe klanten, een nieuwe productielijn en steeds meer export naar Duitsland, Frankrijk en Nederland.",
+          "CEO Tulin opent de vergadering met één eenvoudige vraag: \u201CHoe draait SweetDelight?\u201D",
+          "Wat daarna volgt, is geen antwoord. Het is een discussie. Finance zegt \u20ac4,8 miljoen. Sales zegt meer dan \u20ac5 miljoen. Productie meldt leveringen die in geen enkel rapport verschijnen. Iedereen verdedigt zijn eigen cijfers — en toch krijgt de CEO geen antwoord op haar eenvoudigste vraag.",
+        ],
+        stemmen: [
+          { wie: "Tulin — CEO", zegt: "Wil één helder antwoord op een simpele vraag." },
+          { wie: "Lamax — Finance", zegt: "\u20ac4,8M — op basis van geboekte facturen." },
+          { wie: "Sales Director", zegt: "+\u20ac5M — op basis van bevestigde bestellingen in het CRM." },
+          { wie: "Productiemanager", zegt: "Drie vrachtwagens al geleverd — niet zichtbaar in beide rapporten." },
+        ],
+      },
+      {
+        label: "De kern van het probleem", titel: "Niemand maakt fouten. Iedereen kijkt gewoon op een ander moment.",
+        paragrafen: [
+          "IT Manager Sammy staat op, pakt een stift en tekent één lijn op het whiteboard: Bestelling → Productie → Levering → Factuur.",
+          "Finance kijkt naar het moment van facturatie. Sales kijkt naar de bevestigde bestelling. Productie kijkt naar de vertrokken vrachtwagen. Niemand heeft ongelijk — ze kijken gewoon naar een ander moment in hetzelfde bedrijfsproces.",
+        ],
+        kernzin: "Eén bedrijf verdient één versie van de waarheid.",
+      },
+      {
+        label: "De oplossing", titel: "Eén fundament voor alle data",
+        paragrafen: [
+          "Vandaag haalt elke afdeling haar informatie uit een ander systeem. Dat zorgt automatisch voor verschillende antwoorden. De oplossing is geen nieuw ERP of een extra dashboard — het is een fundament dat alles samenbrengt.",
+        ],
+        kaarten: [
+          { titel: "SAP Business Data Cloud", tekst: "Het centrale platform dat data uit alle systemen samenbrengt. Iedereen werkt met dezelfde informatie, ongeacht de afdeling." },
+          { titel: "SAP Datasphere", tekst: "De verbindingslaag die SAP, CRM, productiesystemen, magazijn en zelfs Excel veilig met elkaar koppelt." },
+          { titel: "Één versie van de waarheid", tekst: "Vanaf het moment dat alle bronnen verbonden zijn, kijkt iedereen naar dezelfde data. Geen discussies meer over welke cijfers juist zijn." },
+        ],
+        citaat: { wie: "Tulin", tekst: "Dat betekent dus dat onze volgende directievergadering niet meer over cijfers zal gaan… maar eindelijk over beslissingen." },
+      },
+      {
+        label: "Deel 2", titel: "Vier weken later: de cijfers kloppen",
+        paragrafen: [
+          "De sfeer in de vergaderzaal is helemaal anders. Tulin vraagt naar de omzet. Finance zegt \u20ac5,02 miljoen. Sales zegt \u20ac5,02 miljoen. Productie ook. Voor het eerst discussieert niemand.",
+          "Maar Lamax glimlacht niet. Ze draait haar scherm om. Meer dan twintig Excelbestanden. PowerPointpresentaties. Grafieken. Draaitabellen.",
+          "Tulin herkent het probleem onmiddellijk. Ze wil geen rapport. Ze wil antwoorden. Het nieuwe probleem is niet meer de accuraatheid van de data — maar de snelheid en toegankelijkheid ervan.",
+        ],
+        citaat: { wie: "Lamax", tekst: "De cijfers kloppen eindelijk. Maar ik kopieer nog altijd alles manueel. En tegen dat mijn rapport klaar is, zijn de cijfers alweer veranderd." },
+      },
+      {
+        label: "SAP Analytics Cloud", titel: "Geen rapport meer. Een levend dashboard.",
+        paragrafen: [
+          "Sammy opent SAP Analytics Cloud. Een dashboard verschijnt — live, automatisch bijgewerkt bij elke nieuwe bestelling. Maar het echte krachtige moment komt wanneer de Sales Director vraagt waarom de marge lager is dan vorige maand.",
+        ],
+        stappen: [
+          { nr: "1", titel: "Vraag stellen", tekst: "Sales ziet een margedaling en vraagt: \u201CWaarom?\u201D" },
+          { nr: "2", titel: "Inzoomen", tekst: "Één klik toont dat de daling komt van één product: zure beertjes." },
+          { nr: "3", titel: "Oorzaak vinden", tekst: "Nog een klik onthult: de voorraad is veel te hoog opgebouwd." },
+          { nr: "4", titel: "Beslissing nemen", tekst: "De directie begrijpt nu waarom cijfers veranderen — niet alleen wat er veranderd is." },
+        ],
+        slot: "Business Data Cloud zorgt dat iedereen naar dezelfde data kijkt. Analytics Cloud helpt iedereen dezelfde inzichten te krijgen.",
+      },
+      {
+        label: "Deel 3", titel: "07.15 uur. De telefoon rinkelt.",
+        paragrafen: [
+          "De fabriek draait op volle snelheid wanneer SuperMart belt. Ze hebben een nationale promotie gelanceerd en willen twintigduizend zakken zure beertjes — vandaag nog.",
+          "Tulin is enthousiast. De Productiemanager niet. Hij draait zijn scherm: aardbeiensnoep 185.000 zakken (veel te veel), zure beertjes 2.300 zakken (bijna leeg).",
+          "Lamax rekent snel: als deze bestelling niet geleverd kan worden, lopen ze bijna \u20ac180.000 omzet mis. De vergaderzaal wordt stil.",
+        ],
+        citaat: { wie: "Tulin", tekst: "Hoe heeft niemand dit zien aankomen?" },
+      },
+      {
+        label: "Databricks & AI", titel: "Kijken we naar gisteren… of naar morgen?",
+        paragrafen: [
+          "Sammy blijft rustig. Hij legt het verschil uit tussen twee fundamenteel verschillende manieren om naar data te kijken.",
+        ],
+        kaarten: [
+          { titel: "🔍 Analytics Cloud — de achteruitkijkspiegel", tekst: "Vertelt wat er is gebeurd. Waarom de marge vorige maand daalde. Welk product te veel voorraad had. Onmisbaar voor begrip — maar altijd een stap achter op de realiteit." },
+          { titel: "🔭 Databricks — de voorruit", tekst: "Combineert verkoophistoriek, weersvoorspellingen, supermarktpromoties, vakantieperiodes, grondstofprijzen én sociale media om de toekomst te voorspellen. AI ziet verbanden die geen mens ooit zou zien." },
+        ],
+        slot: "Sammy klikt op 'Voorspelling volgende twee weken'. De vraag naar zure beertjes stijgt met 42%. Reden? Volgende week wordt het 31 graden, SuperMart start een zomercampagne, en een influencer maakte gisteren een virale video. Geen mens kan duizenden signalen tegelijk analyseren. Een AI-model wel.",
+      },
+      {
+        label: "Resultaat", titel: "De markt een stap voor zijn",
+        paragrafen: [
+          "Een week later komt dezelfde supermarkt opnieuw met een grote bestelling. Deze keer staat de voorraad klaar. De vrachtwagens vertrekken nog dezelfde avond.",
+        ],
+        vergelijking: [
+          { kop: "Vroeger", tekst: "Reageren op de markt — altijd te laat, altijd achter de feiten aan." },
+          { kop: "Nu", tekst: "De markt voorspellen — voorraad klaar vóór de vraag arriveert." },
+        ],
+        citaat: { wie: "Tulin", tekst: "Dit is de eerste keer dat we niet reageren op de markt… maar de markt een stap voor zijn." },
+      },
+      {
+        label: "Deel 4", titel: "\u201CMoeten we alles opnieuw beginnen?\u201D",
+        paragrafen: [
+          "Na de vergadering blijft Lamax zitten. Ze stelt de vraag die haar wakker houdt: \u201CWe hebben acht jaar geleden enorm geïnvesteerd in SAP BW. Honderden rapporten. Duizenden uren ontwikkeling. Als we nu naar Business Data Cloud gaan… verdwijnt dat dan allemaal?\u201D",
+          "Sammy loopt naar het whiteboard en vertelt een verhaal over een huis.",
+          "De oplossing heet SAP BW Private Cloud Edition. Historische rapporten blijven bestaan. Datamodellen blijven behouden. De jarenlange kennis blijft waardevol. Moderniseren is iets anders dan vervangen.",
+        ],
+        citaat: { wie: "Sammy", tekst: "Je koopt tien jaar geleden een degelijk huis. Na tien jaar wil je zonnepanelen en een warmtepomp. Breek je dan het hele huis af? Natuurlijk niet. Je behoudt wat goed is — en je moderniseert de rest." },
+      },
+      {
+        label: "Eén jaar later", titel: "Van rapporteringsprobleem naar data-intelligentie",
+        paragrafen: [
+          "Tulin staat voor de Raad van Bestuur. Op het scherm: de architectuur die Sammy een jaar geleden voor het eerst tekende. Ze glimlacht.",
+          "De architectuur, van fundament tot top: SAP Datasphere (bronnen: SAP, CRM, productie, Excel, Snowflake) → Business Data Cloud (één versie van de waarheid) → SAP Analytics Cloud (inzichten & beslissingen) → Databricks (AI-voorspellingen) → SAP BW Private Cloud Edition (beschermde historische data).",
+          "Snowflake staat ook in de architectuur. Niet om alles te vervangen, maar omdat een modern dataplatform draait om samenwerking. Sommige data blijft in Snowflake, andere komt uit SAP. Business Data Cloud brengt die werelden samen zodat de business er één geheel van maakt.",
+        ],
+      },
+      {
+        label: "Samengevat", titel: "Het verschil tussen data hebben… en data begrijpen.",
+        kaarten: [
+          { titel: "Één waarheid", tekst: "SAP Datasphere + Business Data Cloud verbinden alle systemen tot één betrouwbare databron." },
+          { titel: "Snelle inzichten", tekst: "SAP Analytics Cloud vervangt handmatige rapporten door live dashboards die antwoorden geven in plaats van cijfers." },
+          { titel: "Voorspellend vermogen", tekst: "Databricks en AI analyseren duizenden externe signalen om de vraag te voorspellen vóór ze arriveert." },
+          { titel: "Beschermd verleden", tekst: "SAP BW Private Cloud Edition moderniseert zonder verlies. Jarenlange investering blijft waardevol." },
+        ],
+        citaat: { wie: "Tulin, CEO SweetDelight", tekst: "Een jaar geleden discussieerden we over welke cijfers juist waren. Vandaag discussiëren we over welke beslissing de beste is." },
+      },
+    ],
+  },
+];
+
+function verhaalById_(id) {
+  return INGEBOUWDE_VERHALEN.find(function(v) { return v.id === id; }) || null;
+}
+
 const ACADEMY_BLOCKS = [
   {
     id: "successfactors",
@@ -6566,6 +6741,20 @@ function renderAcademyPanel() {
     html += '</div>';
     html += '<div class="insights-story-grid">';
 
+    // Ingebouwde verhalen (native, openen in een leesvenster in de app zelf).
+    var verborgenVerhalen = JSON.parse(localStorage.getItem('lewis_hidden_verhalen') || '[]');
+    INGEBOUWDE_VERHALEN.filter(function(v) { return verborgenVerhalen.indexOf(v.id) === -1; }).forEach(function(v) {
+      html += '<div class="insights-story-card">';
+      html += '<div class="insights-story-icon">📊</div>';
+      html += '<div class="insights-story-body">';
+      html += '<div class="insights-story-titel">' + esc(v.titel) + '</div>';
+      html += '<div class="insights-story-sub">' + esc(v.thema) + ' · ' + esc(v.ondertitel) + '</div>';
+      html += '<button class="insights-story-link" onclick="openStoryReader(\'' + esc(v.id) + '\')">📖 Lees verhaal</button>';
+      html += '</div>';
+      html += '<button class="insights-story-delete" onclick="verbergVerhaal(\'' + esc(v.id) + '\')" title="Verwijder">✕</button>';
+      html += '</div>';
+    });
+
     ACADEMY_BLOCKS.filter(function(b) { return b.pdfLink && hiddenBuiltins.indexOf(b.id) === -1; }).forEach(function(b) {
       html += '<div class="insights-story-card">';
       html += '<div class="insights-story-icon">📖</div>';
@@ -6800,7 +6989,7 @@ function renderAskHistoryBody() {
     '</div>';
   }).join('');
 
-  html += '<button onclick="toggleAskHistory()" style="margin-top:6px;padding:11px 18px;background:#fff;color:var(--c-slate-600);border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;width:100%">← Terug</button>';
+  html += '<button onclick="toggleAskHistory()" style="margin-top:6px;padding:11px 18px;background:#fff;color:#475569;border:1px solid var(--c-slate-200);border-radius:9px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;width:100%">← Terug</button>';
   return html;
 }
 
@@ -11271,14 +11460,17 @@ function renderCard(r) {
   // Sector badge
   html += '<div><span class="badge" style="background:' + sector.kleur.bg + ';color:' + sector.kleur.tx + '">' + esc(sector.label) + '</span></div>';
 
-  // Description
-  if (r.beschrijving) {
-    html += '<div class="desc">' + esc(r.beschrijving) + '</div>';
+  // Wat doet dit bedrijf? ÉÉN keer, hier bovenaan — een verkoper moet eerst weten
+  // wie hij voor zich heeft voor hij het SAP-verhaal leest. omschrijvingVoor_ neemt
+  // alle bronnen samen (Flexso-tekst, opgezochte set, lokale correcties).
+  // Vroeger stond de omschrijving op DRIE plekken op één kaart (dit blok, een
+  // tweede lager, én als eerste zin van 'verhaal') — vandaar de dubbels.
+  const _oms = omschrijvingVoor_(r.naam);
+  if (_oms && _oms.tekst) {
+    html += '<div class="bedrijf-beschrijving">' + esc(_oms.tekst) + '</div>';
   } else if (!r.verhaal) {
-    // Geen beschrijving én geen verhaal — een echte dode kaart. In plaats
-    // van enkel "niet beschikbaar" te tonen, geven we een eerlijke synthese
-    // van wat we wél weten (geen verzonnen bedrijfsinfo), plus een
-    // coaching-tip zodat een junior toch iets heeft om mee te starten.
+    // Geen omschrijving én geen verhaal — een echte dode kaart. Toon een eerlijke
+    // synthese van wat we wél weten (geen verzonnen bedrijfsinfo) plus een tip.
     const solLabels = r.oplossingen.map(function(oId) { const s = SOLUTIONS.find(function(x) { return x.id === oId; }); return s ? s.label : oId; });
     let weten = [];
     if (r.industrie) weten.push(r.industrie.toLowerCase() + "-bedrijf");
@@ -11317,23 +11509,21 @@ function renderCard(r) {
     });
   }
 
-  // Wat doet het bedrijf? Dit staat bewust vóór het SAP-verhaal: een verkoper
-  // moet eerst weten wie hij voor zich heeft. De sector alleen ("Transportation")
-  // zegt niets — vervoeren ze voeding of chemie?
-  // omschrijvingVoor_ kijkt naar ALLE bronnen: Flexso's eigen tekst, de
-  // hardgecodeerde opgezochte set, en lokale correcties. Vroeger stond hier enkel
-  // r.beschrijving, waardoor de 140 opgezochte omschrijvingen niet verschenen.
-  const _oms = omschrijvingVoor_(r.naam);
-  if (_oms && _oms.tekst) {
-    html += '<div class="bedrijf-beschrijving">' + esc(_oms.tekst) + '</div>';
-  }
-
-  // Verhaal (wat we bij hen gedaan hebben). Sommige entries hebben hier enkel een
-  // betekenisloze plekhouder ("S/4HANA on-premise referentie") staan — dat zegt
-  // de verkoper niets, dus die tonen we niet.
+  // Verhaal (wat we bij hen gedaan hebben). Twee opschoningen:
+  //  1. Betekenisloze plekhouder ("S/4HANA on-premise referentie") niet tonen.
+  //  2. Begint het verhaal met exact dezelfde zin als de omschrijving hierboven,
+  //     dan strippen we die zin — anders staat de bedrijfsomschrijving er twee keer
+  //     (de import splitste 'verhaal' en 'beschrijving' niet altijd netjes).
   const _verhaalPlekhouder = /^s\/4hana .*referentie\.?$/i;
-  if (r.verhaal && !_verhaalPlekhouder.test(r.verhaal.trim())) {
-    html += '<div class="verhaal">' + esc(r.verhaal) + '</div>';
+  let _verhaal = r.verhaal ? r.verhaal.trim() : "";
+  if (_verhaal && _oms && _oms.tekst) {
+    const _eersteZin = _verhaal.split(/(?<=\.)\s+/)[0].trim();
+    if (_eersteZin.toLowerCase() === _oms.tekst.trim().toLowerCase()) {
+      _verhaal = _verhaal.slice(_eersteZin.length).trim();
+    }
+  }
+  if (_verhaal && !_verhaalPlekhouder.test(_verhaal)) {
+    html += '<div class="verhaal">' + esc(_verhaal) + '</div>';
   }
 
   // Contact
@@ -11937,6 +12127,17 @@ init();
   </div>
 </div>
 
+<!-- NATIVE VERHAALLEZER -->
+<div id="storyReaderModal" class="modal-overlay" style="display:none;padding:0" onclick="if(event.target===this)closeStoryReader()">
+  <div class="story-reader-card">
+    <div class="story-reader-kop">
+      <span>💡 Insights-verhaal</span>
+      <button onclick="closeStoryReader()" class="story-reader-sluit">✕</button>
+    </div>
+    <div id="storyReaderBody" class="story-reader-body"></div>
+  </div>
+</div>
+
 <script>
 window.openPdfViewer = function(uri, titel) {
   document.getElementById('pdfViewerTitle').textContent = titel || 'Verhaal';
@@ -11967,6 +12168,93 @@ window.closePdfViewer = function() {
   if (frame.src && frame.src.startsWith('blob:')) URL.revokeObjectURL(frame.src);
   frame.src = '';
   document.getElementById('pdfViewerModal').style.display = 'none';
+};
+
+// ─── NATIVE VERHAALLEZER ───────────────────────────────────────────────────
+// Rendert een ingebouwd verhaal als nette, scrollbare pagina in een modal.
+// Geen PDF, geen extern bestand — werkt dus ook op Vercel.
+window.openStoryReader = function(id) {
+  var v = verhaalById_(id);
+  if (!v) return;
+  var body = document.getElementById('storyReaderBody');
+
+  var html = '<div class="story-hero">';
+  html += '<div class="story-hero-thema">' + esc(v.thema) + '</div>';
+  html += '<h1 class="story-hero-titel">' + esc(v.titel) + '</h1>';
+  html += '<div class="story-hero-onder">' + esc(v.ondertitel) + '</div>';
+  html += '<p class="story-hero-intro">' + esc(v.intro) + '</p>';
+  html += '</div>';
+
+  v.secties.forEach(function(s) {
+    html += '<section class="story-sectie">';
+    if (s.label) html += '<div class="story-label">' + esc(s.label) + '</div>';
+    if (s.titel) html += '<h2 class="story-titel">' + esc(s.titel) + '</h2>';
+    (s.paragrafen || []).forEach(function(p) { html += '<p class="story-p">' + esc(p) + '</p>'; });
+
+    // Stemmen aan tafel (rolkaartjes)
+    if (s.stemmen) {
+      html += '<div class="story-stemmen">';
+      s.stemmen.forEach(function(st) {
+        html += '<div class="story-stem"><div class="story-stem-wie">' + esc(st.wie) + '</div>' +
+          '<div class="story-stem-zegt">' + esc(st.zegt) + '</div></div>';
+      });
+      html += '</div>';
+    }
+    // Kernzin (uitgelicht)
+    if (s.kernzin) html += '<div class="story-kernzin">' + esc(s.kernzin) + '</div>';
+    // Oplossingskaarten
+    if (s.kaarten) {
+      html += '<div class="story-kaarten">';
+      s.kaarten.forEach(function(k) {
+        html += '<div class="story-kaart"><div class="story-kaart-titel">' + esc(k.titel) + '</div>' +
+          '<div class="story-kaart-tekst">' + esc(k.tekst) + '</div></div>';
+      });
+      html += '</div>';
+    }
+    // Genummerde stappen
+    if (s.stappen) {
+      html += '<div class="story-stappen">';
+      s.stappen.forEach(function(st) {
+        html += '<div class="story-stap"><div class="story-stap-nr">' + esc(st.nr) + '</div>' +
+          '<div><div class="story-stap-titel">' + esc(st.titel) + '</div>' +
+          '<div class="story-stap-tekst">' + esc(st.tekst) + '</div></div></div>';
+      });
+      html += '</div>';
+    }
+    // Vroeger / Nu
+    if (s.vergelijking) {
+      html += '<div class="story-verg">';
+      s.vergelijking.forEach(function(vg) {
+        html += '<div class="story-verg-blok"><div class="story-verg-kop">' + esc(vg.kop) + '</div>' +
+          '<div class="story-verg-tekst">' + esc(vg.tekst) + '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (s.slot) html += '<p class="story-p story-slot">' + esc(s.slot) + '</p>';
+    // Citaat
+    if (s.citaat) {
+      html += '<blockquote class="story-citaat">' + esc(s.citaat.tekst) +
+        '<cite>— ' + esc(s.citaat.wie) + '</cite></blockquote>';
+    }
+    html += '</section>';
+  });
+
+  body.innerHTML = html;
+  body.scrollTop = 0;
+  document.getElementById('storyReaderModal').style.display = 'flex';
+};
+
+window.closeStoryReader = function() {
+  document.getElementById('storyReaderModal').style.display = 'none';
+};
+
+// Een ingebouwd verhaal verbergen (per browser). Herstelbaar via de knop onderaan.
+window.verbergVerhaal = function(id) {
+  if (!confirm('Dit verhaal verbergen uit de lijst?')) return;
+  var lijst = JSON.parse(localStorage.getItem('lewis_hidden_verhalen') || '[]');
+  if (lijst.indexOf(id) === -1) lijst.push(id);
+  localStorage.setItem('lewis_hidden_verhalen', JSON.stringify(lijst));
+  renderAcademyPanel();
 };
 </script>
 
@@ -12261,7 +12549,7 @@ function showProspectMatches(query, sector, land, aiSuggestie) {
     sectors.sort();
     var qEsc = esc(query).replace(/'/g, "\\'");
     var picker = '<div class="prospect-result">';
-    picker += '<div style="font-size:13px;color:var(--c-slate-600);margin-bottom:4px"><strong>"' + esc(query) + '"</strong> niet automatisch herkend.</div>';
+    picker += '<div style="font-size:13px;color:#475569;margin-bottom:4px"><strong>"' + esc(query) + '"</strong> niet automatisch herkend.</div>';
     if (aiSuggestie) {
       picker += '<div style="font-size:12px;color:var(--c-slate-500);margin-bottom:8px;font-style:italic">💡 ' + esc(aiSuggestie) + '</div>';
     }
